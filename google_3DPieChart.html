@@ -29,7 +29,7 @@ function drawChart()
 			    bar.draw(data, options);
 	    }
 	    
-function	onMessage (evt) {
+function onMessage (evt) {
 	if (evt && evt.data && evt.data.hasOwnProperty("data"))
 		updateData(evt.data);
 	}
@@ -68,6 +68,7 @@ function updateData(chartData)
 		    else {
 			    data = google.visualization.arrayToDataTable([
 				    ]);
+		    }
 			 bar = new.google.visualization.PieChart(document.getElementById('chart_div'));
 			    drawChart();
 		    }
