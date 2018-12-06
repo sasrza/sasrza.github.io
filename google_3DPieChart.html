@@ -8,7 +8,7 @@
        google.charts.setOnLoadCallback(drawBasic);	    
  
 function drawBasic() {	    
-        var data = google.visualization.arrayToDataTable([
+        var _data = google.visualization.arrayToDataTable([
           ['Task', 'Hours per Day'],
           ['Work',     11],
           ['Eat',      2],
@@ -19,7 +19,7 @@ function drawBasic() {
           ['Read', 8],
           ['Text',   1]
         ]);
-        var options = {
+        var _options = {
           title: 'My Daily Activities',
           is3d: true,
           width: '900px',
