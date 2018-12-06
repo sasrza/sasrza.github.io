@@ -30,6 +30,19 @@ function drawBasic() {
        var _bar = new google.visualization.PieChart(document.getElementById('chart_div'));
         _bar.draw(data, options);
       }
+	      
+function onMessage (evt) {
+	if (evt && evt.data && evt.data.hasOwnProperty("data"))
+		updateData(evt.data);
+	}
+	
+	if (window.addEventListener) {
+		// For standards-compliant web browsers
+		window.addEventListener("message", onMessage, false);
+	}
+	else {
+		window.attachEvent("onmessage", onMessage);
+	}
 	       
 	 //create trigger to resizeEnd event
 $(window).resize(function() {
@@ -54,50 +67,10 @@ function drawChart()
 			    bar.draw(data, options);
 	    }
 	    
-function	onMessage (evt) {
-	if (evt && evt.data && evt.data.hasOwnProperty("data"))
-		updateData(evt.data);
-	}
-	
-	if (window.addEventListener) {
-		// For standards-compliant web browsers
-		window.addEventListener("message", onMessage, false);
-	}
-	else {
-		window.attachEvent("onmessage", onMessage);
-	}
-	   
-	    
-function updateData(chartData)
-	    {
-		    if  (!intialized)
-		    {
-			    _chartData = chartData;
-			    return;
-		    }
-		    if (chartData) {
-			    var arrayData;
-			    var columnInfo = chartData.columns;
-			    
-			    if (chartData.data)
-			    {
-				    arrayData = chartData.data;
-				    if (columnInfo)
-				    {
-					    arrayData.splice(0, 0, columnInfo);
-				    }
-			    }
-			    
-			    data = google.visualization.arrayToDataTable(arrayData);
-		    }
-		    else {
-			    data = google.visualization.arrayToDataTable([
-				    ]);
-			 bar = new.google.visualization.PieChart(document.getElementById('chart_div'));
-			    drawChart();
-		    }
-	   
-	
+
+
+	       
+	       
 var initialized = true;
 var _chartData = null;
 var data = null;
@@ -120,6 +93,42 @@ var options = {
 		width: '100%',
 		height: '100%',
 	};
+	       
+	       
+	       
+function updateData(chartData)
+	    {
+		    if  (!intialized)
+		    {
+			    _chartData = chartData;
+			    return;
+		    }
+		    
+		    if (chartData) {
+			    var arrayData;
+			    var columnInfo = chartData.columns;
+			    
+			    if (chartData.data)
+			    {
+				    arrayData = chartData.data;
+				    if (columnInfo)
+				    {
+					    arrayData.splice(0, 0, columnInfo);
+				    }
+			    }
+			    
+			    data = google.visualization.arrayToDataTable(arrayData);
+		    }
+		    else {
+			    data = google.visualization.arrayToDataTable([
+				    ]);
+		    }
+			 bar = new.google.visualization.PieChart(document.getElementById('chart_div'));
+			    drawChart();
+		    }
+	   
+	
+
 	
       
 
