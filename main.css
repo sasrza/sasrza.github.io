@@ -1,0 +1,23 @@
+html {
+    overflow: hidden;
+}
+
+.selected {
+    background-color: #00929f;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 0 20px 0 20px;
+}
+
+th:first-child {
+    display: none;
+}
+
+td:first-child {
+    display: none;
+}
