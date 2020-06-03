@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="jquery-1.4.3.min.js"></script>
+    <style>
+        text {
+            font: 11pt AvenirNext;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div style="height:100%;width:100%; text-align:center">
+    <img id="prodImage" src="product_images.png" alt=""/>
+</div>
+<script>
+    /* Maps product names to portion of the image (starting top left corner of the image)
+     * Syntax: [y1, x2, y2, x1]
+     * */
+    var imgSize = 80, // size (height/width) in pixels for each image
+        prodMap = {
+            "CHAIR": [imgSize * 0, imgSize, imgSize * 1, 0],
+            "BED": [imgSize * 1, imgSize, imgSize * 2, 0],
+            "DESK": [imgSize * 2, imgSize, imgSize * 3, 0],
+            "SOFA": [imgSize * 3, imgSize, imgSize * 4, 0],
+            "TABLE": [imgSize * 4, imgSize, imgSize * 5, 0]
+        };
+
+    /**
+     * Executed when a message is received from SAS VA (e.g. by interaction or filter)
+     * @param evt {Event}
+     */
+    function onMessage(evt) {
+        if (evt && evt.data && evt.data.data && evt.data.data.length > 0) {
+            var columnIndex = 0,
+                columnValues = evt.data.data.map(function (values) {
+                    return values[columnIndex]
+                });
+
+            if (columnValues && columnValues.length === 1) {
+                var firstValue = columnValues[0],
+                    map = prodMap[firstValue];
+                $("#prodImage")
+                    .show()
+                    .css("clip", "rect(" + map.join("px,") + "px" + ")") // only show a portion of the image
+                    .css("margin", "-" + map[0] + "px -" + map[1] + "px -" + map[2] + "px -" + map[3] + "px"); // adjust margin to move the image top left corner
+                return;
+            } else {
+                // either no selection has been made or there is more than value selected
+                // we only support single selection - so maybe display a place holder image or text instead
+            }
+        }
+
+        $("#prodImage").hide(); // no match - so hide image
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener("message", onMessage, false);
+    } else {
+        window.attachEvent("onmessage", onMessage);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="jquery-1.4.3.min.js"></script>
+
+    <style>
+        text {
+            font: 11pt AvenirNext;
+        }
+
+        svg {
+            display: block;
+        }
+
+        html, body, #imgContainer, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+
+        img {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="imgContainer" style="text-align:center">
+</div>
+<script>
+
+    /**
+     * Executed when a message is received from SAS VA (e.g. by interaction or filter)
+     * @param evt {Event}
+     */
+    function onMessage(evt) {
+        if (evt && evt.data && evt.data.data && evt.data.data.length > 0) {
+            var columnIndex = 0,
+                columnValues = evt.data.data.map(function (values) {
+                    return values[columnIndex]
+                });
+
+            if (columnValues && columnValues.length === 1) {
+                var firstValue = columnValues[0],
+                    imageSrc = "images/" + firstValue.toLowerCase() + ".gif";
+
+                var div = $("<img src=\"" + imageSrc + "\" class=\"pic\" alt='\"" + firstValue + "\"'/>");
+                $("#imgContainer").append(div);
+            } else {
+                $("#imgContainer").empty();
+            }
+        }
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener("message", onMessage, false);
+    } else {
+        window.attachEvent("onmessage", onMessage);
+    }
+</script>
+
+</body>
+</html>

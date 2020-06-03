@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Gauge</title>
+	<script type="text/javascript" src="messagingUtil.js"></script>
+	<script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="d3.v4.min.js"></script>
+	<script type="text/javascript" src="gauge-script.js"></script>
+	<link href="styles/OpenSans.300.400.600.700.css" rel="stylesheet">
+  <style>
+  		* {margin: 0; padding: 0;}
+		html, body {
+			overflow: hidden;
+			width: 100%; height: 100%;
+			font-family: 'Open Sans', sans-serif;
+		}
+
+		svg#chart > g rect {
+			cursor: pointer;
+		}
+
+		#power-gauge g.arc {
+			fill: steelblue;
+		}
+		#power-gauge g.label text {
+			color: #333333;
+			/*fill: #666;*/
+			font-size: 12px;
+			font-weight: bold;
+			text-anchor: middle;
+		}
+
+		@media (max-width: 425px) {
+			#power-gauge g.label text {
+				font-size: 11px;
+			}
+
+			#power-gauge g.label text.noChangeLabel {
+				transform: translate(0%,20%);
+			}
+
+			#power-gauge g.label text.muchBetterLabel {
+				transform: translate(-10%,0%);
+			}
+		}
+		@media screen and (min-width: 600px) and (max-width: 630px) {
+			.gauge-chart-container {
+				width: 80%;
+				float: none;
+				margin: 0 auto;
+			}
+		}
+		@media screen and (min-width: 631px) and (max-width: 670px) {
+			.gauge-chart-container {
+				width: 74%;
+				float: none;
+				margin: 0 auto;
+			}
+		}
+		@media screen and (min-width: 671px) and (max-width: 699px) {
+			.gauge-chart-container {
+				width: 70%;
+				float: none;
+				margin: 0 auto;
+			}
+		}
+		@media screen and (min-width: 700px) and (max-width: 739px) {
+			.gauge-chart-container {
+				width: 68%;
+				float: none;
+				margin: 0 auto;
+			}
+		}
+		@media screen and (min-width: 740px) and (max-width: 750px) {
+			.gauge-chart-container {
+				width: 64%;
+				float: none;
+				margin: 0 auto;
+			}
+		}
+		@media screen and (min-width: 751px) and (max-width: 991px) {
+			.gauge-chart-container {
+				width: 62%;
+				float: none;
+				margin: 0 auto;
+			}
+		}
+  </style>
+</head>
+<body onresize="window.location.reload()">
+	<div id="chartView">
+		<div id="perspective" style="font-size: 15pt; font-weight: bold;">Placeholder</div>
+		<br>
+		<div class="barometer-wrapper">
+			<div id="power-gauge"></div>
+		</div>
+		<br>
+	</div>  
+
+  <script>
+	"use strict";
+
+	let _resultData = null;
+	let _resultName = null;
+	let _selections = null;
+	
+	const NORM_SCORE 	= 0;
+	const PERSPECTIVE1 	= 1;
+	const PERSPECTIVE2 	= 2;
+	const PERSPECTIVE3 	= 3;
+	const SENTIMENT 	= 4;
+	const SCORE 		= 5;
+
+	const colorIndex = {'red':'#e13b34','orange':'#f87339','gray':'#aab9c8','lightgreen':'#c3d725','darkgreen':'#75b923'};
+	let gaugeValue = 0;
+	let viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
+	function onDataReceived(resultData) {
+		if (_resultName !== resultData.resultName) {
+			_resultName = resultData.resultName;
+		}
+
+		if (resultData) {
+			console.warn(resultData.data);
+
+			document.getElementById("perspective").innerHTML = resultData.data[0][PERSPECTIVE2];
+			gaugeValue = resultData.data[0][SCORE];
+			updateReadings();
+		}
+	}
+
+	let powerGauge = null;
+	function updateReadings(easeValue='easeElastic', transitionMsValue=1500) {
+		if (powerGauge === null) {
+			renderGauge();
+		}
+
+		console.warn(powerGauge, gaugeValue);
+		powerGauge.update(gaugeValue, {transitionMs: transitionMsValue, ease: easeValue});
+	}
+
+	function renderGauge() {
+		const maxWidth = 450; // 450
+		const maxRingWidth = 130; // 130
+		const maxGaugeClipHeight = 250; //250
+
+		let gaugeSize = viewportWidth - 30;
+		gaugeSize = (gaugeSize > maxWidth) ? maxWidth : gaugeSize;
+		let gaugeRingWidth = 0.25*viewportWidth;//130;
+		gaugeRingWidth = (gaugeRingWidth > maxRingWidth) ? maxRingWidth: gaugeRingWidth;
+		let gaugeClipHeight = 0.48*viewportWidth;//250;
+		gaugeClipHeight = (gaugeClipHeight > maxGaugeClipHeight) ? maxGaugeClipHeight : gaugeClipHeight;
+
+		const powerGaugeConfig = {
+			size: gaugeSize,
+			clipWidth: '100%',
+			clipHeight: gaugeClipHeight,
+			ringWidth: gaugeRingWidth,
+			maxValue: 10,
+			transitionMs: 1000,//4000
+			arcColorFn: d3.scaleQuantize()
+					//.domain([0,1,2,3,4,5,6,7,8,9,10])
+					.range(['#e13b34','#f87339','#aab9c8','#c3d725', '#75b923']),
+			viewportWidth: viewportWidth,
+		};
+		powerGauge = gauge('#power-gauge', powerGaugeConfig);
+		powerGauge.render();
+	}
+
+	va.messagingUtil.setOnDataReceivedCallback(onDataReceived);
+  </script>
+
+</body>
+</html>

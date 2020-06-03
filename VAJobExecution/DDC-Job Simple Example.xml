@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?><SASReport xmlns="http://www.sas.com/sasreportmodel/bird-4.2.4" label="DDC-Job Simple Example" createdLocale="en" createdVersion="4.2.2" dateCreated="2019-10-02T22:11:51Z" dateModified="2020-01-31T15:34:20Z" createdApplication="SAS Visual Analytics 8.4" lastModifiedApplication="SAS Visual Analytics 8.5" nextUniqueNameIndex="1016">
+    <DataDefinitions>
+        <ParentDataDefinition childQueryRelationship="independent" status="executable" dataSource="ds7" name="dd991">
+            <BusinessItems>
+                <RelationalDataItem name="bi1011" base="bi8"/>
+            </BusinessItems>
+            <DataDefinition dataSource="ds7" type="relational" name="dd992">
+                <RelationalQuery detail="false">
+                    <Axes>
+                        <Axis type="column">
+                            <BusinessItem ref="bi1011"/>
+                        </Axis>
+                    </Axes>
+                    <SortItems>
+                        <SortItem ref="bi1011" sortDirection="ascending"/>
+                    </SortItems>
+                </RelationalQuery>
+                <ResultDefinitions>
+                    <ResultDefinition purpose="primary" maxRowsLookup="list" maxRowsBehavior="truncate" name="dd993"/>
+                </ResultDefinitions>
+            </DataDefinition>
+        </ParentDataDefinition>
+        <ParentDataDefinition childQueryRelationship="independent" status="executable" dataSource="ds7" name="dd999">
+            <BusinessItems>
+                <RelationalDataItem name="bi1012" base="bi8"/>
+            </BusinessItems>
+            <DataDefinition dataSource="ds7" type="procedural" name="dd1000">
+                <ProceduralQuery type="standard">
+                    <Arguments>
+                        <ListArgument purpose="column">
+                            <ReferenceValue>bi1012</ReferenceValue>
+                        </ListArgument>
+                    </Arguments>
+                </ProceduralQuery>
+                <ResultDefinitions>
+                    <ResultDefinition purpose="primary" maxRowsLookup="customContent" maxRowsBehavior="truncate" name="dd1001"/>
+                    <ResultDefinition purpose="formatted" maxRowsLookup="customContent" maxRowsBehavior="truncate" format="JSONX" name="dd1002"/>
+                </ResultDefinitions>
+            </DataDefinition>
+        </ParentDataDefinition>
+    </DataDefinitions>
+    <DataSources>
+        <DataSource label="CARSMETA" type="relational" name="ds7">
+            <CasResource server="cas-shared-default" library="Public" table="CARSMETA" locale="en_US"/>
+            <BusinessItemFolder>
+                <DataItem name="bi8" xref="name"/>
+                <DataItem name="bi9" xref="Label"/>
+                <PredefinedDataItem calculation="totalCount" name="bi10" label="Frequency" usage="quantitative" format="COMMA12."/>
+                <PredefinedDataItem calculation="totalCountPercent" name="bi11" label="Frequency Percent" usage="quantitative" format="PERCENT20.2"/>
+                <CalculatedItem dataType="string" name="bi636" label="JSON" usage="categorical" format="$." aggregation="sum">
+                    <Expression>'[{"Column Name":"Cylinders"}]'</Expression>
+                </CalculatedItem>
+                <CalculatedItem dataType="string" name="bi685" label="Selected Columns" usage="categorical" format="$." aggregation="sum">
+                    <Expression>concatenate(cond(in('Cylinders',#{pr684}),concatenate(' ','Cylinders'),''),concatenate(cond(in('DriveTrain',#{pr684}),concatenate(' ','DriveTrain'),''),concatenate(cond(in('EngineSize',#{pr684}),concatenate(' ','EngineSize'),''),concatenate(cond(in('Horsepower',#{pr684}),concatenate(' ','Horsepower'),''),concatenate(cond(in('Invoice',#{pr684}),concatenate(' ','Invoice'),''),concatenate(cond(in('Length',#{pr684}),concatenate(' ','Length'),''),concatenate(cond(in('Make',#{pr684}),concatenate(' ','Make'),''),concatenate(cond(in('Model',#{pr684}),concatenate(' ','Model'),''),concatenate(cond(in('MPG_City',#{pr684}),concatenate(' ','MPG_City'),''),concatenate(cond(in('MPG_Highway',#{pr684}),concatenate(' ','MPG_Highway'),''),concatenate(cond(in('MSRP',#{pr684}),concatenate(' ','MSRP'),''),concatenate(cond(in('Origin',#{pr684}),concatenate(' ','Origin'),''),concatenate(cond(in('Type',#{pr684}),concatenate(' ','Type'),''),concatenate(cond(in('Weight',#{pr684}),concatenate(' ','Weight'),''),cond(in('Wheelbase',#{pr684}),concatenate(' ','Wheelbase'),'')))))))))))))))</Expression>
+                </CalculatedItem>
+            </BusinessItemFolder>
+        </DataSource>
+    </DataSources>
+    <VisualElements>
+        <Text name="ve214" label="Text 1" selectionDisabled="true" applyDynamicBrushes="no">
+            <P><Span class="span1"><Span class="span2">DDC:</Span></Span></P>
+            <P><Span>* HTML +JavaScript + CSS</Span></P>
+            <P><Span>* Content accessible via URL and stored as:</Span></P>
+            <P><Span>    - </Span><Span>External File</Span></P>
+            <P><Span>    - </Span><Span>Job Form (content stored in the SASJobExecution web app; execution is transferred to the form from a job (VA --&gt; Job --&gt; Form): cannot pass key/value pairs from VA to the form in the URL)</Span></P>
+            <P><Span> </Span></P>
+            <P><Span class="span3"><Span class="span4">Info from VA to DDC:</Span></Span></P>
+            <P><Span>* Message from VA (DDC gets it via event handler)</Span></P>
+            <P><Span>    - Data</Span></P>
+            <P><Span>    - Columns metadata</Span></P>
+            <P><Span>    - Parameters (only VA parameters that meet certain conditions are passed to DDC)</Span></P>
+            <P><Span>* In the DDC URL as parameters (DDC needs to implement code to extract key/value pairs)</Span></P>
+            <P><Span> </Span></P>
+            <P><Span class="span5"><Span class="span6">Info from DDC to Job:</Span></Span></P>
+            <P><Span><Span>* In the URL (http </Span><Span class="span7">GET </Span><Span>request) - info becomes macro variables in the job</Span></Span></P>
+            <P><Span>    - As multiple key/value pairs for single value parameters</Span></P>
+            <P><Span>      Example: k1=value1&amp;k2=value2 generates macro variables K1="value1", K2="value2"</Span></P>
+            <P><Span>    - As multiple key/value pairs for a multivalue parameter (not explored here)</Span></P>
+            <P><Span>      Example: p=value1&amp;p=value2 generates macro variables P_COUNT=P0=2, P=P1="value1", P2="value2"</Span></P>
+            <P><Span>      Note: there is a PARAM_LIST macro function that can be used to parse multi-value parameters.</Span></P>
+            <P><Span>    - As single key/value pair in stringified JSON</Span></P>
+            <P><Span><Span>* In the http request body (http </Span><Span class="span8">POST </Span><Span>request) </Span></Span><Span>- info becomes macro variables in the job</Span></P>
+            <P><Span>    - As multiple key/value pairs for single value parameters</Span></P>
+            <P><Span>      Example: k1=value1&amp;k2=value2 generates macro variables K1="value1", K2="value2"</Span></P>
+            <P><Span>    - As multiple key/value pairs for a multivalue parameter (not explored here)</Span></P>
+            <P><Span>      Example: p=value1&amp;p=value2 generates macro variables P_COUNT=P0=2, P=P1="value1", P2="value2"</Span></P>
+            <P><Span>      Note: there is a PARAM_LIST macro function that can be used to parse multi-value parameters.</Span></P>
+            <P><Span>    - As single key/value pair in stringified JSON</Span></P>
+            <P><Span><Span>* File uploaded to the server (http </Span><Span class="span9">POST </Span><Span>request)</Span></Span></P>
+            <P><Span>    - Normally as JSON, but format can vary</Span></P>
+            <P><Span> </Span></P>
+            <P><Span class="span10"><Span class="span11">Examples of output from Job:</Span></Span></P>
+            <P><Span>* Visible content as HTML5 for example</Span></P>
+            <P><Span>* Data formatted as JSON (DDC must do something with it, such as display data using third party visualization package)</Span></P>
+            <P><Span>* Information/table stored somewhere (file on disk, CAS table, etc.)</Span></P>
+            <P><Span>* Anything SAS code can generate</Span></P>
+        </Text>
+        <Prompt ref="pr994" name="ve990" label="List - Column Name 2" applyDynamicBrushes="promptsOnly" sourceInteractionVariables="bi1011">
+            <EditorProperties>
+                <Property key="autoChartCategory">CONTROL</Property>
+                <Property key="isAutoLabel">true</Property>
+            </EditorProperties>
+            <CheckBoxList/>
+        </Prompt>
+        <VisualContainer name="ve996" label="Layout Container 3" selectionDisabled="true">
+            <EditorProperties>
+                <Property key="visualType">LAYOUT_CONTAINER</Property>
+            </EditorProperties>
+        </VisualContainer>
+        <WebContent url="http://m-sbrrzl-gerghe.gtp-americas.sashq-d.openstack.sas.com/SASJobExecution/?_program=%2FPublic%2FJobs%2FDDC-JobSimpleExample" webContentType="webDataContent" supplementalVisuals="ve1010" resultDefinitions="dd1001 dd1002" name="ve998" data="dd999" label="Data-driven content - Column Name 3" applyDynamicBrushes="yes" sourceInteractionVariables="bi1012">
+            <EditorProperties>
+                <Property key="isAutoLabel">true</Property>
+            </EditorProperties>
+        </WebContent>
+        <Table columnSizing="autoFill" resultDefinitions="dd1001" name="ve1010" data="dd999" applyDynamicBrushes="yes">
+            <Columns>
+                <Column variable="bi1012"/>
+            </Columns>
+        </Table>
+        <Text name="ve1015" label="Text 2" selectionDisabled="true" applyDynamicBrushes="no">
+            <P><Span>In this example the selected column names are passed to the DDC (equivalent to a table with one column and multiple rows). The DDC sends this table to the SAS job as a stringified JSON in the job URL (GET request). The job processes the information and creates an ODS HTML5 output that is sent back to the DDC, which in turn displays it in the VA report.</Span></P>
+        </Text>
+    </VisualElements>
+    <PromptDefinitions>
+        <PromptDefinition label="p_columns" isParameter="true" name="pr102">
+            <DefaultValue>
+                <Collection>
+                    <String>Cylinders</String>
+                    <String>EngineSize</String>
+                    <String>Invoice</String>
+                </Collection>
+            </DefaultValue>
+            <StringConstraint maxValueCount="2147483647" required="false"/>
+        </PromptDefinition>
+        <PromptDefinition label="pColumns" isParameter="true" name="pr684">
+            <DefaultValue>
+                <Collection>
+                    <String>Origin</String>
+                    <String>Make</String>
+                </Collection>
+            </DefaultValue>
+            <StringConstraint maxValueCount="2147483647" required="false"/>
+        </PromptDefinition>
+        <PromptDefinition data="dd991" labelVariable="bi1011" valueVariable="bi1011" resultDefinitions="dd993" name="pr994">
+            <DefaultValue>
+                <Collection>
+                    <String>Make</String>
+                    <String>Model</String>
+                    <String>Origin</String>
+                    <String>Invoice</String>
+                </Collection>
+            </DefaultValue>
+            <StringConstraint/>
+        </PromptDefinition>
+    </PromptDefinitions>
+    <View>
+        <Header>
+            <MediaContainer target="mt2">
+                <ResponsiveLayout orientation="horizontal" overflow="fit">
+                    <Weights mediaTarget="mt5" unit="percent">
+                        <Weight value="100%"/>
+                    </Weights>
+                    <Weights mediaTarget="mt4" unit="percent">
+                        <Weight value="100%"/>
+                    </Weights>
+                    <Weights mediaTarget="mt3" unit="percent">
+                        <Weight value="100%"/>
+                    </Weights>
+                </ResponsiveLayout>
+            </MediaContainer>
+        </Header>
+        <Section name="vi212" label="Intro">
+            <Header>
+                <MediaContainer target="mt2">
+                    <ResponsiveLayout orientation="horizontal" overflow="fit">
+                        <Weights mediaTarget="mt5" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt4" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt3" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                    </ResponsiveLayout>
+                </MediaContainer>
+            </Header>
+            <Body>
+                <MediaContainer target="mt2">
+                    <ResponsiveLayout orientation="vertical" overflow="fit">
+                        <Weights mediaTarget="mt5" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt4" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt3" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                    </ResponsiveLayout>
+                    <Visual ref="ve214" name="vi213">
+                        <ResponsiveConstraint>
+                            <WidthConstraint>
+                                <Width mediaTarget="mt3" preferredSizeBehavior="ignore" flexibility="flexible"/>
+                            </WidthConstraint>
+                            <HeightConstraint>
+                                <Height mediaTarget="mt3" preferredSizeBehavior="honor" flexibility="flexible"/>
+                            </HeightConstraint>
+                        </ResponsiveConstraint>
+                    </Visual>
+                </MediaContainer>
+            </Body>
+        </Section>
+        <Section name="vi988" label="Simple Example">
+            <Header>
+                <MediaContainer target="mt2">
+                    <ResponsiveLayout orientation="horizontal" overflow="fit">
+                        <Weights mediaTarget="mt5" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt4" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt3" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                    </ResponsiveLayout>
+                </MediaContainer>
+            </Header>
+            <Body>
+                <MediaContainer target="mt2">
+                    <ResponsiveLayout orientation="vertical" overflow="fit">
+                        <Weights mediaTarget="mt5" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt4" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                        <Weights mediaTarget="mt3" unit="percent">
+                            <Weight value="100%"/>
+                        </Weights>
+                    </ResponsiveLayout>
+                    <Visual ref="ve1015" name="vi1014">
+                        <ResponsiveConstraint>
+                            <WidthConstraint>
+                                <Width mediaTarget="mt3" preferredSizeBehavior="ignore" flexibility="flexible"/>
+                            </WidthConstraint>
+                            <HeightConstraint>
+                                <Height mediaTarget="mt3" preferredSizeBehavior="honor" flexibility="fixed"/>
+                            </HeightConstraint>
+                        </ResponsiveConstraint>
+                    </Visual>
+                    <Container ref="ve996" name="vi995">
+                        <ResponsiveConstraint>
+                            <WidthConstraint>
+                                <Width mediaTarget="mt3" preferredSizeBehavior="honor" flexibility="shrinkable"/>
+                            </WidthConstraint>
+                            <HeightConstraint>
+                                <Height mediaTarget="mt3" preferredSizeBehavior="honor" flexibility="shrinkable"/>
+                            </HeightConstraint>
+                        </ResponsiveConstraint>
+                        <ResponsiveLayout orientation="vertical" overflow="grow"/>
+                        <Visual ref="ve990" name="vi989">
+                            <ResponsiveConstraint>
+                                <WidthConstraint>
+                                    <Width mediaTarget="mt3" preferredSizeBehavior="ignore" value="25%" flexibility="flexible"/>
+                                </WidthConstraint>
+                                <HeightConstraint>
+                                    <Height mediaTarget="mt3" preferredSizeBehavior="ignore" flexibility="flexible"/>
+                                </HeightConstraint>
+                            </ResponsiveConstraint>
+                        </Visual>
+                        <Visual ref="ve998" name="vi997">
+                            <ResponsiveConstraint>
+                                <WidthConstraint>
+                                    <Width mediaTarget="mt3" preferredSizeBehavior="ignore" value="75%" flexibility="shrinkable"/>
+                                </WidthConstraint>
+                                <HeightConstraint>
+                                    <Height mediaTarget="mt3" preferredSizeBehavior="ignore" flexibility="flexible"/>
+                                </HeightConstraint>
+                            </ResponsiveConstraint>
+                        </Visual>
+                    </Container>
+                </MediaContainer>
+            </Body>
+        </Section>
+    </View>
+    <Interactions>
+        <Interaction name="ia1013" type="filter" derived="false">
+            <InteractionElementReference purpose="source" ref="ve990" variable="bi1011"/>
+            <InteractionElementReference purpose="target" ref="ve998" variable="bi1012"/>
+        </Interaction>
+    </Interactions>
+    <MediaSchemes>
+        <MediaScheme name="ms1">
+            <BaseStylesheetResource theme="marine"/>
+            <Stylesheet>
+<![CDATA[
+#ve214 .span1 {
+  font-style: italic;
+}
+#ve214 .span2 {
+  font-weight: bold;
+}
+#ve214 .span7 {
+  color: #2ecc71;
+}
+#ve214 .span8 {
+  color: #3498db;
+}
+#ve214 .span9 {
+  color: #3498db;
+}
+#ve214 .span3 {
+  font-style: italic;
+}
+#ve214 .span11 {
+  font-weight: bold;
+}
+#ve214 .span4 {
+  font-weight: bold;
+}
+#ve214 .span10 {
+  font-style: italic;
+}
+#ve214 .span5 {
+  font-style: italic;
+}
+#ve214 .span6 {
+  font-weight: bold;
+}
+]]>
+            </Stylesheet>
+        </MediaScheme>
+    </MediaSchemes>
+    <MediaTargets>
+        <MediaTarget windowSize="default" scheme="ms1" name="mt2"/>
+        <MediaTarget windowSize="small" scheme="ms1" name="mt3"/>
+        <MediaTarget windowSize="medium" scheme="ms1" name="mt4"/>
+        <MediaTarget windowSize="large" scheme="ms1" name="mt5"/>
+    </MediaTargets>
+    <Properties>
+        <Property key="displayDataSource">ds7</Property>
+    </Properties>
+    <ExportProperties>
+        <Export destination="pdf">
+            <Property key="showCoverPage" value="true"/>
+            <Property key="showPageNumbers" value="true"/>
+        </Export>
+    </ExportProperties>
+    <ViewerCapabilities viewerCustomizationThreshold="2"/>
+    <History>
+        <Versions>
+            <Version key="4.2.2" lastDate="2019-10-13T17:47:42Z"/>
+            <Version key="4.2.4" lastDate="2020-01-31T15:39:57Z"/>
+        </Versions>
+        <Conversions>
+            <Conversion startVersion="4.2.2" finalVersion="4.2.4" date="2019-12-11T23:51:58Z"/>
+        </Conversions>
+        <Editors>
+            <Editor applicationName="VA">
+                <Revision editorVersion="8.4" lastDate="2019-10-13T17:51:06.389Z"/>
+                <Revision editorVersion="8.5" lastDate="2020-01-31T15:34:20.036Z"/>
+            </Editor>
+        </Editors>
+    </History>
+    <SASReportState date="2020-01-31T14:24:21Z">
+        <View/>
+    </SASReportState>
+</SASReport>

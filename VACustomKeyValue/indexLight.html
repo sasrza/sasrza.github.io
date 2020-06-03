@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="jquery-1.4.3.min.js"></script>
+
+    <style>
+        text {
+            font: 11pt AvenirNext;
+        }
+
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .keyValueText {
+            position: absolute;
+            margin: auto;
+            right: 0;
+            top: 0;
+            font-size: 35pt;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            color: lavender;
+            font-weight: bold;
+        }
+        .keyValueDesc {
+            position: absolute;
+            margin: auto;
+            right: 0;
+            bottom: 0;
+            font-size: 10pt;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            color: lavender;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div id="textContainer" style="height:100%;width:100%; text-align:center">
+</div>
+<script>
+    var csvToArrayConverter = function (strData, strDelimiter) {
+        strDelimiter = (strDelimiter || ",");
+        var objPattern = new RegExp(
+            (
+                "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+                "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+                "([^\"\\" + strDelimiter + "\\r\\n]*))"
+            ),
+            "gi"
+        );
+        var arrData = [[]];
+        var arrMatches = null;
+        while (arrMatches = objPattern.exec(strData)) {
+            var strMatchedDelimiter = arrMatches[1];
+            if (
+                strMatchedDelimiter.length &&
+                strMatchedDelimiter !== strDelimiter
+            ) {
+                arrData.push([]);
+            }
+
+            var strMatchedValue;
+            if (arrMatches[2]) {
+                strMatchedValue = arrMatches[2].replace(
+                    new RegExp("\"\"", "g"),
+                    "\""
+                );
+            } else {
+                strMatchedValue = arrMatches[3];
+            }
+            arrData[arrData.length - 1].push(strMatchedValue);
+        }
+        return ( arrData );
+    };
+
+    function onMessage(evt) {
+        if (evt && evt.data) {
+            var data = evt.data,
+                columns = data.meta.columns,
+                textColumnIdx = 0, // TODO: probably better to search in columns
+                descColumnIdx = 1,
+                rows = csvToArrayConverter(data.results.replace("↵", "\n"), ",");
+
+            if (rows && rows.length === 2) {
+                var text = rows[0][textColumnIdx];
+                var div = $("<span class=\"keyValueText\">" + parseInt(text) + "</span>");
+                $("#textContainer").append(div);
+
+                if (rows[0].length > 1) {
+                    text = rows[0][descColumnIdx];
+                    div = $("<span class=\"keyValueDesc\">" + text + "</span>");
+                    $("#textContainer").append(div);
+                }
+            }else{
+                $("#textContainer").empty();
+            }
+        }
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener("message", onMessage, false);
+    } else {
+        window.attachEvent("onmessage", onMessage);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+This example shows how to call a SAS Job to execute SAS code.
+-->
+<html>
+<head>
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="messagingUtil.js"></script>
+</head>
+<body>
+    <div id="JobResults"></div>
+
+    <script>
+        "use strict";
+
+        var _jobUri = "/Public/Jobs/Test";
+        var _output = "ods_html5";
+        var _debug = false;
+        var _vaOptions = {
+            id: "_jobExecOptions",
+            label: "Job Execution",
+            fields: [
+                {
+                    id: "_jobUri",
+                    label: "Job:",
+                    value: _jobUri,
+                    type: "string"
+                },
+                // {
+                //     id: "_coilPadding",
+                //     label: "Coil Padding:",
+                //     value: coilPadding,
+                //     type: "Number"
+                // },
+                {
+                    id: "_debug",
+                    label: "Debug",
+                    value: _debug,
+                    type: "Boolean"
+                },
+                {
+                    id: "_output",
+                    label: "Output",
+                    value: _output,
+                    dataProvider: [
+                        { key: 'none', text: "None" },
+                        { key: 'ods_html5', text: "ODS" },
+                        { key: 'ods_pdf', text: "PDF" },
+                        { key: 'ods_rtf', text: "RTF" }
+                    ]
+                }
+            ]
+        };
+
+        var _resultName = null;
+        function onDataReceived(resultData) {
+            if (_resultName != resultData.resultName) {
+                _resultName = resultData.resultName;
+
+                va.messagingUtil.postOptionsMessage(_resultName, _vaOptions);
+            }
+
+            if (resultData && resultData.parameters)
+            {
+                resultData.parameters.forEach(function (parameter, index) {
+                    if (parameter.label == "_jobUri")
+                    {
+                        _jobUri = parameter.value;
+                    }
+                    else if (parameter.label == "_debug")
+                    {
+                        _debug = parameter.value === "true";
+                    }
+                    else if (parameter.label == "_output")
+                    {
+                        _output = parameter.value;
+                    }
+                });
+            }
+
+            if (resultData) {
+				if (resultData.columns.length == 0) {
+					// It needs at least one data item to be assigned in the DDC Roles pane
+					document.getElementById("JobResults").innerHTML = "";
+					va.messagingUtil.postInstructionalMessage(resultData.resultName, "Please, assign roles");
+					return;
+				}
+				
+				document.getElementById("JobResults").innerHTML = "Waiting for job to finish...";
+				callJob(resultData)
+					.done(function(odsOutput){
+						document.getElementById("JobResults").innerHTML = odsOutput;
+					})
+					.fail(function(jqXHR, textStatus, errorThrown){
+						document.getElementById("JobResults").innerHTML = "Job finished with ERROR (see console for details)";
+					});
+            }
+        }
+		
+		/* Example of output produced by function stringifyVAData:
+		[{"Name":"Alfred","Sex":"M","Age":14,"Height":69,"Weight":112.5},
+		 {"Name":"Alice","Sex":"F","Age":13,"Height":56.5,"Weight":84},
+		 {"Name":"Barbara","Sex":"F","Age":13,"Height":65.3,"Weight":98},
+		 {"Name":"Carol","Sex":"F","Age":14,"Height":62.8,"Weight":102.5},
+		 {"Name":"Henry","Sex":"M","Age":14,"Height":63.5,"Weight":102.5},
+		 {"Name":"James","Sex":"M","Age":12,"Height":57.3,"Weight":83}]		
+		*/
+		function stringifyVAData(resultData) {
+			var data = resultData.data;
+			var columns = resultData.columns;
+			var dataArray = [];
+			
+			for (var r=0; r < data.length; r++) {
+				dataArray.push({});
+				for (var c=0; c < data[0].length; c++) {
+				    dataArray[r][columns[c].label] = data[r][c];
+				}
+			}
+			
+			var stringifiedJSON = JSON.stringify(dataArray);
+			return stringifiedJSON;
+		}
+
+		function callJob(resultData) {
+			var stringifiedJSON = stringifyVAData(resultData);
+			
+			var paramStr = "?_program=" + encodeURIComponent(_jobUri)
+						 + "&_action=execute"
+						 + "&_output_type=" + _output
+						 + "&injson=" + encodeURIComponent(stringifiedJSON)
+						 ;
+
+			if (_debug) {
+			    paramStr += "&_debug=log";
+            }
+
+			var jobExecution = '/SASJobExecution' + paramStr;
+
+			return $.ajax({
+					url: jobExecution, 
+					method: "GET", 
+					headers: {"Accept": 'application/json'}
+				})
+				.done(function(odsOutput){
+					console.log("Job executed with success!");
+				})
+				.fail(function(jqXHR, textStatus, errorThrown){
+					console.log("************** JOB ERROR ***************");
+					console.log("jqXHR: ",jqXHR);
+					console.log("textStatus: ",textStatus);
+					console.log("errorThrown: ",errorThrown);
+				});
+		}
+
+        va.messagingUtil.setOnDataReceivedCallback(onDataReceived);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="messagingUtil.js"></script>
+
+    <style>
+        html, body, svg {
+            font: 11pt sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+        }
+
+        .container {
+            height: 100%;
+            width: 100%;
+            display: flex;
+        }
+
+        .left {
+            margin: 1rem;
+        }
+
+        .right {
+            display: flex;
+            flex-direction: column;
+            margin: 1rem;
+        }
+
+        .categoryLabel {
+            font-size: 20pt;
+            color: darkslategray;
+            font-weight: bold;
+            height: 33%;
+        }
+
+        .measureLabel {
+            font-size: 30pt;
+            color: silver;
+            height: 33%;
+        }
+
+        .measureValue {
+            font-size: 50pt;
+            color: gray;
+            height: 33%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left">
+
+    </div>
+    <div class="right">
+
+    </div>
+</div>
+<script>
+    var _resultName = null;
+
+    function onDataReceived(resultData) {
+        $(".left").empty(); $(".right").empty();
+
+        if (resultData && resultData.data && resultData.data.length === 1) {
+            var firstRow = resultData.data[0];
+            var columns = resultData.columns;
+
+            if (firstRow.length === 3) {
+                var dataTip = "Category: " + firstRow[0] + "\nMeasure: " + firstRow[1];
+                var div = $("<img src=\"" + firstRow[2] + "\" class=\"image\" alt='\"" + dataTip + "\"'></img>");
+                $(".left").append(div);
+
+                $(".right").append("<span class='categoryLabel'>" + columns[0].label + "</span>");
+                $(".right").append("<span class='measureLabel'>" + columns[1].label + "</span>");
+                $(".right").append("<span class='measureValue'>" + firstRow[1] + "</span>");
+            }else{
+                va.messagingUtil.postInstructionalMessage(resultData.resultName, "Please, assign all required roles: #1 - Category, #2 - Measure, #3 - Image.");
+            }
+        }else{
+            va.messagingUtil.postInstructionalMessage(resultData.resultName, "Please, assign roles and limit data rows to one.");
+        }
+    }
+
+    va.messagingUtil.setOnDataReceivedCallback(onDataReceived);
+</script>
+
+</body>
+</html>

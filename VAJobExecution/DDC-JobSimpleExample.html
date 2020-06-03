@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+This example shows how to call a SAS Job to execute SAS code.
+-->
+<html>
+<head>
+    <script type="text/javascript" src="http://your.host.name/github/util/messagingUtil.js"></script>
+</head>
+<body>
+    <div id="JobResults"></div>
+
+    <script>
+        "use strict";
+		window.$ = window.parent.$;
+		
+        va.messagingUtil.setOnDataReceivedCallback(onDataReceived);
+
+        function onDataReceived(resultData) {
+            if (resultData) {
+				if (resultData.columns.length == 0) {
+					// It needs at least one data item to be assigned in the DDC Roles pane
+					document.getElementById("JobResults").innerHTML = "";
+					va.messagingUtil.postInstructionalMessage(resultData.resultName, "Please, assign roles");
+					return;
+				}
+				
+				document.getElementById("JobResults").innerHTML = "Waiting for job to finish...";
+				callJob(resultData)
+					.done(function(odsOutput){
+						document.getElementById("JobResults").innerHTML = odsOutput;
+					})
+					.fail(function(jqXHR, textStatus, errorThrown){
+						document.getElementById("JobResults").innerHTML = "Job finished with ERROR (see console for details)";
+					});
+            }
+        }
+		
+		/* Example of output produced by function stringifyVAData:
+		[{"Name":"Alfred","Sex":"M","Age":14,"Height":69,"Weight":112.5},
+		 {"Name":"Alice","Sex":"F","Age":13,"Height":56.5,"Weight":84},
+		 {"Name":"Barbara","Sex":"F","Age":13,"Height":65.3,"Weight":98},
+		 {"Name":"Carol","Sex":"F","Age":14,"Height":62.8,"Weight":102.5},
+		 {"Name":"Henry","Sex":"M","Age":14,"Height":63.5,"Weight":102.5},
+		 {"Name":"James","Sex":"M","Age":12,"Height":57.3,"Weight":83}]		
+		*/
+		function stringifyVAData (resultData) {
+			var data = resultData.data;
+			var columns = resultData.columns;
+			var dataArray = [];
+			
+			for (var r=0; r < data.length; r++) {
+				dataArray.push({});
+				for (var c=0; c < data[0].length; c++) {
+				    dataArray[r][columns[c].label] = data[r][c];
+				}
+			}
+			
+			var stringifiedJSON = JSON.stringify(dataArray);
+			return stringifiedJSON;
+		}
+
+		function callJob(resultData) {
+			var stringifiedJSON = stringifyVAData(resultData);
+			
+			var paramStr = "?_program=" + encodeURIComponent("/Public/Jobs/DDC-JobSimpleExample")
+						 + "&_action=execute"
+						 + "&_output_type=ods_html5"
+						 + "&injson=" + encodeURIComponent(stringifiedJSON)
+						 ;
+		
+			var jobExecution = 'http://your.host.name/SASJobExecution' + paramStr;
+
+			return $.ajax({
+					url: jobExecution, 
+					method: "GET", 
+					headers: {"Accept": 'application/json'}
+				})
+				.done(function(odsOutput){
+					console.log("Job executed with success!");
+				})
+				.fail(function(jqXHR, textStatus, errorThrown){
+					console.log("************** JOB ERROR ***************");
+					console.log("jqXHR: ",jqXHR);
+					console.log("textStatus: ",textStatus);
+					console.log("errorThrown: ",errorThrown);
+				});
+		}
+		
+    </script>
+
+</body>
+</html>
