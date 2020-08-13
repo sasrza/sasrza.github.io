@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com -->
+  <title>cubbi: social media for kids</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+  body {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #818181;
+  }
+  h2 {
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #303030;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    color: #303030;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }  
+  .jumbotron {
+    background-color: #ff07c2;
+    color: #fff;
+    padding: 100px 25px;
+    font-family: Montserrat, sans-serif;
+  }
+  .container-fluid {
+    padding: 60px 50px;
+  }
+  .bg-grey {
+    background-color: #f6f6f6;
+  }
+  .logo-small {
+    color: #ff07c2;
+    font-size: 50px;
+  }
+  .logo {
+    color: #ff07c2;
+    font-size: 200px;
+  }
+  .thumbnail {
+    padding: 0 0 15px 0;
+    border: none;
+    border-radius: 0;
+  }
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+  }
+  .carousel-control.right, .carousel-control.left {
+    background-image: none;
+    color: #ff07c2;
+  }
+  .carousel-indicators li {
+    border-color: #ff07c2;
+  }
+  .carousel-indicators li.active {
+    background-color: #ff07c2;
+  }
+  .item h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    font-weight: 400;
+    font-style: italic;
+    margin: 70px 0;
+  }
+  .item span {
+    font-style: normal;
+  }
+  .panel {
+    border: 1px solid #ff07c2; 
+    border-radius:0 !important;
+    transition: box-shadow 0.5s;
+  }
+  .panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+  .panel-footer .btn:hover {
+    border: 1px solid #ff07c2;
+    background-color: #fff !important;
+    color: #ff07c2;
+  }
+  .panel-heading {
+    color: #fff !important;
+    background-color: #ff07c2 !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .panel-footer {
+    background-color: white !important;
+  }
+  .panel-footer h3 {
+    font-size: 32px;
+  }
+  .panel-footer h4 {
+    color: #aaa;
+    font-size: 14px;
+  }
+  .panel-footer .btn {
+    margin: 15px 0;
+    background-color: #ff07c2;
+    color: #fff;
+  }
+  .navbar {
+    margin-bottom: 0;
+    background-color: #ff07c2;
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+    font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+    color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #ff07c2 !important;
+    background-color: #fff552 !important;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+  }
+  .responsive-image {
+  height: auto;
+  width: 25%;
+}
+  footer .glyphicon {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #ff07c2;
+  }
+  .slideanim {visibility:hidden;}
+  .slide {
+    animation-name: slide;
+    -webkit-animation-name: slide;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible;
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+      width: 100%;
+      margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+      font-size: 150px;
+    }
+  }
+  </style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">cubbi</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#services">HOW IT WORKS</a></li>
+        <li><a href="#portfolio">BRANDING</a></li>
+        <li><a href="#pricing">CROWDFUNDING</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron text-center">
+   <img src="logo.png" class="responsive-image">
+  <p>The Social Media App For Kids</p> 
+  <form>
+    <div class="input-group">
+      <input type="email" class="form-control" size="50" placeholder="Enter Your Email Address For Updates" required>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-danger">Sign Me Up!</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Container (About Section) -->
+<div id="about" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-8">
+      <h2>What is cubbi?</h2><br>
+      <h4>cubbi is the social media app for kids ages 5-10. Parental controls for everything posted. Parental interface that allows parents to approve a picture is before children post them, allows parents to filter or delete comments, there are no likes, but the parent interphase allows parents to see the number of times that the picture was of viewed. </h4><br>
+      <p>Social media is part of American culture, it is not something that you can keep your kids from, the cubby app intends to teach children good habits and behavior on social media from an early age. By de-emphasizing the importance of likes, and focusing more on actual social interaction in a kind manner.</p>
+      <br><button class="btn btn-default btn-lg">Learn More</button>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-apple logo"></span>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-grey">
+  <div class="row">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-eye-open logo slideanim"></span>
+    </div>
+    <div class="col-sm-8">
+      <h2>Why Do Kids Need A Social Media App?</h2><br>
+      <h4><strong>THE WHY? </strong>Social media is part of American culture, it is not something that you can keep your kids from, the cubby app intends to teach children good habits and behavior on social media from an early age. By de-emphasizing the importance of likes, and focusing more on actual social interaction in a kind manner.</h4><br>
+      <p><strong>THE HOW? </strong>Operating system plug-ins will allow third-party content like YouTube videos to be shared in Users feeds as well. Parental approval is required for any posting of comments or content. Application access shuts off universally at 9 PM Eastern every night.
+<BR><br>
+The app is ideally for children ages 5 to 10. It is understood that children will age out of the app, but the hope is that they have developed healthy social media habits as a result.
+<BR><br>
+The selling point is is that it is an app that is an entry point to social media for children. ADT will primarily appear as items in a child’s cubby. The ads should look as natural and it’s close to the look and feel of a typical cubby entry as possible. Sponsored and targeted advertisements will be the primary means of revenue generation.
+<BR><br>
+The long-term possibility of the app is to make it available to educational systems Azure tool for connecting classrooms. That is the potential endgame for the app to have it sold to an educational system.
+<BR><br>
+Children make entries to their cubby, via a very intuitive and age-appropriate in her face. The interface should consist largely of colored icons with very clear instructions about how to add information to a copy. While the interface is not expected to have a system of lakes, parents will be able to see and measure the amount of engagement in individual items in the parents interface. Parents will have the option of making automatic approvals for a short window of time. The typical content approval process would involve a child pressing a button on cubby to send to parents for approval, and the parent is receiving a notification in the parent copy app in which they grant approval.
+<BR><br>
+Parental control also extends to the amount of time that a child is available to use the app for a given day, and parents will have the ability to turn off the ads for a monthly fee.
+<BR><br>
+So to reiterate, the primary sources of revenue or sponsored ads that appear in a child’s cubby, as well as fees from parents who do not want the ad sponsored version. The monthly fee should be low enough that parents do not see it as a hindrance, by making it as little as $.99 a month that is a recurring charge in there App Store account App Store account
+</p>
+    </div>
+  </div>
+</div>
+
+<!-- Container (Services Section) -->
+<div id="services" class="container-fluid text-center">
+  <h2>HOW IT WORKS</h2>
+  <h4>cubbi is the social media app for kids, with parental controls for parents</h4>
+  <br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-sunglasses logo-small"></span>
+      <h4>FUN</h4>
+      <p>cubbi is a social media app for kids ages 5-10..</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-user logo-small"></span>
+      <h4>TOTAL SECURITY</h4>
+      <p>Parental controls for all postings and comments..</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-thumbs-down logo-small"></span>
+      <h4>NO LIKES</h4>
+      <p>cubbi posts don't include likes..</p>
+    </div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-picture logo-small"></span>
+      <h4>MULTIMEDIA</h4>
+      <p>Share pics and video with your friends..</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-ban-circle logo-small"></span>
+      <h4>AD-FREE</h4>
+      <p>cubbi is, and always will be ad-free</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-time logo-small"></span>
+      <h4 style="color:#303030;">LIMITED ACCESS</h4>
+      <p>cubbi is idle after 8pm..</p>
+    </div>
+  </div>
+</div>
+
+<!-- Container (Portfolio Section) -->
+<div id="portfolio" class="container-fluid text-center bg-grey">
+  <h2>Branding</h2><br>
+  <h4>Our wordmarks and logos</h4>
+  <div class="row text-center slideanim">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="CUB1.png" alt="Paris" width="400" height="300">
+        <p><strong>Primary Logo</strong></p>
+        <p>cub Life!</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="CUB2.png" alt="New York" width="400" height="300">
+        <p><strong>Wordmark</strong></p>
+        <p>Font is Dunkin Sans Regular. </p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="CUB3.png" alt="San Francisco" width="400" height="300">
+        <p><strong>App Logo</strong></p>
+        <p>Colors are Cub Yellow (#FFF552) and Furry Fuschia (#FF07C2)</p>
+      </div>
+    </div>
+  </div><br>
+  
+  <h2>FEATURES</h2>
+  <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <h4>"Single IOS/Google Play app with kid access and parental controls!"<br><span>No need to download seperate app to manage content</span></h4>
+      </div>
+      <div class="item">
+        <h4>"De-emphasizes likes in favor of actual social interactions."<br><span>Parents can view total post engagements, but kids don't see this in interface.</span></h4>
+      </div>
+      <div class="item">
+        <h4>"Fun for kids, and teaches them good social media habits at an early age."<br><span>Simple and intuitive interface for sharing pics, videos and limited external content.</span></h4>
+      </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<!-- Container (Pricing Section) -->
+<div id="pricing" class="container-fluid">
+  <div class="text-center">
+    <h2>CROWDFUNDING</h2>
+    <h4>The cubbi app is currently a prototype, and we need partners to help us raise the capital necessary to build and publish it. Join the team and help us make cubbi a reality</h4>
+  </div>
+  <div class="row slideanim">
+    <div class="col-sm-4 col-xs-12">
+      <div class="panel panel-default text-center">
+        <div class="panel-heading">
+          <h1>cub</h1>
+        </div>
+        <div class="panel-body">
+		          <p><strong>cubbi</strong> Laptop Sticker</p>
+				            <p><strong>Beta</strong> Tester</p>
+          <p><strong>Early</strong> Access</p>
+          <p><strong>Exclusive</strong> Events</p>
+          <p><strong>Endless</strong> Fun</p>
+        </div>
+        <div class="panel-footer">
+          <h3>$50</h3>
+          <h4>investment</h4>
+          <button class="btn btn-lg">Sign Up</button>
+        </div>
+      </div>      
+    </div>     
+    <div class="col-sm-4 col-xs-12">
+      <div class="panel panel-default text-center">
+        <div class="panel-heading">
+          <h1>bear</h1>
+        </div>
+        <div class="panel-body">
+ 		          <p><strong>cubbi</strong> T-Shirt</p>
+				            <p><strong>Beta</strong> Tester</p>
+          <p><strong>Early</strong> Access</p>
+          <p><strong>Exclusive</strong> Events</p>
+          <p><strong>Endless</strong> Fun</p>
+        </div>
+        <div class="panel-footer">
+          <h3>$100</h3>
+          <h4>investment</h4>
+          <button class="btn btn-lg">Sign Up</button>
+        </div>
+      </div>      
+    </div>       
+    <div class="col-sm-4 col-xs-12">
+      <div class="panel panel-default text-center">
+        <div class="panel-heading">
+          <h1>grizzlie</h1>
+        </div>
+        <div class="panel-body">
+ 		          <p><strong>cubbi</strong> Partner</p>
+				            <p><strong>Beta</strong> Tester</p>
+          <p><strong>Early</strong> Access</p>
+          <p><strong>Exclusive</strong> Events</p>
+          <p><strong>Endless</strong> Fun</p>
+        </div>
+        <div class="panel-footer">
+          <h3>$1000+</h3>
+          <h4>investment</h4>
+          <button class="btn btn-lg">Sign Up</button>
+        </div>
+      </div>      
+    </div>    
+  </div>
+</div>
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container-fluid bg-grey">
+  <h2 class="text-center">CONTACT US</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Contact us and we'll get back to you within 24 hours.</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> Washington, DC</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
+      <p><span class="glyphicon glyphicon-envelope"></span>cubbi@gmail.com</p>
+    </div>
+    <div class="col-sm-7 slideanim">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image of location/map -->
+<img src="/w3images/map.jpg" class="w3-image w3-greyscale-min" style="width:100%">
+
+<footer class="container-fluid text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com" title="Visit w3schools">www.w3schools.com</a></p>
+</footer>
+
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+  
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
+
+</body>
+</html>
