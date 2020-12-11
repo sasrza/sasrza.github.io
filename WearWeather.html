@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+
+  <link rel="icon" 
+      type="image/png" 
+      href="WearWeather.png">
+
+<script>const key = 'd0704da8612745131eda6e9b3ce8ebb5';
+  if(key=='') document.getElementById('temp').innerHTML = ('Remember to add your api key!');
+  
+  function weatherBallon( cityID ) {
+    fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
+    .then(function(resp) { return resp.json() }) // Convert data to json
+    .then(function(data) {
+      drawWeather(data);
+    })
+    .catch(function() {
+      // catch any errors
+    });
+  }
+  function drawWeather( d ) {
+    var celcius = Math.round(parseFloat(d.main.temp)-273.15);
+    var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32);
+    var description = d.weather[0].description; 
+    const nameCapitalized = description.charAt(0).toUpperCase() + description.slice(1);
+    
+    
+    document.getElementById('description').innerHTML = nameCapitalized;
+      
+    document.getElementById('temp').innerHTML = fahrenheit + '&deg;';
+    document.getElementById('location').innerHTML = d.name;
+    
+    // Rainy
+ 
+    if( description.indexOf('rain') > 0 ) {
+      document.body.className = 'rainy';
+      if (fahrenheit <= 25){
+          const todaysoutfit = "Bundle up & wear some Timbs.<br>  Rain could turn to snow!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up & bring your umbrella. <br> It's a cold one today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "Grab a jacket & an umbrella.<br>  It's nasty out there!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "Break out the short sleeves & umbrella. <br> It's a rainy one today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "Put on shorts and grab your umbrella. <br>  It's hot and could turn into a thunderstorm!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+      
+
+
+// Cloudy
+
+    } else if( description.indexOf('cloud') > 0 ) {
+      document.body.className = 'cloudy';
+      if (fahrenheit <= 25){
+          const todaysoutfit = "Bundle up with multiple layers.<br>  It's absolutely brutal out there!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up with a heavy coat.<br>  It's a cold & gray one today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "Grab a jacket. It's nippy, and overcast!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "Break out the short sleeves.<br>  Looks like a beautiful day today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "Put on shorts.  It's humid!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+
+
+    
+// Snowy
+
+} else if( description.indexOf('snow') > 0 ) {
+      document.body.className = 'snowy';
+
+      if (fahrenheit < 5){
+          const todaysoutfit = "Holy sh*t it's cold AF!  Stay home!<br>  It's absolutely brutal out there!<br>You should consider moving!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        if (fahrenheit <= 25 & fahrenheit >=5){
+          const todaysoutfit = "Bundle up with multiple layers.<br>  It's snowing and brutally cold out there!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+           else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up with a heavy coat! It's snowing out there!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "Grab a jacket. It's nippy, and overcast!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "Break out the short sleeves. Looks like a beautiful day today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "Put on shorts.  It's humid!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+
+      // Sunny
+
+    } else if( description.indexOf('sunny') > 0 ) {
+      document.body.className = 'sunny';
+      if (fahrenheit <= 25){
+          const todaysoutfit = "Bundle up with multiple layers. It's absolutely brutal out there!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up with a heavy coat. It's a cold one today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "Grab a jacket. It's nippy, but clear!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "Break out the short sleeves. Looks like a beautiful day today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "Put on shorts and grab some sunscreen.  It's a scorcher!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+    }
+
+    // Hazy doesn't work, skips to Clear
+      
+   else if( description.indexOf('haze') > 0 ) {
+      document.body.className = 'hazy';
+      if (fahrenheit < 5){
+          const todaysoutfit = "Holy sh*t it's cold.  Stay home!<br>  It's absolutely brutal out there!<br>You should consider moving!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        if (fahrenheit <= 25 & fahrenheit >=5){
+          const todaysoutfit = "Bundle up with multiple layers.<br>  It's absolutely brutal out there!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up with a heavy coat.<br>  It's a cold one today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "Grab a jacket. It's nippy, but clear out!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "Break out the short sleeves.<br>  Looks like a beautiful day today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "Put on shorts and grab some sunscreen.<br>   It's a scorcher!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+      
+  }
+
+    // Clear Days
+
+    else {
+      document.body.className = 'clear';
+      if (fahrenheit < 5){
+          const todaysoutfit = "Holy sh*t it's cold.  Stay home!<br>  It's absolutely brutal out there!<br>You should consider moving!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        if (fahrenheit <= 25 & fahrenheit >=5){
+          const todaysoutfit = "Bundle up with multiple layers.<br>  It's absolutely brutal out there!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up with a heavy coat.<br>  It's a cold one today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "Grab a jacket. It's nippy, but clear!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "Break out the short sleeves.<br> Looks like a beautiful day today!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "Put on shorts and grab some sunscreen.  It's a scorcher!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          }
+      
+      
+    }}
+  window.onload = function() {
+    weatherBallon( 4369596  );
+          // Get values from URL on https://openweathermap.org/ after searching for city
+          // 4930956 Boston
+          // 5128581 NYC
+          // 4487042 Raleigh
+          // 6167865 Toronto
+          //4180439 Atlanta
+          // 5879092 Alaska 
+          // 4699066 Houston
+          //3871336  Santiago
+          //4369596 - Silver Spring
+          // 4560349 - Philly
+          // 4977125 Rumsford, Maine
+          // 5368361 Los Angeles
+          // 5882534 Agassiz, BC
+          // 4460943 Clayton
+          // https://api.openweathermap.org/data/2.5/weather?id=4977125&appid=d0704da8612745131eda6e9b3ce8ebb5
+          }
+</script>
+
+<style>
+  body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* text-shadow: .05em .05em 0 rgba(0,0,0,0.5); */
+    text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+    font-size: 2.0em;
+    height: 100vh;
+    background-image: linear-gradient(#274B95, #315DB6, #396CD2, #427AEA, #4985FE);
+}
+
+h1 {
+    margin: 0 auto;
+    font-size: 6em;
+    font-family: 'Fjalla One', sans-serif;
+    text-align: center;
+    color: #fff;
+    font-size: 2.2em;
+}
+
+h2 {
+    margin: 0 auto;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 5.8em;
+    text-align: center;
+    color: #fff;
+    font-size: 3.5em;
+}
+
+h3 {
+    margin: 0 auto;
+   font-family: 'Fjalla One', sans-serif;
+    font-weight: bold;
+    font-size: 3.8em;
+    text-align: center;
+    color: #fff;
+    font-size: 1.25em;
+}
+
+h4{
+    margin: 0 auto;
+    font-family: 'Fjalla One', sans-serif;
+
+    font-size: 5.8em;
+    text-align: center;
+    color: #fff;
+    font-size: .75em;
+}    
+
+
+
+
+
+
+
+body.sunny {
+    background-image: linear-gradient(to right top, #ff4e50, #ff713e, #ff932b, #f9d423, #f9d423);
+    
+}
+body.cloudy {
+    background-image: linear-gradient(#536066,#63747c, #7f96a0, #839BA4, #8da8b2);
+}
+
+body.hazy {
+    background-image: linear-gradient(to right top, #000000, #71858e, #7f96a0, #000000, #9bbac5);
+}
+
+body.rainy {
+    background-image: linear-gradient(to right top, #637c7b, #718e8c, #7ea09e, #8db2b0, #9bc5c3);
+}
+
+body.snowy {
+    background-image: linear-gradient(#464545, #6F6F6F, #979797, #EEEEEE);
+color:black;
+   
+}
+
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+.fade-in-two {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1.5s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+
+</style>
+
+  <meta charset="utf-8">
+  <title>WearWeather</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <center>
+	<div class="bg"></div>
+	<div>
+      <h1 id="location" class="fade-in"></h1>
+      <h2 id="temp" class="fade-in-two"></h2>
+    <h3 id="description"  class="fade-in-two"></h3>
+      <h4 id="whattowear"  class="fade-in-two"></h4>
+
+  
+
+  </div>
+      </center>
+</html>
