@@ -289,17 +289,18 @@ document.getElementById('printme').innerHTML = codeBlock;
     background-image: linear-gradient(#274B95, #315DB6, #396CD2, #427AEA, #4985FE);
 }
 
-/* City Name */
+
+/* Weather Icon*/
 
 h1 {
     margin: 0 auto;
     font-family: 'Fjalla One', sans-serif;
     text-align: center;
     color: #fff;
-    font-size: 2.2em;
+    font-size: 6em;
 }
 
-/* Temperature */
+/* City Name */
 
 h2 {
     margin: 0 auto;
@@ -309,30 +310,36 @@ h2 {
     font-size: 3.5em;
 }
 
-/* Weather Description */
+/* Temperature */
 
 h3 {
+    margin: 0 auto;
+    font-family: 'Fjalla One', sans-serif;
+    text-align: center;
+    color: #fff;
+    font-size: 5.5em;
+}
+
+/* Weather Description */
+
+h4 {
     margin: 0 auto;
    font-family: 'Fjalla One', sans-serif;
     font-weight: bold;
      text-align: center;
     color: #fff;
-    font-size: 1.25em;
+    font-size: 2.25em;
 }
 
 /* What To Wear + Witty Narrative */
 
-h4{
+h5{
     margin: 0 auto;
     font-family: 'Fjalla One', sans-serif;
     text-align: center;
     color: #fff;
-    font-size: .75em;
+    font-size: 1.75em;
 }    
-
-h5{
-  font-size: 5.8em;
-}
 
 
 
@@ -405,10 +412,11 @@ color:black;
     document.getElementById("wrapper").innerHTML = location
   </script> 
     <h1 id="printme"></h1>
-      <h1 id="location" class="fade-in"></h1>
-      <h2 id="temp" class="fade-in-two"></h2>
-    <h3 id="description"  class="fade-in-two"></h3>
-      <h4 id="whattowear"  class="fade-in-two"></h4>
+    <h3 id="temp" class="fade-in-two"></h3>
+      <h2 id="location" class="fade-in"></h2>
+
+    <h4 id="description"  class="fade-in-two"></h4>
+      <h5 id="whattowear"  class="fade-in-two"></h5>
 
   
 
