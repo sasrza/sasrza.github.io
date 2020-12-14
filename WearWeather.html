@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 
-
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  
   <link rel="icon" 
       type="image/png" 
       href="WearWeather.png">
@@ -25,9 +26,7 @@
     var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32);
     var description = d.weather[0].description; 
     const nameCapitalized = description.charAt(0).toUpperCase() + description.slice(1);
-    
-    
-    document.getElementById('description').innerHTML = nameCapitalized;
+       document.getElementById('description').innerHTML = nameCapitalized;
       
     document.getElementById('temp').innerHTML = fahrenheit + '&deg;';
     document.getElementById('location').innerHTML = d.name;
@@ -39,22 +38,32 @@
       if (fahrenheit <= 25){
           const todaysoutfit = "Bundle up & wear some Timbs.<br>  Rain could turn to snow!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
           const todaysoutfit = "Bundle up & bring your umbrella. <br> It's a cold one today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "Grab a jacket & an umbrella.<br>  It's nasty out there!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "Break out the short sleeves & umbrella. <br> It's a rainy one today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 80){
             const todaysoutfit = "Put on shorts and grab your umbrella. <br>  It's hot and could turn into a thunderstorm!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
       
 
@@ -66,26 +75,36 @@
       if (fahrenheit <= 25){
           const todaysoutfit = "Bundle up with multiple layers.<br>  It's absolutely brutal out there!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-icicles"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
           const todaysoutfit = "Bundle up with a heavy coat.<br>  It's a cold & gray one today!";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
+                  document.getElementById('whattowear').innerHTML = todaysoutfit;
+                  var codeBlock = '<i class="fas fa-cloud"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "Grab a jacket. It's nippy, and overcast!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "Break out the short sleeves.<br>  Looks like a beautiful day today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 80){
             const todaysoutfit = "Put on shorts.  It's humid!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
           }
 
 
-    
+
 // Snowy
 
 } else if( description.indexOf('snow') > 0 ) {
@@ -94,26 +113,38 @@
       if (fahrenheit < 5){
           const todaysoutfit = "Holy sh*t it's cold AF!  Stay home!<br>  It's absolutely brutal out there!<br>You should consider moving!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-icicles"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
         }
         if (fahrenheit <= 25 & fahrenheit >=5){
           const todaysoutfit = "Bundle up with multiple layers.<br>  It's snowing and brutally cold out there!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
         }
            else if (fahrenheit <=45 & fahrenheit>25 ){
           const todaysoutfit = "Bundle up with a heavy coat! It's snowing out there!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "Grab a jacket. It's nippy, and overcast!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
-            const todaysoutfit = "Break out the short sleeves.<br> Looks like a beautiful day today!";
+            const todaysoutfit = "Break out the short sleeves. Looks like a beautiful day today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 80){
             const todaysoutfit = "Put on shorts.  It's humid!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
 
       // Sunny
@@ -121,11 +152,11 @@
     } else if( description.indexOf('sunny') > 0 ) {
       document.body.className = 'sunny';
       if (fahrenheit <= 25){
-          const todaysoutfit = "Bundle up with multiple layers.<br> It's absolutely brutal out there!";
+          const todaysoutfit = "Bundle up with multiple layers. It's absolutely brutal out there!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Bundle up with a heavy coat.<br> It's a cold one today!";
+          const todaysoutfit = "Bundle up with a heavy coat. It's a cold one today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
@@ -133,11 +164,11 @@
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
-            const todaysoutfit = "Break out the short sleeves.<br> Looks like a beautiful day today!";
+            const todaysoutfit = "Break out the short sleeves. Looks like a beautiful day today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           }
           else if (fahrenheit > 80){
-            const todaysoutfit = "Put on shorts and grab some sunscreen.<br>  It's a scorcher!";
+            const todaysoutfit = "Put on shorts and grab some sunscreen.  It's a scorcher!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           }
     }
@@ -180,26 +211,40 @@
       if (fahrenheit < 5){
           const todaysoutfit = "Holy sh*t it's cold.  Stay home!<br>  It's absolutely brutal out there!<br>You should consider moving!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-igloo"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+
         }
         if (fahrenheit <= 25 & fahrenheit >=5){
           const todaysoutfit = "Bundle up with multiple layers.<br>  It's absolutely brutal out there!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-icicles"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
           const todaysoutfit = "Bundle up with a heavy coat.<br>  It's a cold one today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-sun"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
-            const todaysoutfit = "Grab a jacket.<br> It's nippy, but clear!";
+            const todaysoutfit = "Grab a jacket. It's nippy, but clear!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-sun"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "Break out the short sleeves.<br> Looks like a beautiful day today!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-sun"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 80){
-            const todaysoutfit = "Put on shorts and grab some sunscreen.<br>  It's a scorcher!";
+            const todaysoutfit = "Put on shorts and grab some sunscreen.  It's a scorcher!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-fire-alt"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
           }
       
       
@@ -233,56 +278,61 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* text-shadow: .05em .05em 0 rgba(0,0,0,0); */
-    /*text-shadow:
-		-1px -1px 0 #000,
+    text-shadow: .05em .05em 0 rgba(0,0,0,0);
+    /* text-shadow: */
+		/* -1px -1px 0 #000,
 		1px -1px 0 #000,
 		-1px 1px 0 #000,
-		1px 1px 0 #000;*/
+		1px 1px 0 #000; */
     font-size: 2.0em;
     height: 100vh;
     background-image: linear-gradient(#274B95, #315DB6, #396CD2, #427AEA, #4985FE);
 }
 
+/* City Name */
+
 h1 {
     margin: 0 auto;
-    font-size: 6em;
     font-family: 'Fjalla One', sans-serif;
     text-align: center;
     color: #fff;
-    font-size: 3em;
+    font-size: 2.2em;
 }
+
+/* Temperature */
 
 h2 {
     margin: 0 auto;
     font-family: 'Fjalla One', sans-serif;
-    font-size: 5.8em;
     text-align: center;
     color: #fff;
-    font-size: 7.5em;
+    font-size: 3.5em;
 }
+
+/* Weather Description */
 
 h3 {
     margin: 0 auto;
    font-family: 'Fjalla One', sans-serif;
     font-weight: bold;
-    font-size: 3.8em;
-    text-align: center;
+     text-align: center;
     color: #fff;
-    font-size: 2em;
+    font-size: 1.25em;
 }
+
+/* What To Wear + Witty Narrative */
 
 h4{
     margin: 0 auto;
     font-family: 'Fjalla One', sans-serif;
-
-    font-size: 5.8em;
     text-align: center;
     color: #fff;
-    font-size: 1.75em;
+    font-size: .75em;
 }    
 
-
+h5{
+  font-size: 5.8em;
+}
 
 
 
@@ -339,7 +389,7 @@ color:black;
 </style>
 
   <meta charset="utf-8">
-  <title>WearWeather™</title>
+  <title>WearWeather</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet"> 
   <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -351,10 +401,13 @@ color:black;
   <center>
 	<div class="bg"></div>
 	<div>
+    <script>
+    document.getElementById("wrapper").innerHTML = location
+  </script> 
+    <h1 id="printme"></h1>
       <h1 id="location" class="fade-in"></h1>
-		  <h3 id="description"  class="fade-in-two"></h3>
       <h2 id="temp" class="fade-in-two"></h2>
-  
+    <h3 id="description"  class="fade-in-two"></h3>
       <h4 id="whattowear"  class="fade-in-two"></h4>
 
   
