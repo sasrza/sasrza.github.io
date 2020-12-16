@@ -107,7 +107,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 
 // Snowy
 
-} else if( description.indexOf('snow') > 0 ) {
+} else if( description.indexOf('snow') >= 0 ) {
       document.body.className = 'snowy';
 
       if (fahrenheit < 5){
@@ -149,7 +149,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 
       // Sunny
 
-    } else if( description.indexOf('sunny') > 0 ) {
+    } else if( description.indexOf('sunny') >= 0 ) {
       document.body.className = 'sunny';
       if (fahrenheit <= 25){
           const todaysoutfit = "Bundle up with multiple layers. It's absolutely brutal out there!";
@@ -175,7 +175,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 
     // Hazy doesn't work, skips to Clear
       
-   else if( description.indexOf('haze') > 0 ) {
+   else if( description.indexOf('haze') >= 0 ) {
       document.body.className = 'hazy';
       if (fahrenheit < 5){
           const todaysoutfit = "Holy sh*t it's cold.  Stay home!<br>  It's absolutely brutal out there!<br>You should consider moving!";
