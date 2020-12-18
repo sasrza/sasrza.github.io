@@ -401,6 +401,14 @@ body.rainy {
 	animation-duration: 2s;
 }
 
+	fade-in-three {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 3s;
+}
+
 @keyframes fadeInOpacity {
 	0% {
 		opacity: 0;
@@ -430,7 +438,7 @@ body.rainy {
     <h2 id="temp" ></h2>
       <h3 id="location" class="fade-in"></h3>
     <h4 id="description"  class="fade-in-two"></h4>
-      <h5 id="whattowear"  class="fade-in-two"></h5>
+      <h5 id="whattowear"  class="fade-in-three"></h5>
 
   
 
