@@ -6,7 +6,8 @@
  https://fontawesome.com/icons?d=gallery -->
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="icon" 
       type="image/png" 
       href="WearWeather.png">
@@ -228,19 +229,19 @@ document.getElementById('printme').innerHTML = codeBlock;
         else if (fahrenheit <=45 & fahrenheit>25 ){
           const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Heavy coat, Ugg boots.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="far fa-sun"></i>';
+          var codeBlock = '<i class="fas fa-sun"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "It's brisk, but pretty outside!<br>Suggestion: Hoodie and jeans.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="far fa-sun"></i>';
+          var codeBlock = '<i class="fas fa-sun"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="fas fa-sun"></i>';
+          var codeBlock = '<i class="far fa-sun"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
           }
           else if (fahrenheit > 80){
@@ -273,10 +274,13 @@ document.getElementById('printme').innerHTML = codeBlock;
           }
 </script>
 
+
 <style>
   body {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
+    /* font-family: 'Montserrat', sans-serif; */
+    font-family: 'Bebas Neue', cursive;
+
+    font-weight: 100;
     color: #fff;
     display: flex;
     align-items: center;
@@ -292,12 +296,14 @@ document.getElementById('printme').innerHTML = codeBlock;
     background-image: linear-gradient(#274B95, #315DB6, #396CD2, #427AEA, #4985FE);
 }
 
-
 /* Weather Icon*/
 
 h1 {
-    margin: 0 auto;
-    font-family: 'Fjalla One', sans-serif;
+  /* padding: 0px;
+    margin: 0px; */
+    /* font-family: 'Fjalla One', sans-serif; */
+    font-family: 'Bebas Neue', cursive;
+    line-height: 18%;
     text-align: center;
     color: #fff;
     font-size: 6em;
@@ -307,7 +313,9 @@ h1 {
 /* City Name */
 
 h2 {
-    margin: 0 auto;
+  /* padding: 0px;
+    margin: 0px; */
+    line-height: 45%;
     font-family: 'Fjalla One', sans-serif;
     text-align: center;
     color: #fff;
@@ -318,7 +326,9 @@ h2 {
 
 h3 {
     margin: 0 auto;
-    font-family: 'Fjalla One', sans-serif;
+    line-height: 85%;
+    /* font-family: 'Fjalla One', sans-serif; */
+    font-family: 'Bebas Neue', cursive;
     text-align: center;
     color: #fff;
     font-size: 5.5em;
@@ -329,7 +339,8 @@ h3 {
 
 h4 {
     margin: 0 auto;
-   font-family: 'Fjalla One', sans-serif;
+       /* font-family: 'Fjalla One', sans-serif; */
+       font-family: 'Bebas Neue', cursive;
     font-weight: bold;
      text-align: center;
     color: #fff;
@@ -340,7 +351,9 @@ h4 {
 
 h5{
     margin: 0 auto;
-    font-family: 'Fjalla One', sans-serif;
+    line-height: 95%;
+       /* font-family: 'Fjalla One', sans-serif; */
+       font-family: 'Bebas Neue', cursive;
     text-align: center;
     color: #fff;
     font-size: 1.35em;
