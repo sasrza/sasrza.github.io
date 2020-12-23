@@ -59,40 +59,35 @@ function timeNow(i) {
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud-rain"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Pack your umbrella. It's a cold one today!<br>Suggestion: Heavy coat, rain boots.";
+          const todaysoutfit = "Pack your umbrella. It's a cold one today!<br>Suggestion: Heavy coat, rain boots";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud-rain"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "It's brisk & nasty out there!<br>Suggestion: Grab a hoodie & an umbrella.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud-rain"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "Rain rain, go away! <br>Suggestion: Long sleeved shirt & jeans.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud-sun-rain"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit > 80){
             const todaysoutfit = " Heat + Rain = Potential Thunderstorm!<br>Suggestion: Short sleeved shirt & shorts.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud-sun-rain"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
       
 
@@ -102,19 +97,18 @@ document.getElementById('printme').innerHTML = codeBlock;
     } else if( description.indexOf('cloud') > 0 ) {
       document.body.className = 'cloudy';
       if (fahrenheit <= 25){
-        const todaysoutfit = "Bundle up it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots.";
+        const todaysoutfit = "Bundle up it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-icicles"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Heavy coat, Ugg boots.";
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
                   document.getElementById('whattowear').innerHTML = todaysoutfit;
                   var codeBlock = '<i class="fas fa-cloud"></i>';
                     document.getElementById('printme').innerHTML = codeBlock;
-                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                           document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
@@ -123,7 +117,7 @@ document.getElementById('printme').innerHTML = codeBlock;
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud"></i>';
                     document.getElementById('printme').innerHTML = codeBlock;
-                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                        
    document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';                     
                    
@@ -134,7 +128,7 @@ document.getElementById('printme').innerHTML = codeBlock;
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud-sun"></i>';
                     document.getElementById('printme').innerHTML = codeBlock;
-                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                           document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit > 80){
@@ -142,7 +136,7 @@ document.getElementById('printme').innerHTML = codeBlock;
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud-sun"></i>';
                     document.getElementById('printme').innerHTML = codeBlock;
-                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                           document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
 
@@ -158,48 +152,42 @@ document.getElementById('printme').innerHTML = codeBlock;
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-icicles"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
         }
         if (fahrenheit <= 25 & fahrenheit >=5){
        const todaysoutfit = "It's cold and snowy. Don't drive. Just stay home!<br>Suggestion: A vacation somewhere warm.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="far fa-snowflake"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
         }
            else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Yay, it's snowing out there!<br>Suggestion: Heavy coat, Ugg boots.";
+          const todaysoutfit = "Yay, it's snowing out there!<br>Suggestion: Winter coat, jeans";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="far fa-snowflake"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="far fa-snowflake"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="far fa-snowflake"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit > 80){
             const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="far fa-snowflake"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
 
       // Sunny
@@ -209,31 +197,31 @@ document.getElementById('printme').innerHTML = codeBlock;
       if (fahrenheit <= 25){
         const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Heavy coat, Ugg boots.";
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "It's brisk, but pretty outside!<br>Suggestion: Hoodie and jeans.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit > 80){
             const todaysoutfit = "It's a scorcher.<br>Suggestion: Short sleeved shirt & shorts.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
     }
@@ -245,37 +233,37 @@ document.getElementById('printme').innerHTML = codeBlock;
       if (fahrenheit < 5){
         const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
         }
         if (fahrenheit <= 25 & fahrenheit >=5){
-          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots.";
+          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Heavy coat, Ugg boots.";
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
             const todaysoutfit = "It's brisk, but pretty outside!<br>Suggestion: Hoodie and jeans.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit > 80){
             const todaysoutfit = "It's hot out, but not humid.<br>Suggestion: Short sleeved shirt & shorts."
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
                 document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
       
@@ -290,27 +278,24 @@ document.getElementById('printme').innerHTML = codeBlock;
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-igloo"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 
         }
         if (fahrenheit <= 25 & fahrenheit >=5){
-          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots.";
+          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
              document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-icicles"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Heavy coat, Ugg boots.";
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-sun"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
       document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
@@ -321,24 +306,21 @@ document.getElementById('printme').innerHTML = codeBlock;
 
 
 
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit > 67 & fahrenheit <=79){
             const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="far fa-sun"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
           else if (fahrenheit > 80){
             const todaysoutfit = "It's hot out, but not humid.<br>Suggestion: Short sleeved shirt & shorts.";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-fire-alt"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;.';
-      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
       
       
@@ -537,7 +519,7 @@ body.rainy {
       <h3 id="location" class="fade-in"></h3>
     <h4 id="description"  class="fade-in-two"></h4>
     <h5 id="feels"  class="fade-in-three"></h5>
-      <h5 id="humi" class="fade-in-three"></h5>
+      <!-- <h5 id="humi" class="fade-in-three"></h5> -->
 
       <h5 id="whattowear"  class="fade-in-three"></h5>
 
