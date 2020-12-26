@@ -40,7 +40,7 @@
        document.getElementById('description').innerHTML = nameCapitalized;
       
     document.getElementById('temp').innerHTML = fahrenheit + '&deg;';
-    document.getElementById('location').innerHTML = d.name;
+    document.getElementById('location').innerHTML = d.name + ", " + d.sys.country;
     
 function timeNow(i) {
   var d = new Date(),
@@ -281,7 +281,7 @@ document.getElementById('printme').innerHTML = codeBlock;
    document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 
         }
-        if (fahrenheit <= 25 & fahrenheit >=5){
+        if (fahrenheit < 25  & fahrenheit >=5){
           const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
              document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
           document.getElementById('whattowear').innerHTML = todaysoutfit;
@@ -290,7 +290,7 @@ document.getElementById('printme').innerHTML = codeBlock;
    document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 
         }
-        else if (fahrenheit <=45 & fahrenheit>25 ){
+        else if (fahrenheit <=45 && fahrenheit>=25 ){
           const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-sun"></i>';
