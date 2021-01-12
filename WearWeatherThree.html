@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>WearWeather 3.0®</title>
+<!-- For using Weather Glyph Icons 
+ https://www.w3schools.com/bootstrap4/bootstrap_icons.asp 
+ https://fontawesome.com/icons?d=gallery -->
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="icon" 
+      type="image/png" 
+      href="WearWeather.png">
+
+<script>const key = 'd0704da8612745131eda6e9b3ce8ebb5';
+  if(key=='') document.getElementById('temp').innerHTML = ('Remember to add your api key!');
+  
+  function weatherBallon( latty, longy ) {
+    fetch('http://api.openweathermap.org/data/2.5/weather?lat=' + latty + '&lon=' + longy + '&appid=' + key)  
+    .then(function(resp) { return resp.json() }) // Convert data to json
+    .then(function(data) {
+      drawWeather(data);
+    })
+    .catch(function() {
+      // catch any errors
+    });
+  }
+  function drawWeather( d ) {
+    var celcius = Math.round(parseFloat(d.main.temp)-273.15);
+    var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32);
+    
+      var feels = Math.round(((parseFloat(d.main.feels_like)-273.15)*1.8)+32);
+        humid = d.main.humidity;
+      /*  var feels =d.id;  THIS IS THE VALUE FOR THE CITY ID!!!!*/
+      
+ 
+        
+    var description = d.weather[0].description; 
+    const nameCapitalized = description.charAt(0).toUpperCase() + description.slice(1);
+       document.getElementById('description').innerHTML = nameCapitalized;
+      
+    document.getElementById('temp').innerHTML = fahrenheit + '&deg;';
+    document.getElementById('location').innerHTML = d.name + ", " + d.sys.country;
+    
+function timeNow(i) {
+  var d = new Date(),
+    h = (d.getHours()<10?'0':'') + d.getHours(),
+    m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+ var timey = h + ':' + m;
+}
+ 
+ 
+    // Rainy
+ 
+    if( description.indexOf('rain') > 0 ) {
+      document.body.className = 'rainy';
+      if (fahrenheit <= 25){
+          const todaysoutfit = "It's frigid out and rain could turn to snow!<br>Suggestion: Heavy coat, rain boots, umbrella.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Pack your umbrella. It's a cold one today!<br>Suggestion: Heavy coat, rain boots";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "It's brisk & nasty out there!<br>Suggestion: Grab a hoodie & an umbrella.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "Rain rain, go away! <br>Suggestion: Long sleeved shirt & jeans.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = " Heat + Rain = Potential Thunderstorm!<br>Suggestion: Short sleeved shirt & shorts.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun-rain"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+      
+
+
+// Cloudy
+
+    } else if( description.indexOf('cloud') > 0 ) {
+      document.body.className = 'cloudy';
+      if (fahrenheit <= 25){
+        const todaysoutfit = "Bundle up it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-icicles"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
+                  document.getElementById('whattowear').innerHTML = todaysoutfit;
+                  var codeBlock = '<i class="fas fa-cloud"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                          document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+              
+            const todaysoutfit = "It's brisk and overcast outside!<br>Suggestion: Hoodie and jeans.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                       
+   document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';                     
+                   
+                       
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "It's hot and humid.<br>Suggestion: Short sleeved shirt & shorts.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                          document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "Put on shorts.  It's humid!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-cloud-sun"></i>';
+                    document.getElementById('printme').innerHTML = codeBlock;
+                       document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                          document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+
+
+
+// Snowy
+
+} else if( description.indexOf('snow') >= 0) {
+      document.body.className = 'snowy';
+
+      if (fahrenheit < 5){
+          const todaysoutfit = "Holy sh*t it's snowy and cold AF!  Stay home!<br>  Suggestion: You should consider moving!";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-icicles"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+        }
+        if (fahrenheit <= 25 & fahrenheit >=5){
+       const todaysoutfit = "It's cold and snowy. Don't drive. Just stay home!<br>Suggestion: A vacation somewhere warm.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+        }
+           else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Yay, it's snowing out there!<br>Suggestion: Winter coat, jeans";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-snowflake"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+
+      // Sunny
+
+    } else if( description.indexOf('sunny') >= 0 ) {
+      document.body.className = 'sunny';
+      if (fahrenheit <= 25){
+        const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "It's brisk, but pretty outside!<br>Suggestion: Hoodie and jeans.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "It's a scorcher.<br>Suggestion: Short sleeved shirt & shorts.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+    }
+
+    // Hazy doesn't work, skips to Clear
+      
+   else if( description.indexOf('haze') > 0 ) {
+      document.body.className = 'hazy';
+      if (fahrenheit < 5){
+        const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+        }
+        if (fahrenheit <= 25 & fahrenheit >=5){
+          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+        }
+        else if (fahrenheit <=45 & fahrenheit>25 ){
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "It's brisk, but pretty outside!<br>Suggestion: Hoodie and jeans.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "It's hot out, but not humid.<br>Suggestion: Short sleeved shirt & shorts."
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
+                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+      
+  }
+
+    // Clear Days
+
+    else {
+      document.body.className = 'clear';
+      if (fahrenheit < 5){
+          const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-igloo"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+
+        }
+        if (fahrenheit < 25  & fahrenheit >=5){
+          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
+             document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-icicles"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+
+        }
+        else if (fahrenheit <=45 && fahrenheit>=25 ){
+          const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-sun"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+          }
+          else if (fahrenheit <=67 & fahrenheit > 45){
+            const todaysoutfit = "It's brisk, but pretty outside!<br>Suggestion: Hoodie and jeans.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-sun"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+
+
+
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit > 67 & fahrenheit <=79){
+            const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="far fa-sun"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+          else if (fahrenheit > 80){
+            const todaysoutfit = "It's hot out, but not humid.<br>Suggestion: Short sleeved shirt & shorts.";
+          document.getElementById('whattowear').innerHTML = todaysoutfit;
+          var codeBlock = '<i class="fas fa-fire-alt"></i>';
+document.getElementById('printme').innerHTML = codeBlock;
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          }
+      
+      
+    }}
+    
+window.onLoad=getLocation();
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+   console.log("Geolocation is not supported by this browser.");
+  }
+
+const longy = 0;
+const latty = 0;
+ 
+function showPosition(position) {
+  console.log("Latitude is " + position.coords.latitude + 
+  " by Longitude: " + position.coords.longitude);    
+  const longy=position.coords.longitude;
+  console.log(longy);
+  const latty = position.coords.latitude;
+  console.log(latty);
+    
+ 
+    
+    weatherBallon( latty, longy );
+ //       weatherBallon( position.coords.longitude, position.coords.latitude );
+    
+          // Get values from URL on https://openweathermap.org/ after searching for city
+          // 4930956 Boston
+          // 5128581 NYC
+          // 4487042 Raleigh
+          // 6167865 Toronto
+          //4180439 Atlanta
+          // 5879092 Alaska 
+          // 4699066 Houston
+          //3871336  Santiago
+          //4369596 - Silver Spring
+          // 4560349 - Philly
+          // 4977125 Rumsford, Maine
+          // 5368361 Los Angeles
+          // 5882534 Agassiz, BC
+          // 4460943 Clayton
+          // https://api.openweathermap.org/data/2.5/weather?id=4977125&appid=d0704da8612745131eda6e9b3ce8ebb5
+          }
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+<style>
+  body {
+    /* font-family: 'Montserrat', sans-serif; */
+    font-family: 'Bebas Neue', cursive;
+
+    font-weight: 100;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: .05em .05em 0 rgba(0,0,0,0);
+    /* text-shadow: */
+		/* -1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000; */
+    font-size: 2.0em;
+    height: 100vh;
+    background-image: linear-gradient(#274B95, #315DB6, #396CD2, #427AEA, #4985FE);
+}
+
+/* Weather Icon*/
+
+h1 {
+  /* padding: 0px;
+    margin: 0px; */
+    /* font-family: 'Fjalla One', sans-serif; */
+    font-family: 'Bebas Neue', cursive;
+    line-height: 18%;
+    text-align: center;
+    color: #fff;
+    font-size: 5.2em;
+    display:inline; 
+}
+
+/* Temperature */
+
+h2 {
+  /* padding: 0px;
+    margin: 0px; */
+    line-height: 45%;
+    font-family: 'Fjalla One', sans-serif;
+    text-align: center;
+    color: #fff;
+    font-size: 5.5em;
+    display:inline; 
+}
+
+/* City Name */
+
+h3 {
+    margin: 0 auto;
+    line-height: 85%;
+    /* font-family: 'Fjalla One', sans-serif; */
+    font-family: 'Bebas Neue', cursive;
+    text-align: center;
+    color: #fff;
+    font-size: 2.85em;
+}
+
+/* Weather Description */
+
+h4 {
+    margin: 0 auto;
+       /* font-family: 'Fjalla One', sans-serif; */
+       font-family: 'Bebas Neue', cursive;
+       line-height: 75%;
+    /* font-weight: bold; */
+     text-align: center;
+    color: #fff;
+    font-size: 2.25em;
+}
+
+/* What To Wear + Witty Narrative */
+
+h5{
+    margin: 0 auto;
+    line-height: 95%;
+       /* font-family: 'Fjalla One', sans-serif; */
+       font-family: 'Bebas Neue', cursive;
+    text-align: center;
+    color: #fff;
+    font-size: 1.15em;
+}    
+
+
+
+body.snowy {
+    background-image: linear-gradient(#464545, #6F6F6F, #979797, #EEEEEE);
+color:black;
+   
+}
+
+body.sunny {
+    background-image: linear-gradient(to right top, #ff4e50, #ff713e, #ff932b, #f9d423, #f9d423);
+    
+}
+body.cloudy {
+    background-image: linear-gradient(#536066,#63747c, #7f96a0, #839BA4, #8da8b2);
+}
+
+body.hazy {
+    background-image: linear-gradient(to right top, #000000, #71858e, #7f96a0, #000000, #9bbac5);
+}
+
+body.rainy {
+    background-image: linear-gradient(to right top, #637c7b, #718e8c, #7ea09e, #8db2b0, #9bc5c3);
+}
+
+
+
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+.fade-in-two {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 2s;
+}
+
+	.fade-in-three {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 3s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+
+</style>
+
+  <meta charset="utf-8">
+  <title>WearWeather</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <center>
+	<div class="bg"></div>
+	<div>
+    <h1 id="printme"></h1>
+    <h2 id="temp" ></h2>
+      <h3 id="location" class="fade-in"></h3>
+    <h4 id="description"  class="fade-in-two"></h4>
+    <h5 id="feels"  class="fade-in-three"></h5>
+      <!-- <h5 id="humi" class="fade-in-three"></h5> -->
+
+      <h5 id="whattowear"  class="fade-in-three"></h5>
+
+
+  </div>
+  
+
+      </center>
+</html>
