@@ -17,7 +17,7 @@
   if(key=='') document.getElementById('temp').innerHTML = ('Remember to add your api key!');
   
   function weatherBallon( latty, longy ) {
-    fetch('http://api.openweathermap.org/data/2.5/weather?lat=' + latty + '&lon=' + longy + '&appid=' + key)  
+    fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latty + '&lon=' + longy + '&appid=' + key)  
     .then(function(resp) { return resp.json() }) // Convert data to json
     .then(function(data) {
       drawWeather(data);
