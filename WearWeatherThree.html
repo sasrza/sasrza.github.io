@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>WearWeather 3.0®</title>
+<title>WearWeather 3.0® - GPS Location Enabled</title>
 <!-- For using Weather Glyph Icons 
  https://www.w3schools.com/bootstrap4/bootstrap_icons.asp 
  https://fontawesome.com/icons?d=gallery -->
@@ -11,13 +11,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="icon" 
       type="image/png" 
-      href="WearWeather.png">
+      href="WearWeatherNew.png">
 
 <script>const key = 'd0704da8612745131eda6e9b3ce8ebb5';
   if(key=='') document.getElementById('temp').innerHTML = ('Remember to add your api key!');
   
   function weatherBallon( latty, longy ) {
-    fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latty + '&lon=' + longy + '&appid=' + key)  
+    fetch('http://api.openweathermap.org/data/2.5/weather?lat=' + latty + '&lon=' + longy + '&appid=' + key)  
     .then(function(resp) { return resp.json() }) // Convert data to json
     .then(function(data) {
       drawWeather(data);
@@ -41,7 +41,7 @@
        document.getElementById('description').innerHTML = nameCapitalized;
       
     document.getElementById('temp').innerHTML = fahrenheit + '&deg;';
-    document.getElementById('location').innerHTML = d.name;
+    document.getElementById('location').innerHTML = d.name ;
     
 function timeNow(i) {
   var d = new Date(),
@@ -271,27 +271,27 @@ document.getElementById('printme').innerHTML = codeBlock;
   }
 
     // Clear Days
-
+    
     else {
       document.body.className = 'clear';
-      if (fahrenheit < 5){
-          const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm.";
+      if (fahrenheit <= 5){
+          const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm!";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-igloo"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
    document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 
         }
-        if (fahrenheit < 25  & fahrenheit >=5){
-          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
-             document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
+        if (fahrenheit <= 25  && fahrenheit >5){
+const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="fas fa-icicles"></i>';
+          var codeBlock = '<i class="fas fa-sun"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
    document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+      document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';   
 
         }
-        else if (fahrenheit <=45 && fahrenheit>=25 ){
+        else if (fahrenheit <=45 && fahrenheit>25 ){
           const todaysoutfit = "Bundle up, it's a cold one today!<br>Suggestion: Winter coat, jeans";
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-sun"></i>';
@@ -529,7 +529,7 @@ body.rainy {
 </style>
 
   <meta charset="utf-8">
-  <title>WearWeather</title>
+  <title>WearWeather 4.0 - Dynamic Location</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet"> 
   <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
