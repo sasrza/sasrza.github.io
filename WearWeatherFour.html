@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>WearWeather 5.0® - Beta</title>
+<title>WearWeather 5.0® </title>
 <!-- For using Weather Glyph Icons 
  https://www.w3schools.com/bootstrap4/bootstrap_icons.asp 
  https://fontawesome.com/icons?d=gallery -->
@@ -124,7 +124,7 @@ document.getElementById('printme').innerHTML = codeBlock;
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-icicles"></i>';
 document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+document.getElementById('feels').innerHTML = humid + '% humidity and a wind speed of ' + wind + "mph";    
         }
         else if (fahrenheit <=45 & fahrenheit>25 ){
 
@@ -139,7 +139,7 @@ document.getElementById('printme').innerHTML = codeBlock;
                   document.getElementById('whattowear').innerHTML = todaysoutfit;
                   var codeBlock = '<i class="fas fa-cloud"></i>';
                     document.getElementById('printme').innerHTML = codeBlock;
-                    document.getElementById('feels').innerHTML = "The humidity is " + humid + '% the wind speed is ' + wind + "mph";                
+                    document.getElementById('feels').innerHTML = humid + '% humidity and a wind speed of ' + wind + "mph";             
           }
           else if (fahrenheit <=67 & fahrenheit > 45){
               
@@ -154,7 +154,7 @@ document.getElementById('printme').innerHTML = codeBlock;
           document.getElementById('whattowear').innerHTML = todaysoutfit;
           var codeBlock = '<i class="fas fa-cloud"></i>';
                     document.getElementById('printme').innerHTML = codeBlock;
-                    document.getElementById('feels').innerHTML = humid + '% humidity and a the wind speed of ' + wind + "mph";   
+                    document.getElementById('feels').innerHTML = humid + '% humidity and a wind speed of ' + wind + "mph";   
                        
    document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';                     
                    
