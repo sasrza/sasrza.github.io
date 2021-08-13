@@ -39,6 +39,56 @@
       var diff = fahrenheit - feels;
         humid = d.main.humidity;
         wind = d.wind.speed;
+       
+       
+       
+       
+       
+        timenow = d.dt;
+        let unix_timestamp = 1549312452
+// Create a new JavaScript Date object based on the timestamp
+// multiplied by 1000 so that the argument is in milliseconds, not seconds.
+var date = new Date(timenow * 1000);
+// Hours part from the timestamp
+var hours = date.getHours();
+// Minutes part from the timestamp
+var minutes = "0" + date.getMinutes();
+// Seconds part from the timestamp
+var seconds = "0" + date.getSeconds();
+const hourpart = date.getHours();
+
+// Will display time in 10:30:23 format
+const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+if (hourpart >= 20 || hourpart <=7){
+  const daynight = "night";
+  console.log("It is currently " + daynight +"time"); /* when it's nighttime 6PM to 6am, override all colors with this */
+  var colorBG = '<style>  body { background-image: linear-gradient(to top, #0f0046, #0f0237, #0f0228, #090219, #020202); }';
+}
+else {
+  const daynight = "day";
+  console.log("It is currently " + daynight +"time");
+  var colorBG = '<style>  h2 {  line-height: 15%; }'; /* when it's daytime, just let the color be whatever default was set already */
+}
+
+console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       /*  var feels =d.id;  THIS IS THE VALUE FOR THE CITY ID!!!!*/
       
 //  Descriptions and exact names to pull are here...
@@ -53,12 +103,7 @@
     document.getElementById('temp').innerHTML = fahrenheit + '&deg;';
     document.getElementById('location').innerHTML = d.name ;
     
-function timeNow(i) {
-  var d = new Date(),
-    h = (d.getHours()<10?'0':'') + d.getHours(),
-    m = (d.getMinutes()<10?'0':'') + d.getMinutes();
- var timey = h + ':' + m;
-}
+
  
  
     // Rainy
@@ -410,7 +455,7 @@ document.getElementById('printme').innerHTML = codeBlock;
           
               }
 
-          else if (fahrenheit > 67 & fahrenheit <=79){
+          else if (fahrenheit > 67 & fahrenheit <=85){
 
 
             if (diff > 7){
@@ -427,23 +472,55 @@ document.getElementById('printme').innerHTML = codeBlock;
 document.getElementById('printme').innerHTML = codeBlock;
 document.getElementById('feels').innerHTML = "The humidity is " + humid + '% the wind speed is ' + wind + "mph";       
           }
-          else if (fahrenheit >= 80){
+      
+else if (fahrenheit > 85){
 
-
-            if (diff > 7){
-              todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a  hotter than it looks!<br>Suggestion: Short sleeved shirt & shorts.";
-            }
-             else {
-              todaysoutfit  = "It's an absolutely beautiful day!<br>Suggestion: Short sleeved shirt & shorts.";
-             }   
-
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
+  if (humid < 58){
+            const todaysoutfit = "It's hot out, but not humid.<br>Suggestion: Short sleeved shirt & shorts.";
+            document.getElementById('whattowear').innerHTML = todaysoutfit;
+  }
+ else if (humid >=58){
+            const todaysoutfit = "It's hot and humid!<br>Suggestion: Short sleeved shirt & shorts.";
+            document.getElementById('whattowear').innerHTML = todaysoutfit;
+   
+  }
+ 
           var codeBlock = '<i class="fas fa-fire-alt"></i>';
+
+
+
+
+          if (daynight = "night"){
+  var colorBG = '<style>  body { background-image: linear-gradient(to top, #0f0046, #0f0237, #0f0228, #090219, #020202); }';
+    const todaysoutfit = "It's dark and hell is hot!<br>Suggestion: Short sleeved shirt & shorts.";
+            document.getElementById('whattowear').innerHTML = todaysoutfit;
+}
+
+
+          if (daynight = "day"){ /* if it's daytime then allow this to override the default (weather specfic) value */
+          var colorBG = '<style>  body { background-image: linear-gradient(to top, #ffa04a, #fa8d39, #f5792a, #f0641d, #eb4b12); }';}
+
+
+
+
+
 document.getElementById('printme').innerHTML = codeBlock;
-document.getElementById('feels').innerHTML = "The humidity is " + humid + '% the wind speed is ' + wind + "mph";           
+document.getElementById('colorband').innerHTML = colorBG;
+  //  document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;' + formattedTime;        Time printout confirmed
+   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
           }
       
-      
+if (feels < 97){
+  document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
+          
+}
+
+if (feels >= 98){
+  document.getElementById('feels').innerHTML = "HEAT AVISORY! It feels like "  + feels + '&deg;' ;        
+          
+}
+
+
     }}
     
 window.onLoad=getLocation();
@@ -453,6 +530,8 @@ function getLocation() {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else { 
    console.log("Geolocation is not supported by this browser.");
+
+
   }
 
 const longy = 0;
@@ -490,6 +569,7 @@ function showPosition(position) {
           }
 }
 
+
 </script>
 
 
@@ -502,8 +582,8 @@ function showPosition(position) {
 
 <style>
   body {
-    /* font-family: 'Montserrat', sans-serif; */
-    font-family: 'Bebas Neue', cursive;
+ font-family: 'Montserrat', sans-serif;
+ font-family: 'Bebas Neue', cursive;
     font-family: 'Staatliches', cursive;
     font-weight: 100;
     color: #fff;
@@ -520,6 +600,7 @@ function showPosition(position) {
     height: 100vh;
     /* background-image: linear-gradient(to top,#000af3,#003ee9,#0050d5,#005bb9,#006199); */
     background-image: linear-gradient(to top, #247cff, #1a64f1, #1d4ce1, #2730cf, #3100bb);
+
 }
 
 /* Weather Icon*/
@@ -687,7 +768,7 @@ body.rainy {
       <h4 id="description"  class="fade-in-two"></h4>
       <h5 id="feels"  class="fade-in-three"></h5>
         <h5 id="whattowear"  class="fade-in-three"></h5>
-
+<h6 id="colorband" class="fade-in"></h6>
 
   </div>
   
