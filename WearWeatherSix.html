@@ -57,7 +57,7 @@
 		// Will display time in 10:30:23 format
 		const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
-		if (hourpart >= 16 || hourpart <=7){
+		if (hourpart >= 20 || hourpart <=7){
 				const daynight = "night";
 				console.log("It is currently " + daynight +"time"); /* when it's nighttime 6PM to 6am, override all colors with this */
 				console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
