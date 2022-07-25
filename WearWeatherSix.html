@@ -480,20 +480,36 @@ document.getElementById('printme').innerHTML = codeBlock;
 	
 // ACTIVATE DAY/NIGHT MODE
 
-		if (hourpart >= 20 || hourpart <=7){ // Activate Night Mode
+		if (hourpart >= 20 && hourpart <4){ // Activate Night Mode
 			const daynight = "night";
 			console.log("It is currently " + daynight +"time"); /* when it's nighttime 6PM to 6am, override all colors with this */
 			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
 			console.log("The difference in temp & feels like is " + diff + " degrees");
-			var codeBlock = '<i class="fas fa-cloud-moon"></i>';
+			var codeBlock = '<i class="fas fa-moon"></i>';
 			document.getElementById('printme').innerHTML = codeBlock;
 			var colorBG = '<style>  body { background-image: linear-gradient(to top, #0f0046, #0f0237, #0f0228, #090219, #020202); }';
 			document.getElementById('colorband').innerHTML = colorBG;
 			console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
-			document.getElementById('feels').innerHTML = "HEAT AVISORY! It feels like "  + feels + '&deg;' + "!" ;       
-			const todaysoutfit = "It's night time! Go home & Stay home!<br>Suggestion: get cozy and watch some netflix.";
+			document.getElementById('feels').innerHTML = "Tonight it's " +  fahrenheit + '&deg;' + "and feels like "  + feels + '&deg;' + "." ;       
+			const todaysoutfit = "Suggestion: Stay Home. Only bad<br>things happen when it's dark out.";
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
 		}// Activate Night Mode
+		
+		else if (hourpart >= 4 && hourpart <=8){ // Activate Morning Mode
+			const daynight = "night";
+			console.log("It is currently the early morning"); /* when it's nighttime 6PM to 6am, override all colors with this */
+			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
+			console.log("The difference in temp & feels like is " + diff + " degrees");
+			var codeBlock = '<i class="fas fa-coffee"></i>';
+			document.getElementById('printme').innerHTML = codeBlock;
+			var colorBG = '<style>  body { background-image: linear-gradient(to bottom, #000000, #402327, #7f4040, #c06352, #ff8d5c);}';
+			document.getElementById('colorband').innerHTML = colorBG;
+			console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
+			document.getElementById('feels').innerHTML = "This morning it's " +  fahrenheit + '&deg;' + "and feels like "  + feels + '&deg;' + "." ;       
+			const todaysoutfit = "Get on up and brew that coffee.<br>Suggestion: Check Your Local Forecast.";
+			document.getElementById('whattowear').innerHTML = todaysoutfit;
+		}// Activate Morning Mode
+		
 		else { // If Daytime, Go With Default Values
 			const daynight = "day";
 			console.log("It is currently " + daynight +"time");
