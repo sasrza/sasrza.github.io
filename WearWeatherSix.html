@@ -480,7 +480,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 	
 // ACTIVATE DAY/NIGHT MODE
 
-		if (hourpart >= 20 && hourpart <4){ // Activate Night Mode
+		if (hourpart >= 20 || hourpart <4){ // Activate Night Mode
 			const daynight = "night";
 			console.log("It is currently " + daynight +"time"); /* when it's nighttime 6PM to 6am, override all colors with this */
 			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
@@ -495,7 +495,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
 		}// Activate Night Mode
 		
-		else if (hourpart >= 4 && hourpart <=8){ // Activate Morning Mode
+		else if (hourpart >= 4 || hourpart <=8){ // Activate Morning Mode
 			const daynight = "night";
 			console.log("It is currently the early morning"); /* when it's nighttime 6PM to 6am, override all colors with this */
 			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
