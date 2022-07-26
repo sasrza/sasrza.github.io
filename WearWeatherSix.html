@@ -28,7 +28,7 @@
       drawWeather(data);
     })
     .catch(function() {
-      // catch any errors 
+      // catch any errors
     });
   }
   function drawWeather( d ) { //drawWeather Function begins
@@ -362,10 +362,10 @@ document.getElementById('printme').innerHTML = codeBlock;
 				console.log(CloudyModerateSuggestion);
 
 				if (diff > 7){
-					todaysoutfit = "It feels like " + feels + '&deg;' + " so it's a lot cooler than it looks!<br>Suggestion: " + CloudyModerateSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+					todaysoutfit = "It feels like " + feels + '&deg;' + " so it's a lot cooler than it looks!<br>Suggestion: " + CloudyModerateSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 				}
 				else {
-					todaysoutfit = "It's very nice out there, even with the clouds!<br>Suggestion: " + CloudyModerateSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+					todaysoutfit = "It's very nice out there, even with the clouds!<br>Suggestion: " + CloudyModerateSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 				}   
 			
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
@@ -400,7 +400,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 					document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 					var colorBG = '<style>  body { background-image: linear-gradient(to top, #008E9B, #0f0237, #0f0228, #090219, #020202); ';  
 					document.getElementById('colorband').innerHTML = colorBG;
-					const todaysoutfit = "It's hot and humid, so rain may be close.<br>Suggestion: " + CloudyHotSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+					const todaysoutfit = "It's hot and humid, so rain may be close.<br>Suggestion: " + CloudyHotSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 					document.getElementById('whattowear').innerHTML = todaysoutfit;
 				}// Cloudy & Warm
 
@@ -466,10 +466,10 @@ document.getElementById('printme').innerHTML = codeBlock;
 			console.log(ClearModerateHSuggestion);
 
 			if (diff > 7){
-				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot colder than it looks!<br>Suggestion: "+ ClearModerateHSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot colder than it looks!<br>Suggestion: "+ ClearModerateHSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 			}
 			else {
-				todaysoutfit = "It's sorta chilly, but very nice outside!<br>Suggestion: "+ ClearModerateHSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+				todaysoutfit = "It's sorta chilly, but very nice outside!<br>Suggestion: "+ ClearModerateHSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 			}   
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
 			var codeBlock = '<i class="fas fa-sun"></i>';
@@ -504,10 +504,10 @@ document.getElementById('printme').innerHTML = codeBlock;
 			console.log(ClearWarmLsSuggestionClearWarmLsSuggestion);
 				
 			if (diff >= 7){ // Clear & Warm Long Pant Apparel Suggestion, Randomly from List - Since it's Cool
-				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot cooler than it looks!<br>Suggestion: " + ClearWarmLsSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot cooler than it looks!<br>Suggestion: " + ClearWarmLsSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 			}
 			else { // Clear & Warm Shorts Apparel Suggestion, Randomly from List - Since it's Somewhat Warmer
-				todaysoutfit  = "It's an absolutely beautiful day!<br>Suggestion: " + ClearWarmShSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+				todaysoutfit  = "It's an absolutely beautiful day!<br>Suggestion: " + ClearWarmShSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 			}   
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
 			var codeBlock = '<i class="far fa-sun"></i>';
@@ -542,7 +542,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('colorband').innerHTML = colorBG;
 				document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-				const todaysoutfit = "It's a clear and sunny day!<br>Suggestion: " + ClearHotSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
+				const todaysoutfit = "It's a clear and sunny day!<br>Suggestion: " + ClearHotSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 			}// Clear but manageable
 
@@ -609,15 +609,13 @@ document.getElementById('printme').innerHTML = codeBlock;
 }//drawWeather Function End
     
 
-	
 window.onLoad=getLocation();
 
-function getLocation() {
+function getLocation() { // Get Dynamic Location 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else { 
    console.log("Geolocation is not supported by this browser.");
-
 
   }
 
@@ -632,44 +630,20 @@ function showPosition(position) {
   const latty = position.coords.latitude;
   console.log(latty);
     
- 
-    
+     
     weatherBallon( latty, longy );
- //       weatherBallon( position.coords.longitude, position.coords.latitude );
-    
-          // Get values from URL on https://openweathermap.org/ after searching for city
-          // 4930956 Boston
-          // 5128581 NYC
-          // 4487042 Raleigh
-          // 6167865 Toronto
-          //4180439 Atlanta
-          // 5879092 Alaska 
-          // 4699066 Houston
-          //3871336  Santiago
-          //4369596 - Silver Spring
-          // 4560349 - Philly
-          // 4977125 Rumsford, Maine
-          // 5368361 Los Angeles
-          // 5882534 Agassiz, BC
-          // 4460943 Clayton
-          // https://api.openweathermap.org/data/2.5/weather?id=4977125&appid=d0704da8612745131eda6e9b3ce8ebb5
           }
 }
-
+// Get Dynamic Location 
 
 </script>
 
 
-
-
-
-
-
-
-
 <style>
 
-sup { vertical-align: top; font-size: 0.6em; color: yellow;}
+/* SuperScript Formatting For Amazon Buy Now Icon*/
+
+sup { vertical-align: top; font-size: 0.5em; color: #FEBD69;}
 
   body {
  font-family: 'Montserrat', sans-serif;
