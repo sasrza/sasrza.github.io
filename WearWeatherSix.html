@@ -498,7 +498,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 			console.log(colorBG);	
 		}// Activate Night Mode
 		
-		else if (hourpart >= 4 || hourpart <=8){ // Activate Morning Mode between 4-8am
+		else if (hourpart >= 4 && hourpart <=8){ // Activate Morning Mode between 4-8am
 			const weathertype = 	document.body.className; // Pull weather type so we can add to body.type
 			const daynight = "morning";
 			console.log("It is currently the early morning"); /* when it's nighttime 6PM to 6am, override all colors with this */
