@@ -347,11 +347,25 @@ document.getElementById('printme').innerHTML = codeBlock;
 			
 			else if (fahrenheit > 67 & fahrenheit <=87){ // Cloudy & Moderate
 
+				var CMS= [ // Cloudy & Moderate Apparel Suggestion, Randomly from List
+				  "Rhone Commuter Shorts",
+				  "Huckberry's Flint & Tinder Shorts",
+				  "Outerknown Paz Shorts",
+				  "Bonobos Anywhere Short E-Waist",
+				  "Huckberry's Wellen Shorts",
+				  "Everlane Athletic Chino Shorts",
+				  "Vuori Voga Shorts",
+				  "Faherty ISLAND LIFE SHORT"
+				];// Cloudy & Moderate Apparel Suggestion, Randomly from List
+
+				var CloudyModerateSuggestion= CMS[Math.floor(Math.random()*CMS.length)];
+				console.log(CloudyModerateSuggestion);
+
 				if (diff > 7){
-					todaysoutfit = "It feels like " + feels + '&deg;' + " so it's a lot cooler than it looks!<br>Suggestion: Short sleeved shirt & shorts.";
+					todaysoutfit = "It feels like " + feels + '&deg;' + " so it's a lot cooler than it looks!<br>Suggestion: " + CloudyModerateSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 				}
 				else {
-					todaysoutfit = "It's very nice out there, even with the clouds!<br>Suggestion: Short sleeved shirt & shorts.";
+					todaysoutfit = "It's very nice out there, even with the clouds!<br>Suggestion: " + CloudyModerateSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 				}   
 			
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
@@ -361,6 +375,22 @@ document.getElementById('printme').innerHTML = codeBlock;
 			}// Cloudy & Moderate
 			
 			else if (fahrenheit > 87){  // Cloudy & Warm, Potentially Very Hot
+			
+				var CHS= [  // Cloudy & Warm, Potentially Very Hot
+				  "Rhone Commuter Shorts",
+				  "Zella Live-In Pocket Shorts",
+				  "Outerknown Paz Shorts",
+				  "Bonobos Anywhere Short E-Waist",
+				  "Huckberry's Wellen Shorts",
+				  "Everlane Athletic Chino Shorts",
+				  "Vuori Voga Shorts",
+				  "TravisMathew Grommet Shorts",
+				  "Nike Dri-Fit Yoga Shorts",
+				  "Rodd & Gunn Millwater Shorts"
+				];
+
+				var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
+				console.log(CloudyHotSuggestion);
 
 				document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('colorband').innerHTML = colorBG;
@@ -370,7 +400,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 					document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 					var colorBG = '<style>  body { background-image: linear-gradient(to top, #008E9B, #0f0237, #0f0228, #090219, #020202); ';  
 					document.getElementById('colorband').innerHTML = colorBG;
-					const todaysoutfit = "It's hot and humid, so rain may be close.<br>Suggestion: dress cool & grab an unbrella.";
+					const todaysoutfit = "It's hot and humid, so rain may be close.<br>Suggestion: " + CloudyHotSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 					document.getElementById('whattowear').innerHTML = todaysoutfit;
 				}// Cloudy & Warm
 
@@ -422,12 +452,24 @@ document.getElementById('printme').innerHTML = codeBlock;
 		}// Clear and chilly
 
 		else if (fahrenheit <=67 & fahrenheit > 45){ // Clear & Moderate
+		
+			var CLMHS= [ // Clear & Moderate Hoodie Suggestion, Randomly from List
+				"Hanes EcoSmart 50/50 Pullover Hood",
+				"FLINT AND TINDER 10-Year Hoodie",
+				"LULULEMON City Sweat Pullover Hoodie",
+				"BLEUSALT Unisex Skater Hoodie",
+				"ALLBIRDS R&R Hoodie",
+				"OUTDOOR VOICES All Day Hoodie"
+			];// Clear & Moderate Hoodie Suggestion, Randomly from List
+
+			var ClearModerateHSuggestion= CLMHS[Math.floor(Math.random()*CLMHS.length)];
+			console.log(ClearModerateHSuggestion);
 
 			if (diff > 7){
-				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot colder than it looks!<br>Suggestion: Bubble coat and jeans.";
+				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot colder than it looks!<br>Suggestion: "+ ClearModerateHSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 			}
 			else {
-				todaysoutfit = "It's sorta chilly, but very nice outside!<br>Suggestion: Hoodie and jeans.";
+				todaysoutfit = "It's sorta chilly, but very nice outside!<br>Suggestion: "+ ClearModerateHSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 			}   
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
 			var codeBlock = '<i class="fas fa-sun"></i>';
@@ -436,11 +478,36 @@ document.getElementById('printme').innerHTML = codeBlock;
 		}// Clear & Moderate
 
 		else if (fahrenheit > 67 & fahrenheit <=88){ // Clear & Warm
-			if (diff >= 7){
-				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot cooler than it looks!<br>Suggestion: Long sleeved shirt & jogging pants..";
+		
+			var CLWSS= [ // Clear & Warm Shorts Apparel Suggestion, Randomly from List
+			"Rhone Commuter Shorts",
+			"Huckberry's Flint & Tinder Shorts",
+			"Outerknown Paz Shorts",
+			"Bonobos Anywhere Short E-Waist",
+			"Huckberry's Wellen Shorts",
+			"Everlane Athletic Chino Shorts",
+			"Vuori Voga Shorts",
+			"Faherty ISLAND LIFE SHORT"
+			];// Clear & Warm Shorts Apparel Suggestion, Randomly from List
+
+			var ClearWarmShSuggestion= CLWSS[Math.floor(Math.random()*CLWSS.length)];
+			console.log(ClearWarmShSuggestion);
+		
+			var CLWLS= [ // Clear & Warm Long Pant Apparel Suggestion, Randomly from List
+			"Long Jambys Sweats",
+			"Standard Issue Tees Standard Sweatpants",
+			"Lululemon City Sweat Jogger Fleece",
+			"Outdoor Voices Men’s All Day Sweatpant"
+			];// Clear & Warm Long Pant Apparel Suggestion, Randomly from List
+
+			var ClearWarmLsSuggestion= CLWLS[Math.floor(Math.random()*CLWLS.length)];
+			console.log(ClearWarmLsSuggestionClearWarmLsSuggestion);
+				
+			if (diff >= 7){ // Clear & Warm Long Pant Apparel Suggestion, Randomly from List - Since it's Cool
+				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot cooler than it looks!<br>Suggestion: " + ClearWarmLsSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 			}
-			else {
-				todaysoutfit  = "It's an absolutely beautiful day!<br>Suggestion: Break out the shorts! It's nice out.";
+			else { // Clear & Warm Shorts Apparel Suggestion, Randomly from List - Since it's Somewhat Warmer
+				todaysoutfit  = "It's an absolutely beautiful day!<br>Suggestion: " + ClearWarmShSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 			}   
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
 			var codeBlock = '<i class="far fa-sun"></i>';
@@ -449,6 +516,21 @@ document.getElementById('printme').innerHTML = codeBlock;
 		}// Clear & Warm
 
 		else if (fahrenheit > 88){ // Clear & Hot, Potentially Very Hot
+		
+		      var CLHS= [ // Clear & Hot, Potentially Very Hot Apparel Suggestion, Randomly from List
+			  "Rhone Commuter Shorts",
+			  "Huckberry's Flint & Tinder Shorts",
+			  "Outerknown Paz Shorts",
+			  "Bonobos Anywhere Short E-Waist",
+			  "Huckberry's Wellen Shorts",
+			  "Everlane Athletic Chino Shorts",
+			  "Vuori Voga Shorts",
+			  "Faherty ISLAND LIFE SHORT"
+			];// Clear & Hot, Potentially Very Hot Apparel Suggestion, Randomly from List
+
+			var ClearHotSuggestion= CLHS[Math.floor(Math.random()*CLHS.length)];
+			console.log(ClearHotSuggestion);
+
 			document.getElementById('printme').innerHTML = codeBlock;
 			document.getElementById('colorband').innerHTML = colorBG;
 			//  document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;' + formattedTime;        Time printout confirmed
@@ -460,7 +542,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('colorband').innerHTML = colorBG;
 				document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-				const todaysoutfit = "It's a clear and sunny day!<br>Suggestion: Shorts and short sleeves. hydrate!";
+				const todaysoutfit = "It's a clear and sunny day!<br>Suggestion: " + ClearHotSuggestion + ". <font size=2><sup><i class='fab fa-amazon'></i> <font></sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 			}// Clear but manageable
 
@@ -586,6 +668,9 @@ function showPosition(position) {
 
 
 <style>
+
+sup { vertical-align: top; font-size: 0.6em; color: yellow;}
+
   body {
  font-family: 'Montserrat', sans-serif;
  font-family: 'Bebas Neue', cursive;
