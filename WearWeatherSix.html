@@ -405,11 +405,13 @@ document.getElementById('printme').innerHTML = codeBlock;
 				}// Cloudy & Warm
 
 				else if (feels > 95){ // Cloudy & Hot
-					var codeBlock = '<i class="fas fa-grin-beam-sweat"></i>';
+					var codeBlock = '<i class="fab fa-hotjar"></i>';
 					document.getElementById('printme').innerHTML = codeBlock;
 					document.getElementById('feels').innerHTML = "HEAT AVISORY! It feels like "  + feels + '&deg;' + "!" ;       
 					const todaysoutfit = "It's an absolute scorcher out there!<br>Suggestion: Stay home and hydrate!";
 					document.getElementById('whattowear').innerHTML = todaysoutfit;
+					var colorBG = '<style>  body { background-image: linear-gradient(to top, #008E9B, #0f0237, #0f0228, #090219, #020202); ';  
+					document.getElementById('colorband').innerHTML = colorBG;
 				}// Cloudy & Hot
 				
 			} // Cloudy & Warm, Potentially Very Hot
@@ -533,13 +535,13 @@ document.getElementById('printme').innerHTML = codeBlock;
 
 			document.getElementById('printme').innerHTML = codeBlock;
 			document.getElementById('colorband').innerHTML = colorBG;
-			//  document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;' + formattedTime;        Time printout confirmed
 			document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
 			
 			if (feels < 95){ // Clear but manageable
 				var codeBlock = '<i class="fas fa-sun"></i>';
 				document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('printme').innerHTML = codeBlock;
+				var colorBG = '<style>  body { background-image: linear-gradient(to top, #67a4ff, #378aff, #006dff, #004aff, #3700ff); }';  
 				document.getElementById('colorband').innerHTML = colorBG;
 				document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 				const todaysoutfit = "It's a clear and sunny day!<br>Suggestion: " + ClearHotSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
