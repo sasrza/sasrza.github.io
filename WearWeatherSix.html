@@ -38,6 +38,7 @@
 		var feels = Math.round(((parseFloat(d.main.feels_like)-273.15)*1.8)+32);
 		var feels = Math.round(d.main.feels_like);
 		var diff = feels - fahrenheit ;
+		console.log("This difference between feels and real temps is " +diff+ " degrees.");
 		humid = d.main.humidity;
 		wind = d.wind.speed;     
 
@@ -503,8 +504,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 			];// Clear & Warm Long Pant Apparel Suggestion, Randomly from List
 
 			var ClearWarmLsSuggestion= CLWLS[Math.floor(Math.random()*CLWLS.length)];
-			console.log(ClearWarmLsSuggestionClearWarmLsSuggestion);
-				
+					
 			if (diff >= 7){ // Clear & Warm Long Pant Apparel Suggestion, Randomly from List - Since it's Cool
 				todaysoutfit = "It feels like " + feels + '&deg;' + " so It's a lot cooler than it looks!<br>Suggestion: " + ClearWarmLsSuggestion + ". <sup><i class='fab fa-amazon'></i> </sup>  ";
 			}
@@ -513,6 +513,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 			}   
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
 			var codeBlock = '<i class="far fa-sun"></i>';
+			console.log(codeBlock);
 			document.getElementById('printme').innerHTML = codeBlock;
 			document.getElementById('feels').innerHTML = "The humidity is " + humid + '% the wind speed is ' + wind + "mph";       
 		}// Clear & Warm
