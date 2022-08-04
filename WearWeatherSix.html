@@ -567,7 +567,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 	
 // ACTIVATE DAY/NIGHT MODE
 
-		if (hourpart >= 20 || hourpart < 4){ // Activate Night Mode from 8pm - 4pm
+		if (hourpart >= 20 || hourpart < 6){ // Activate Night Mode from 8pm - 4pm
 			const weathertype = 	document.body.className; // Pull weather type so we can add to body.type
 			const daynight = "night";
 			console.log("It is currently " + daynight +"time"); /* when it's nighttime 6PM to 6am, override all colors with this */
@@ -580,12 +580,12 @@ document.getElementById('printme').innerHTML = codeBlock;
 			document.getElementById('feels').innerHTML = "Tonight it's " +  fahrenheit + '&deg;' + "and feels like "  + feels + '&deg;' + "." ;      
 			const todaysoutfit = "Suggestion: Stay Home. Only bad<br>things happen when it's dark out.";
 			document.getElementById('whattowear').innerHTML = todaysoutfit;
-			var colorBG = '<style>  body.' + weathertype + '{ background-image: linear-gradient(to top, #0f0046, #0f0237, #0f0228, #090219, #020202);}';
+			var colorBG = '<style>  body.' + weathertype + '{ background-image: linear-gradient(to bottom, #1d1d1d, #24203e, #292260, #312082, #3d18a4);}';
 			document.getElementById('colorband').innerHTML = colorBG;
 			console.log(colorBG);	
 		}// Activate Night Mode
 		
-		else if (hourpart >= 4 && hourpart <=8){ // Activate Morning Mode between 4-8am
+		else if (hourpart >= 6 && hourpart <=8){ // Activate Morning Mode between 4-8am
 			const weathertype = 	document.body.className; // Pull weather type so we can add to body.type
 			const daynight = "morning";
 			console.log("It is currently the early morning"); /* when it's nighttime 6PM to 6am, override all colors with this */
