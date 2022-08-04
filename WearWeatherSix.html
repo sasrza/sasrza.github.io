@@ -398,6 +398,8 @@ document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
 
 				if (feels <= 95){ // Cloudy & Warm
+					var codeBlock = '<i class="fas fa-cloud-sun"></i>';
+					document.getElementById('printme').innerHTML = codeBlock;
 					document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
 					var colorBG = '<style>  body { background-image: linear-gradient(to top, #008E9B, #0f0237, #0f0228, #090219, #020202); ';  
 					document.getElementById('colorband').innerHTML = colorBG;
@@ -552,7 +554,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 			else if (feels > 95){ // HEAT ADVISORY, IT'S HOT AF!!!
 				var codeBlock = '<i class="fas fa-fire-alt"></i>';
 				document.getElementById('printme').innerHTML = codeBlock;
-				var colorBG = '<style>  body { background-image: linear-gradient(to top, #008E9B, #0f0237, #0f0228, #090219, #020202); }';  
+				var colorBG = '<style>  body { background-image: linear-gradient(to bottom, #ff0000, #ff5400, #ff7c00, #ff9e00, #ffbc00);}';  
 				document.getElementById('colorband').innerHTML = colorBG;
 				document.getElementById('feels').innerHTML = "HEAT AVISORY! It feels like "  + feels + '&deg;' + "!" ;       
 
