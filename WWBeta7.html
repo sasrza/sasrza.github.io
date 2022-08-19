@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WearWeather Beta 7.0</title>
+<!-- For using Weather Glyph Icons 
+ https://www.w3schools.com/bootstrap4/bootstrap_icons.asp 
+ https://fontawesome.com/icons?d=gallery -->
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+  <link rel="icon" 
+      type="image/png" 
+      href="WWSix.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+
+* {
+  box-sizing: border-box;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+}
+
+html {
+  font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+}
+
+.header {
+  background-color: #FF5733;
+  color: #ffffff;
+  padding: 15px;
+}
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1.weathercond {
+ color: #FF5733;
+}
+
+.menu li {
+  padding: 5px;
+  margin-bottom: 2px;
+  background-color: #FF5733;
+  color: #ffffff;
+}
+
+.menu li:hover {
+  background-color: #FFB700;
+}
+
+.aside {
+  background-color: #FFFFFF;
+  padding: 15px;
+  color: #FF5733;
+  text-align: center;
+  font-size: 150px;
+
+}
+
+.footer {
+  background-color: #FF5733;
+  color: #ffffff;
+  text-align: center;
+  font-size: 12px;
+  padding: 3px;
+}
+
+/* For mobile phones: */
+[class*="col-"] {
+  width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .col-s-1 {width: 8.33%;}
+  .col-s-2 {width: 16.66%;}
+  .col-s-3 {width: 25%;}
+  .col-s-4 {width: 33.33%;}
+  .col-s-5 {width: 41.66%;}
+  .col-s-6 {width: 50%;}
+  .col-s-7 {width: 58.33%;}
+  .col-s-8 {width: 66.66%;}
+  .col-s-9 {width: 75%;}
+  .col-s-10 {width: 83.33%;}
+  .col-s-11 {width: 91.66%;}
+  .col-s-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col-1 {width: 8.33%;}
+  .col-2 {width: 16.66%;}
+  .col-3 {width: 25%;}
+  .col-4 {width: 33.33%;}
+  .col-5 {width: 41.66%;}
+  .col-6 {width: 50%;}
+  .col-7 {width: 58.33%;}
+  .col-8 {width: 66.66%;}
+  .col-9 {width: 75%;}
+  .col-10 {width: 83.33%;}
+  .col-11 {width: 91.66%;}
+  .col-12 {width: 100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>&nbsp;&nbsp;Fairland Weather Conditions</h1>
+</div>
+
+<div class="row">
+  <div class="col-3 col-s-3 menu">
+    <ul>
+      <li>Outerknown Paz Shorts</li>
+      <li>Everlane Athletic Chino Shorts</li>
+      <li>Huckberrys Wellen Shorts</li>
+      <li>Bonobos Anywhere Short E-Waist</li>
+      <li>Vuori Voga Shorts</li>
+    </ul>
+  </div>
+
+  <div class="col-6 col-s-9">
+    <h1 class="weathercond">Clear Sky - 83°</h1>
+    <p>It's an absolutely beautiful day! What are you doing on that phone? Get out there and enjoy it. The humidity is 62% the wind speed is 3.44mph
+It's an absolutely beautiful day!</p>
+  </div>
+
+  <div class="col-3 col-s-12">
+    <div class="aside">
+	  <i class="fas fa-cloud-sun"></i>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>WeatherWeather&trade; Beta Version 7.0</p>
+</div>
+
+</body>
+</html>
+
+
