@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>7.1 BETA</title>
+<title>7.2 BETA</title>
 <!-- For using Weather Glyph Icons 
  https://www.w3schools.com/bootstrap4/bootstrap_icons.asp 
  https://fontawesome.com/icons?d=gallery -->
@@ -16,6 +16,170 @@
   <link rel="icon" 
       type="image/png" 
       href="WWSix.png">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 10px;
+}
+
+html {
+		font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+}
+
+.header {
+		background-color: #FF5733;
+		color: #ffffff;
+		padding: 5px;
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 25px;
+}
+
+.menu ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		background-color: #FFB700;
+		text-transform: uppercase;
+}
+
+.menu li {
+		padding: 8px;
+		margin-bottom: 7px;
+		background-color: #FFB700;
+		color: #ffffff;
+		text-transform: uppercase;
+}
+
+.menu li:hover {
+		background-color: #FFB700;
+}
+
+.aside {
+		background-color: #FFFFFF;
+		padding: 15px;
+		color: #000000;
+		text-align: center;
+		margin: 0;
+		padding: 0;
+		margin-top: 0px;
+		margin-bottom: 0px;
+		text-transform: uppercase;
+}
+
+.footer {
+		background-color: #FF5733;
+		color: #ffffff;
+		text-align: center;
+		font-size: 12px;
+		padding: 2px;
+		text-transform: uppercase;
+}
+
+h1.weathercond {
+		color: #FF5733;
+		font-size: 35px;
+		margin: 0;
+		padding: 0;
+		text-transform: uppercase;
+		margin: 0;
+		padding: 0;
+		margin-top: 0px;
+		margin-bottom: 0px;
+}
+
+p#glyph {
+		margin-top: 0px;
+		margin-bottom: 0px;
+}
+
+p#temp {
+		margin-top: 0px;
+		margin-bottom: 0px;
+}
+
+p#description {
+		margin-top: 0px;
+		margin-bottom: 0px;
+}
+
+h1.weathericon{
+		margin-top: 0px;
+		color: #FF5733;
+		font-size: 170px;
+		margin: 0;
+		padding: 0;
+		margin-top: 0px;
+		margin-bottom: 0px;
+  }
+
+/* unvisited link */
+a:link {
+		color: #FF5733;
+}
+
+/* visited link */
+a:visited {
+		color: #FF5733;
+}
+
+/* mouse over link */
+a:hover {
+		color: #FFFB00;
+}
+
+/* selected link */
+a:active {
+		color: #FFE800;
+}
+
+/* For mobile phones: */
+[class*="col-"] {
+  width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .col-s-1 {width: 8.33%;}
+  .col-s-2 {width: 16.66%;}
+  .col-s-3 {width: 25%;}
+  .col-s-4 {width: 33.33%;}
+  .col-s-5 {width: 41.66%;}
+  .col-s-6 {width: 50%;}
+  .col-s-7 {width: 58.33%;}
+  .col-s-8 {width: 66.66%;}
+  .col-s-9 {width: 75%;}
+  .col-s-10 {width: 83.33%;}
+  .col-s-11 {width: 91.66%;}
+  .col-s-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col-1 {width: 8.33%;}
+  .col-2 {width: 16.66%;}
+  .col-3 {width: 25%;}
+  .col-4 {width: 33.33%;}
+  .col-5 {width: 41.66%;}
+  .col-6 {width: 50%;}
+  .col-7 {width: 58.33%;}
+  .col-8 {width: 66.66%;}
+  .col-9 {width: 75%;}
+  .col-10 {width: 83.33%;}
+  .col-11 {width: 91.66%;}
+  .col-12 {width: 100%;}
+}
+
 </style>
 
 <script>const key = 'd0704da8612745131eda6e9b3ce8ebb5';
@@ -169,42 +333,28 @@ document.getElementById('printme').innerHTML = codeBlock;
       
     else if( description.indexOf('mist') >= 0 ) {
       document.body.className = 'misty';
-      if (fahrenheit < 5){
-        const todaysoutfit = "Holy sh*t it's cold.  Just stay home!<br>Suggestion: A vacation somewhere warm.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
-                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
-        }
-        if (fahrenheit <= 25 & fahrenheit >=5){
-          const todaysoutfit = "Bundle up, it's absolutely brutal out there!<br>Suggestion: Heavy coat, layered top, warm boots";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
-                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
-        }
-        else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "It's a misty out, might rain later.<br>Suggestion: Winter coat, jeans, umbrella.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
-                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
-          }
-          else if (fahrenheit <=67 & fahrenheit > 45){
-            const todaysoutfit = "It's brisk, but pretty outside!<br>Suggestion: Hoodie and jeans.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
-                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
-          }
-          else if (fahrenheit > 67 & fahrenheit <=79){
-            const todaysoutfit = "It's an absolutely beautiful day!<br>Suggestion: Long sleeved shirt & jogging pants.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
-                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
-          }
-          else if (fahrenheit > 80){
-            const todaysoutfit = "It's hot out, but not humid.<br>Suggestion: Short sleeved shirt & shorts."
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-             document.getElementById('feels').innerHTML = "It's " + fahrenheit + '&deg;' + " but it feels Like " + feels + '&deg;';
-                document.getElementById('humi').innerHTML = "The humidity is " + humid + '%';           
-          }
+     
+	 			var CHS= [  // Cloudy & Warm, Potentially Very Hot
+				  "Rhone Commuter Shorts",
+				  "Zella Live-In Pocket Shorts",
+				  "Outerknown Paz Shorts",
+				  "Bonobos Anywhere Short E-Waist",
+				  "Huckberrys Wellen Shorts",
+				  "Everlane Athletic Chino Shorts",
+				  "Vuori Voga Shorts",
+				  "Travis Mathew Grommet Shorts",
+				  "Nike Dri-Fit Yoga Shorts",
+				  "Rodd & Gunn Millwater Shorts"
+				];
+
+				var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
+				console.log("Cloudy & Hot Weather Suggestion: " + CloudyHotSuggestion);
+				console.log("Weather conditions: " + description);
+				var weatherGlyph = '<i class="fas fa-smog"></i>';
+				document.getElementById('glyph').innerHTML = weatherGlyph;
+				document.getElementById('feels').innerHTML = "It's misty and overcast outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
+				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
+				document.getElementById('whattowear').innerHTML = todaysoutfit;
       
   }
 
@@ -303,7 +453,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 				var weatherGlyph = '<i class="fas fa-cloud"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
 				document.getElementById('feels').innerHTML = "It's cloudy but warm outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
-				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
+				const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 		
 			
@@ -338,18 +488,22 @@ document.getElementById('printme').innerHTML = codeBlock;
 	
 // ACTIVATE DAY/NIGHT MODE
 
-		if (hourpart >= 20 || hourpart < 6){ // Activate Night Mode from 8pm - 6am
+		if (hourpart >= 20|| hourpart < 6){ // Activate Night Mode from 8pm - 6am
 			var weatherGlyph = '<i class="fas fa-moon"></i>';
 			document.getElementById('glyph').innerHTML = weatherGlyph;
 		}// Activate Night Mode
 		
 		else if (hourpart >= 6 && hourpart <=8){ // Activate Morning Mode between 6-8am
-			var weatherGlyph = '<i class="fas fa-smog"></i>';
+			document.getElementById('feels').innerHTML = "Good morning! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
+			var weatherGlyph = '<i class="fas fa-mug-hot"></i>';
 			document.getElementById('glyph').innerHTML = weatherGlyph;
 		}// Activate Morning Mode
 		
 		else { // If Daytime, Go With Default Values From 8am - 8pm
 			const daynight = "day";
+			console.log("It is currently " + daynight +"time");
+			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
+			console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
 		}// If Daytime, Go With Default Values
 
 // ACTIVATE DAY/NIGHT MODE	
@@ -386,208 +540,39 @@ function showPosition(position) {
 
 </script>
 
-
-<style>
-
-
-/* Weather Icon*/
-
-h1 {
-    color: #FFFFFF;
-    font-size: 10;
-    display:inline; 
-}
-
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-[class*="col-"] {
-  float: left;
-  padding: 15px;
-}
-
-html {
-  font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
-}
-
-.header {
-  background-color: #FF5733;
-  color: #ffffff;
-  padding: 15px;
-    text-transform: uppercase;
-}
-
-.menu ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-
-h1.weathercond {
- color: #FF5733;
-   text-align: center;
-     font-size: 35px;
-	   margin: 0;
-  padding: 0;
-  text-transform: uppercase;
-}
-
-h1.weathericon{
-  color: #FF5733;
-  text-align: center;
-  font-size: 170px;
-    margin: 0;
-  padding: 0;
-  }
-
-p{
-    display:inline; 
-	   text-align: center;
-}
-
-.menu li {
-  padding: 5px;
-  margin-bottom: 2px;
-  background-color: #FF5733;
-  color: #ffffff;
-  text-align: center;
-}
-
-.menu li:hover {
-
-    background-color: #FFB700;
-  text-align: center;
-}
-
-.aside {
-  background-color: #FFFFFF;
-  margin: 0;
-  padding: 0;
-    text-align: justify;
-
-}
-
-.footer {
-  background-color: #FF5733;
-  color: #ffffff;
-
-  font-size: 12px;
-  padding: 3px;
-}
-
-/* unvisited link */
-a:link {
-  color: #FF5733;
-}
-
-/* visited link */
-a:visited {
-  color: #FF5733;
-}
-
-/* mouse over link */
-a:hover {
-  color: #FFFB00;
-}
-
-/* selected link */
-a:active {
-  color: #FFE800;
-}
-
-/* SuperScript Formatting For Amazon Buy Now Icon*/
-
-sup { vertical-align: top; font-size: 0.70em; color: #FEBD69;}
-
-/* For mobile phones: */
-[class*="col-"] {
-  width: 100%;
-}
-
-@media only screen and (min-width: 600px) {
-  /* For tablets: */
-  .col-s-1 {width: 8.33%;}
-  .col-s-2 {width: 16.66%;}
-  .col-s-3 {width: 25%;}
-  .col-s-4 {width: 33.33%;}
-  .col-s-5 {width: 41.66%;}
-  .col-s-6 {width: 50%;}
-  .col-s-7 {width: 58.33%;}
-  .col-s-8 {width: 66.66%;}
-  .col-s-9 {width: 75%;}
-  .col-s-10 {width: 83.33%;}
-  .col-s-11 {width: 91.66%;}
-  .col-s-12 {width: 100%;}
-}
-@media only screen and (min-width: 768px) {
-  /* For desktop: */
-  .col-1 {width: 8.33%;}
-  .col-2 {width: 16.66%;}
-  .col-3 {width: 25%;}
-  .col-4 {width: 33.33%;}
-  .col-5 {width: 41.66%;}
-  .col-6 {width: 50%;}
-  .col-7 {width: 58.33%;}
-  .col-8 {width: 66.66%;}
-  .col-9 {width: 75%;}
-  .col-10 {width: 83.33%;}
-  .col-11 {width: 91.66%;}
-  .col-12 {width: 100%;}
-}
-</style>
-
-  <!-- <meta charset="utf-8">
-  <title>WearWeather 4.0 - Dynamic Location</title>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet"> 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet"> -->
 </head>
 <body>
 
   <center>
-	<div>
 
-
-				<!-- <h2 id="temp" class="fade-in"></h2> -->
-				<!-- <h3 id="location" class="fade-in-two"></h3> -->
-				<!-- <h4 id="description"  class="fade-in-two"></h4> -->
-				<!-- <h5 id="feels"  class="fade-in-three"></h5> -->
-				<!-- <h6 id="colorband" class="fade-in"></h6> -->
-
-  </div>
   
 
 <div class="header">
-				<h1 id="location"><h1>&nbsp;Weather Conditions</h1></h1>
+				<h1 id="location"></h1>
 </div>
 
 <div class="row">
   <div class="col-3 col-s-3 menu">
+    <ul>
+      <li id="whattowear"></li>
+    </ul>
   </div>
-
+  
   <div class="col-6 col-s-9">
-    	  <h1 class ="weathericon"><p id="glyph"></p></h1><br>
-		  <h1 class="weathercond"><p id="temp"></p>-&nbsp;<p id="description" ></p></h1><br>
-		     		<p id="feels"></p><br>
-		  	  SUGGESTION:&nbsp;<p id="whattowear" ></p><br>
+    	  <h1 class ="weathericon"><p id="glyph"></p></h1>
+		  <h1 class="weathercond"><p id="temp"></p><p id="description" ></p></h1>
   </div>
 
   <div class="col-3 col-s-12">
    <div class="aside">
+   	     		<p id="feels"></p><br>
      </div>
   </div>
 </div>
 
 <div class="footer">
-  <p>WearWeather&trade; Beta Version 7.1</p>
+  <p>WearWeather&trade; Beta Version 7.2</p>
 </div>
 
       </center>
 </html>
-
