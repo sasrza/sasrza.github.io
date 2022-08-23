@@ -42,11 +42,12 @@ html {
 .header {
 		background-color: #FF5733;
 		color: #ffffff;
-		padding: 15px;
+		padding: 25px;
 		text-align: center;
 		text-transform: uppercase;
 		font-size: 35px;
-					  font-weight: bold;
+		font-weight: bold;
+		
 }
 
 .menu ul {
@@ -54,7 +55,7 @@ html {
 		margin: 0;
 		background-color: #FFB700;
 		text-transform: uppercase;
-			font-size: 25px;
+			font-size: 30px;
 						  font-weight: bold;
 }
 
@@ -83,7 +84,7 @@ html {
 		margin-top: 0px;
 		margin-bottom: 0px;
 		text-transform: uppercase;
-					font-size: 20px;
+					font-size: 30px;
 					  font-weight: bold;
 }
 
@@ -92,13 +93,13 @@ html {
 		color: #ffffff;
 		text-align: center;
 		font-size: 12px;
-		padding: 8px;
+		padding: 20px;
 		text-transform: uppercase;
 }
 
 h1.weathercond {
 		color: #FF5733;
-		font-size: 45px;
+		font-size: 50px;
 		margin: 0;
 		padding: 0;
 		text-transform: uppercase;
@@ -128,7 +129,7 @@ p#description {
 h1.weathericon{
 		margin-top: 0px;
 		color: #FF5733;
-		font-size: 250px;
+		font-size: 350px;
 		margin: 0;
 		padding: 0;
 		margin-top: 0px;
@@ -440,10 +441,11 @@ document.getElementById('printme').innerHTML = codeBlock;
 				var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
 				console.log("Cloudy & Hot Weather Suggestion: " + CloudyHotSuggestion);
 				console.log("Weather conditions: " + description);
-				var weatherGlyph = '<i class="fas fa-cloud"></i>';
+				var weatherGlyph = '<i class="fas fa-cloud-sun"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
-				document.getElementById('feels').innerHTML = "It's cloudy but warm outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
+				document.getElementById('feels').innerHTML = "Sure, it's cloudy, but it's actually pretty nice outside! It feels Like " + feels + "&deg; The humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself.';    
 				const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
+
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 		
 			
