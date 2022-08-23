@@ -54,9 +54,11 @@ html {
 		margin: 0;
 		background-color: #FFB700;
 		text-transform: uppercase;
-			font-size: 20px;
+			font-size: 25px;
 						  font-weight: bold;
 }
+
+
 
 .menu li {
 		padding: 12px;
@@ -114,11 +116,13 @@ p#glyph {
 p#temp {
 		margin-top: 0px;
 		margin-bottom: 0px;
+		display: inline
 }
 
 p#description {
 		margin-top: 0px;
 		margin-bottom: 0px;
+		display: inline
 }
 
 h1.weathericon{
@@ -130,6 +134,10 @@ h1.weathericon{
 		margin-top: 0px;
 		margin-bottom: 0px;
   }
+
+h1.same{
+display: inline
+}
 
 /* unvisited link */
 a:link {
@@ -151,7 +159,15 @@ a:active {
 		color: #FFE800;
 }
 
-
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 0em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+}
 </style>
 
 <script>const key = 'd0704da8612745131eda6e9b3ce8ebb5';
@@ -209,6 +225,8 @@ a:active {
 		// To get wind speed pull d.wind.speed
 
 		var description = d.weather[0].description; 
+		
+		
 
 		const nameCapitalized = description.charAt(0).toUpperCase() + description.slice(1);
 		document.getElementById('description').innerHTML = nameCapitalized;
@@ -520,19 +538,19 @@ function showPosition(position) {
   
 
 <div class="header">
-				<h1 id="location"></h1>
+				<h1 class=same>Weather Conditions In&nbsp;</h1><h1 class=same id="location">
 </div>
 
 <div class="row">
   <div class="col-3 col-s-3 menu">
     <ul>
-      <li id="whattowear"></li>
+   <li id="whattowear"></li>
     </ul>
   </div>
   
   <div class="col-6 col-s-9">
     	  <h1 class ="weathericon"><p id="glyph"></p></h1>
-		  <h1 class="weathercond"><p id="temp"></p><p id="description" ></p></h1>
+		  <h1 class="weathercond"><p id="temp"></p>&nbsp;-&nbsp;<p id="description" ></p></h1>
   </div>
 
   <div class="col-3 col-s-12">
