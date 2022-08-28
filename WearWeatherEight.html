@@ -323,6 +323,23 @@ document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('feels').innerHTML = "It's super sunny outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
 				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
+				
+				if (feels > 95){
+							
+							var colorHeader = "#FF4930";
+							var colorFooter = "#FF4930";
+							var colorGlyph = "#FF2E00";
+							document.querySelector('div.header').style.backgroundColor = colorHeader;
+							document.querySelector('div.footer').style.backgroundColor = colorFooter;
+							document.querySelector('h1.weathercond').style.color = colorHeader;
+							document.querySelector('h1.weathericon').style.color = colorGlyph;
+							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
+							
+							document.getElementById('feels').innerHTML = "It's sunny and beautiful, but pretty hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
+							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
+							document.getElementById('glyph').innerHTML = weatherGlyph;
+						}
+				
     }  // SUNNY WEATHER CONDITIONS
 
 // MISTY WEATHER CONDITIONS
@@ -476,9 +493,23 @@ document.getElementById('printme').innerHTML = codeBlock;
 				document.getElementById('glyph').innerHTML = weatherGlyph;
 				document.getElementById('feels').innerHTML = "Sure, it's cloudy, but it's actually pretty nice outside! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself.';    
 				const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
-
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 		
+				if (feels > 94){
+						
+						var colorHeader = "#FF4930";
+						var colorFooter = "#FF4930";
+						var colorGlyph = "#FF2E00";
+						document.querySelector('div.header').style.backgroundColor = colorHeader;
+						document.querySelector('div.footer').style.backgroundColor = colorFooter;
+						document.querySelector('h1.weathercond').style.color = colorHeader;
+						document.querySelector('h1.weathericon').style.color = colorGlyph;
+						document.querySelector('body').style.backgroundColor = "#FFCDCD";		
+						
+						document.getElementById('feels').innerHTML = "It's cloudy and hot outside! Be sure to stay hydrated. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
+						var weatherGlyph = '<i class="fab fa-hotjar"></i>';
+						document.getElementById('glyph').innerHTML = weatherGlyph;
+					}
 			
 	}// CLOUDY WEATHER CONDITIONS
 
@@ -487,37 +518,54 @@ document.getElementById('printme').innerHTML = codeBlock;
 	else { // CLEAR WEATHER CONDITIONS
 		document.body.className = 'clear';
 		
-			//Color the header and footer 
-			var colorHeader = "#0086E3";
-			var colorFooter = "#0086E3";
-			var colorGlyph = "#FF8F00";
-			document.querySelector('div.header').style.backgroundColor = colorHeader;
-			document.querySelector('div.footer').style.backgroundColor = colorFooter;
-			document.querySelector('h1.weathercond').style.color = colorHeader;
-			document.querySelector('h1.weathericon').style.color = colorGlyph;
-			document.querySelector('body').style.backgroundColor = "#D8F6FF";		
-					
-			var CHS= [  // Clear & Warm, Potentially Very Hot
-			"Performance Tech Loose-Fit Shorts",
-			"maamgic Athletic Gym Shorts",
-			"Ecko Twill Cargo Shorts",
-			"G Gradual Running Shorts",
-			"Tansozer Casual Workout Drawstring Shorts ",
-			"MAGCOMSEN Quick Dry Athletic Running Shorts",
-			"HEALONG Basketball Athletic Shorts",
-			"Columbia Brewha II Short"
-				];
+						//Color the header and footer 
+						var colorHeader = "#0086E3";
+						var colorFooter = "#0086E3";
+						var colorGlyph = "#FF8F00";
+						document.querySelector('div.header').style.backgroundColor = colorHeader;
+						document.querySelector('div.footer').style.backgroundColor = colorFooter;
+						document.querySelector('h1.weathercond').style.color = colorHeader;
+						document.querySelector('h1.weathericon').style.color = colorGlyph;
+						document.querySelector('body').style.backgroundColor = "#D8F6FF";		
+								
+						var CHS= [  // Clear & Warm, Potentially Very Hot
+						"Performance Tech Loose-Fit Shorts",
+						"maamgic Athletic Gym Shorts",
+						"Ecko Twill Cargo Shorts",
+						"G Gradual Running Shorts",
+						"Tansozer Casual Workout Drawstring Shorts ",
+						"MAGCOMSEN Quick Dry Athletic Running Shorts",
+						"HEALONG Basketball Athletic Shorts",
+						"Columbia Brewha II Short"
+							];
 
-			var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
-			console.log("Cloudy & Hot Weather Suggestion: " + CloudyHotSuggestion);
-			console.log("Weather conditions: " + description);
-			var weatherGlyph = '<i class="fas fa-sun"></i>';
-			document.getElementById('glyph').innerHTML = weatherGlyph;
-			
+						var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
+						console.log("Cloudy & Hot Weather Suggestion: " + CloudyHotSuggestion);
+						console.log("Weather conditions: " + description);
+						var weatherGlyph = '<i class="fas fa-sun"></i>';
+						document.getElementById('glyph').innerHTML = weatherGlyph;
+						const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
+						document.getElementById('whattowear').innerHTML = todaysoutfit;		
+				
+						if (feels < 94){
+							document.getElementById('feels').innerHTML = "It's clear and absolutely beautiful outdoors! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
+						}
+						else if (feels >= 94){
+							
+							var colorHeader = "#FF4930";
+							var colorFooter = "#FF4930";
+							var colorGlyph = "#FF2E00";
+							document.querySelector('div.header').style.backgroundColor = colorHeader;
+							document.querySelector('div.footer').style.backgroundColor = colorFooter;
+							document.querySelector('h1.weathercond').style.color = colorHeader;
+							document.querySelector('h1.weathericon').style.color = colorGlyph;
+							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
+							
+							document.getElementById('feels').innerHTML = "It's clear and beautiful, but pretty hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
+							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
+							document.getElementById('glyph').innerHTML = weatherGlyph;
+						}
 
-			document.getElementById('feels').innerHTML = "It's clear and absolutely beautiful outdoors! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
-			const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
-			document.getElementById('whattowear').innerHTML = todaysoutfit;
 
 	}// CLEAR WEATHER CONDITIONS
 	
