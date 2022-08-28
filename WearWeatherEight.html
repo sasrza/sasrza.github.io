@@ -292,6 +292,16 @@ document.getElementById('printme').innerHTML = codeBlock;
 
     } else if( description.indexOf('sunny') >= 0 ) {
       document.body.className = 'sunny';
+	  
+		var colorHeader = "#FFB600";
+		var colorFooter = "#FFB600";
+		var colorGlyph = "#FF8B00";
+		document.querySelector('div.header').style.backgroundColor = colorHeader;
+		document.querySelector('div.footer').style.backgroundColor = colorFooter;
+		document.querySelector('h1.weathercond').style.color = colorHeader;
+		document.querySelector('h1.weathericon').style.color = colorGlyph;
+		document.querySelector('body').style.backgroundColor = "#FFF6E1";		
+		
 		var CHS= [ 
 				  "Rhone Commuter Shorts",
 				  "Zella Live-In Pocket Shorts",
@@ -319,6 +329,15 @@ document.getElementById('printme').innerHTML = codeBlock;
       
     else if( description.indexOf('mist') >= 0 ) {
       document.body.className = 'misty';
+	  
+	  			var colorHeader = "#5d8aa8";
+				var colorFooter = "#73889d";
+				var colorGlyph = "#5d6d7c";
+				document.querySelector('div.header').style.backgroundColor = colorHeader;
+				document.querySelector('div.footer').style.backgroundColor = colorFooter;
+				document.querySelector('h1.weathercond').style.color = colorHeader;
+				document.querySelector('h1.weathericon').style.color = colorGlyph;
+				document.querySelector('body').style.backgroundColor = "#F3F3F3";	
      
 	 			var CHS= [ 
 				  "Rhone Commuter Shorts",
@@ -349,6 +368,15 @@ document.getElementById('printme').innerHTML = codeBlock;
  
     else if( description.indexOf('haze') >= 0 ) {
       document.body.className = 'hazy';
+	  
+				var colorHeader = "#5d8aa8";
+				var colorFooter = "#73889d";
+				var colorGlyph = "#5d6d7c";
+				document.querySelector('div.header').style.backgroundColor = colorHeader;
+				document.querySelector('div.footer').style.backgroundColor = colorFooter;
+				document.querySelector('h1.weathercond').style.color = colorHeader;
+				document.querySelector('h1.weathericon').style.color = colorGlyph;
+				document.querySelector('body').style.backgroundColor = "#F3F3F3";		
      
 	 			var CHS= [  // Hazy
 				  "Rhone Commuter Shorts",
@@ -387,7 +415,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 				document.querySelector('div.footer').style.backgroundColor = colorFooter;
 				document.querySelector('h1.weathercond').style.color = colorHeader;
 				document.querySelector('h1.weathericon').style.color = colorGlyph;
-
+				document.querySelector('body').style.backgroundColor = "#F3F3F3";		
 				
 				var CHS= [  // Cloudy & Warm, Potentially Very Hot
 				  "Columbia Glennaker Rain Jacket",
@@ -421,13 +449,13 @@ document.getElementById('printme').innerHTML = codeBlock;
 				var colorHeader = "#585656";
 				var colorFooter = "#808080";
 				var colorGlyph = "#585656";
-				
-
 				document.querySelector('div.header').style.backgroundColor = colorHeader;
 				document.querySelector('div.footer').style.backgroundColor = colorFooter;
 				document.querySelector('h1.weathercond').style.color = colorHeader;
 				document.querySelector('h1.weathericon').style.color = colorGlyph;
-			
+				document.querySelector('body').style.backgroundColor = "#F3F3F3";		
+				
+	
 				var CHS= [  // Cloudy & Warm, Potentially Very Hot
 				  "Rhone Commuter Shorts",
 					"Performance Tech Loose-Fit Shorts",
@@ -459,16 +487,16 @@ document.getElementById('printme').innerHTML = codeBlock;
 	else { // CLEAR WEATHER CONDITIONS
 		document.body.className = 'clear';
 		
-		//Color the header and footer 
-		var colorHeader = "#0086E3";
-		var colorFooter = "#0086E3";
-		var colorGlyph = "#FF8F00";
-		
-		document.querySelector('div.header').style.backgroundColor = colorHeader;
-		document.querySelector('div.footer').style.backgroundColor = colorFooter;
-		document.querySelector('h1.weathercond').style.color = colorHeader;
-		document.querySelector('h1.weathericon').style.color = colorGlyph;
-		
+			//Color the header and footer 
+			var colorHeader = "#0086E3";
+			var colorFooter = "#0086E3";
+			var colorGlyph = "#FF8F00";
+			document.querySelector('div.header').style.backgroundColor = colorHeader;
+			document.querySelector('div.footer').style.backgroundColor = colorFooter;
+			document.querySelector('h1.weathercond').style.color = colorHeader;
+			document.querySelector('h1.weathericon').style.color = colorGlyph;
+			document.querySelector('body').style.backgroundColor = "#D8F6FF";		
+					
 			var CHS= [  // Clear & Warm, Potentially Very Hot
 			"Performance Tech Loose-Fit Shorts",
 			"maamgic Athletic Gym Shorts",
@@ -496,39 +524,40 @@ document.getElementById('printme').innerHTML = codeBlock;
 // ACTIVATE DAY/NIGHT MODE
 
 		if (hourpart >= 20|| hourpart < 6){ // Activate Night Mode from 8pm - 6am
-						var colorHeader = "#01164F";
+				var colorHeader = "#01164F";
 				var colorFooter = "#01164F";
 				var colorGlyph = "#01164F";
-								var colorTwo = "#CDDAFF";
+				var colorTwo = "#CDDAFF";
 				document.querySelector('div.header').style.backgroundColor = colorHeader;
-				document.querySelector('div.footer').style.backgroundColor = colorFooter;
+				document.querySelector('div.footer').style.backgroundColor = colorFooter; //Color the header and footer 
 				document.querySelector('h1.weathercond').style.color = colorHeader;
 				document.querySelector('h1.weathericon').style.color = colorGlyph;	
-								document.querySelector('body').style.backgroundColor = colorTwo;
+				document.querySelector('body').style.backgroundColor = colorTwo;
 				var weatherGlyph = '<i class="fas fa-moon"></i>';
-			document.getElementById('glyph').innerHTML = weatherGlyph;
-						console.log("Good morning, it's " + daynight +"time");
-			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
-			console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
-			
-									//Color the header and footer 
-
+				document.getElementById('glyph').innerHTML = weatherGlyph;
+				console.log("Good morning, it's " + daynight +"time");
+				console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
+				console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);			
 		}// Activate Night Mode
 		
 		else if (hourpart >= 6 && hourpart <=8){ // Activate Morning Mode between 6-8am
-			document.getElementById('feels').innerHTML = "Good morning! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
-			var weatherGlyph = '<i class="wi wi-sunrise"></i>';	
-			document.getElementById('glyph').innerHTML = weatherGlyph;
-			console.log("Good morning, it's " + daynight +"time");
-			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
-			console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
+				document.getElementById('feels').innerHTML = "Good morning! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
+				var weatherGlyph = '<i class="wi wi-sunrise"></i>';	
+				document.getElementById('glyph').innerHTML = weatherGlyph;
+				var colorHeader = "#DA5502";
+				var colorFooter = "#DA5502";
+				var colorGlyph = "#DA5502";	
+				document.querySelector('body').style.backgroundColor = "#FFDBC4";	
+				console.log("Good morning, it's " + daynight +"time");
+				console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
+				console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
 		}// Activate Morning Mode
 		
 		else { // If Daytime, Go With Default Values From 8am - 8pm
-			const daynight = "day";
-			console.log("It is currently " + daynight +"time");
-			console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
-			console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
+				const daynight = "day";
+				console.log("It is currently " + daynight +"time");
+				console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
+				console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);
 		}// If Daytime, Go With Default Values
 
 // ACTIVATE DAY/NIGHT MODE	
