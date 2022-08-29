@@ -344,7 +344,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 
 // MISTY WEATHER CONDITIONS
       
-    else if( description.indexOf('mist') >= 0 ) {
+    else if( description.indexOf('misty') >= 0 ) {
       document.body.className = 'misty';
 	  
 	  			var colorHeader = "#5d8aa8";
@@ -454,6 +454,26 @@ document.getElementById('printme').innerHTML = codeBlock;
 				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 
+				if (feels > 94){
+						
+						var colorHeader = "#60635E";
+						var colorFooter = "#60635E";
+						var colorGlyph = "#FFE000";
+						document.querySelector('div.header').style.backgroundColor = colorHeader;
+						document.querySelector('div.footer').style.backgroundColor = colorFooter;
+						document.querySelector('h1.weathercond').style.color = colorGlyph;
+						document.querySelector('h1.weathericon').style.color = colorGlyph;
+						document.querySelector('.aside').style.color = "#FFFFFF";
+						document.querySelector('body').style.backgroundColor = "#696969";		
+						
+						document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> Don't be fooled by what you see out the window. It's cloudy but very hot outside! Be sure to stay hydrated and wear sunblock. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Enjoy yourself, but be careful!';    
+						var weatherGlyph = '<i class="fab fa-hotjar"></i>';
+						document.getElementById('glyph').innerHTML = weatherGlyph;
+						
+						document.getElementById('feels').innerHTML = "<b>Weather Advisory:</b> It's raining and hot, so there's a great chance for lighting! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Grab your umbrella and listen for thunder!';    
+						var weatherGlyph = '<i class="wi wi-thunderstorm"></i>';
+						document.getElementById('glyph').innerHTML = weatherGlyph;
+					}
 			
 	} // RAINY WEATHER CONDITIONS
       
@@ -505,10 +525,12 @@ document.getElementById('printme').innerHTML = codeBlock;
 						document.querySelector('h1.weathercond').style.color = colorHeader;
 						document.querySelector('h1.weathericon').style.color = colorGlyph;
 						document.querySelector('body').style.backgroundColor = "#FFCDCD";		
+												document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's cloudy and super hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Enjoy yourself, but be careful!';    
+							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
+							document.getElementById('glyph').innerHTML = weatherGlyph;
+
 						
-						document.getElementById('feels').innerHTML = "It's cloudy and hot outside! Be sure to stay hydrated. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
-						var weatherGlyph = '<i class="fab fa-hotjar"></i>';
-						document.getElementById('glyph').innerHTML = weatherGlyph;
+
 					}
 			
 	}// CLOUDY WEATHER CONDITIONS
@@ -527,6 +549,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 						document.querySelector('h1.weathercond').style.color = colorHeader;
 						document.querySelector('h1.weathericon').style.color = colorGlyph;
 						document.querySelector('body').style.backgroundColor = "#D8F6FF";		
+					
 								
 						var CHS= [  // Clear & Warm, Potentially Very Hot
 						"Performance Tech Loose-Fit Shorts",
@@ -561,7 +584,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 							document.querySelector('h1.weathericon').style.color = colorGlyph;
 							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
 							
-							document.getElementById('feels').innerHTML = "<b>Heat Advisory</b>: It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
+							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 						}
@@ -571,25 +594,39 @@ document.getElementById('printme').innerHTML = codeBlock;
 	
 // ACTIVATE DAY/NIGHT MODE
 
-		if (hourpart >= 20|| hourpart < 6){ // Activate Night Mode from 8pm - 6am
-				var colorHeader = "#01164F";
-				var colorFooter = "#01164F";
-				var colorGlyph = "#01164F";
-				var colorTwo = "#CDDAFF";
-				document.querySelector('div.header').style.backgroundColor = colorHeader;
-				document.querySelector('div.footer').style.backgroundColor = colorFooter; //Color the header and footer 
-				document.querySelector('h1.weathercond').style.color = colorHeader;
-				document.querySelector('h1.weathericon').style.color = colorGlyph;	
-				document.querySelector('body').style.backgroundColor = colorTwo;
+		if (hourpart >= 20 || hourpart < 6){ // Activate Night Mode from 8pm - 6am
+				<!-- var colorHeader = "#01164F"; -->
+				<!-- var colorFooter = "#01164F"; -->
+				<!-- var colorGlyph = "#01164F"; -->
+				<!-- var colorTwo = "#CDDAFF"; -->
+				<!-- document.querySelector('div.header').style.backgroundColor = colorHeader; -->
+				<!-- document.querySelector('div.footer').style.backgroundColor = colorFooter; //Color the header and footer  -->
+				<!-- document.querySelector('h1.weathercond').style.color = colorHeader; -->
+				<!-- document.querySelector('h1.weathericon').style.color = colorGlyph;	 -->
+				<!-- document.querySelector('body').style.backgroundColor = colorTwo; -->
+				
+						var colorHeader = "#012653";
+						var colorFooter = "#012653";
+						var colorGlyph = "#FFE000";
+						document.querySelector('div.header').style.backgroundColor = colorHeader;
+						document.querySelector('div.footer').style.backgroundColor = colorFooter;
+						document.querySelector('h1.weathercond').style.color = "#FFFFFF";
+						document.querySelector('h1.weathericon').style.color = colorGlyph;
+						document.querySelector('.aside').style.color = "#FFFFFF";
+						document.querySelector('body').style.backgroundColor = "#163F72";		
+				
+				
+				
 				var weatherGlyph = '<i class="fas fa-moon"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
 				console.log("Good morning, it's " + daynight +"time");
 				console.log("The current temperature is " + fahrenheit + " and it feels like " + feels + " degrees");
-				console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);			
+				console.log("The current time is:" + formattedTime + " and the hour is " + hourpart);	
+		
 		}// Activate Night Mode
 		
 		else if (hourpart >= 6 && hourpart <=8){ // Activate Morning Mode between 6-8am
-				document.getElementById('feels').innerHTML = "Good morning! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
+				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
 				var weatherGlyph = '<i class="wi wi-sunrise"></i>';	
 				document.getElementById('glyph').innerHTML = weatherGlyph;
 				var colorHeader = "#dd5040";
