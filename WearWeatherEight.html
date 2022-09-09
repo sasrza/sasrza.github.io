@@ -22,6 +22,9 @@
       type="image/png" 
       href="WW8.png">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -41,6 +44,8 @@
 
 body {
 		font-family: 'Montserrat', sans-serif;
+		font-family: 'Josefin Sans', sans-serif;
+
 		color: #fff;
 }
 
@@ -310,6 +315,9 @@ document.getElementById('printme').innerHTML = codeBlock;
 				  "Huckberrys Wellen Shorts",
 				  "Everlane Athletic Chino Shorts",
 				  "Vuori Voga Shorts",
+				  					"Tansozer Casual Workout Drawstring Shorts ",
+					"MAGCOMSEN Quick Dry Athletic Running Shorts",
+					"HEALONG Basketball Athletic Shorts",
 				  "Travis Mathew Grommet Shorts",
 				  "Nike Dri-Fit Yoga Shorts",
 				  "Rodd & Gunn Millwater Shorts"
@@ -364,6 +372,9 @@ document.getElementById('printme').innerHTML = codeBlock;
 				  "Huckberrys Wellen Shorts",
 				  "Everlane Athletic Chino Shorts",
 				  "Vuori Voga Shorts",
+				  					"Tansozer Casual Workout Drawstring Shorts ",
+					"MAGCOMSEN Quick Dry Athletic Running Shorts",
+					"HEALONG Basketball Athletic Shorts",
 				  "Travis Mathew Grommet Shorts",
 				  "Nike Dri-Fit Yoga Shorts",
 				  "Rodd & Gunn Millwater Shorts"
@@ -401,6 +412,9 @@ document.getElementById('printme').innerHTML = codeBlock;
 				  "Outerknown Paz Shorts",
 				  "Bonobos Anywhere Short E-Waist",
 				  "Huckberrys Wellen Shorts",
+				  					"Holure Mesh Quick-Dry Workout Shirt",
+					"Ecko Twill Cargo Shorts",
+					"G Gradual Running Shorts",
 				  "Everlane Athletic Chino Shorts",
 				  "Vuori Voga Shorts",
 				  "Travis Mathew Grommet Shorts",
@@ -442,6 +456,8 @@ document.getElementById('printme').innerHTML = codeBlock;
 				  "EnergeticSky Rain Poncho",
 				  "Tracksmith Turnover Tights",
 				  "Janji Rainrunner",
+				  "FROGG TOGGS Ultra-Lite2 Rain Suit",
+				  "HUK Gunwale Water & Wind Proof Jacket",
 				  "Columbia Arcadia Ii Jacket"
 				];
 
@@ -466,9 +482,9 @@ document.getElementById('printme').innerHTML = codeBlock;
 						document.querySelector('.aside').style.color = "#FFFFFF";
 						document.querySelector('body').style.backgroundColor = "#696969";		
 						
-						document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> Don't be fooled by what you see out the window. It's cloudy but very hot outside! Be sure to stay hydrated and wear sunblock. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Enjoy yourself, but be careful!';    
-						var weatherGlyph = '<i class="fab fa-hotjar"></i>';
-						document.getElementById('glyph').innerHTML = weatherGlyph;
+						<!-- document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> Don't be fooled by what you see out the window. It's cloudy but very hot outside! Be sure to stay hydrated and wear sunblock. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Enjoy yourself, but be careful!';     -->
+						<!-- var weatherGlyph = '<i class="fab fa-hotjar"></i>'; -->
+						<!-- document.getElementById('glyph').innerHTML = weatherGlyph; -->
 						
 						document.getElementById('feels').innerHTML = "<b>Weather Advisory:</b> It's raining and hot, so there's a great chance for lighting! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Grab your umbrella and listen for thunder!';    
 						var weatherGlyph = '<i class="wi wi-thunderstorm"></i>';
@@ -496,6 +512,10 @@ document.getElementById('printme').innerHTML = codeBlock;
 				  "Rhone Commuter Shorts",
 					"Performance Tech Loose-Fit Shorts",
 					"maamgic Athletic Gym Shorts",
+					"Nike Legend Short Sleeve Tee",
+					"Ultra Performance Dry Fit T Shirts ",
+					"Al1ve T-Shirt Active Wear Short Sleeve Top",
+					"Holure Mesh Quick-Dry Workout Shirt",
 					"Ecko Twill Cargo Shorts",
 					"G Gradual Running Shorts",
 					"Tansozer Casual Workout Drawstring Shorts ",
@@ -510,7 +530,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 				console.log("Weather conditions: " + description);				
 				var weatherGlyph = '<i class="wi wi-day-cloudy-high"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
-				document.getElementById('feels').innerHTML = "Sure, it's cloudy, but it's actually pretty nice outside! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself.';    
+				document.getElementById('feels').innerHTML = "Sure, it's kinda cloudy, but it's actually pretty nice outside! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Throw on some shorts and a t-shirt and have some outdoor fun.';    
 				const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 		
@@ -524,7 +544,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 						document.querySelector('h1.weathercond').style.color = colorHeader;
 						document.querySelector('h1.weathericon').style.color = colorGlyph;
 						document.querySelector('body').style.backgroundColor = "#FFCDCD";		
-												document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's cloudy and super hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> Enjoy yourself, but be careful!';    
+												document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's cloudy and super hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Have fun, but be careful!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 
@@ -555,7 +575,12 @@ document.getElementById('printme').innerHTML = codeBlock;
 						"maamgic Athletic Gym Shorts",
 						"Ecko Twill Cargo Shorts",
 						"G Gradual Running Shorts",
-						"Tansozer Casual Workout Drawstring Shorts ",
+						"MIER Outdoor Performance Tactical Polo",
+						"Opna Dry-Fit Golf Polo Shirt",
+						"Alex Vando Moisture Wicking Quick-Dry Shirt",
+						"LURANEE Short Sleeve Moisture Wicking Athletic Shirt",
+						"Gary Com UV Sun Protection Sport T Shirt",
+						"Tansozer Casual Workout Drawstring Shorts",
 						"MAGCOMSEN Quick Dry Athletic Running Shorts",
 						"HEALONG Basketball Athletic Shorts",
 						"Columbia Brewha II Short"
@@ -570,7 +595,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 						document.getElementById('whattowear').innerHTML = todaysoutfit;		
 				
 						if (feels < 94){
-							document.getElementById('feels').innerHTML = "It's clear and absolutely beautiful outdoors! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> Now get out there and enjoy yourself!';    
+							document.getElementById('feels').innerHTML = "It's clear and absolutely beautiful outdoors! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress accordingly. Now get out there and have some fun!';    
 						}
 						else if (feels >= 94){
 							
@@ -583,7 +608,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 							document.querySelector('h1.weathericon').style.color = colorGlyph;
 							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
 							
-							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br>Enjoy yourself, but be careful!';    
+							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Enjoy yourself, but be careful!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 						}
@@ -595,7 +620,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 
 		if (hourpart >= 20 || hourpart < 6){ // Activate Night Mode from 8pm - 6am
 	
-					document.getElementById('feels').innerHTML = "Good evening! Make it a Netflix night and stay in. The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
+					document.getElementById('feels').innerHTML = "Good evening! It's dark outside. Make it a Netflix night and stay in. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';      
 		
 						var colorHeader = "#012653";
 						var colorFooter = "#012653";
@@ -619,7 +644,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 		}// Activate Night Mode
 		
 		else if (hourpart >= 6 && hourpart <=8){ // Activate Morning Mode between 6-8am
-				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';      
+				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';      
 				var weatherGlyph = '<i class="wi wi-sunrise"></i>';	
 				
 			
@@ -688,7 +713,7 @@ function showPosition(position) {
  
 
 <div class="header">
-				<h1 class=same>Weather Conditions In&nbsp;</h1><h1 class=same id="location">
+				<h1 class=same>Current Weather Conditions In&nbsp;</h1><h1 class=same id="location">
 </div>
 
 <div class="row">
