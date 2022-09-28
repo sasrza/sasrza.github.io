@@ -578,6 +578,19 @@ if (feels > 94){
 					
 					else if (feels < 66){
 					
+					var CHS= [  // Cloudy & Warm, Potentially Very Hot
+				  "Goodthreads Pullover Fleece Hoodie",
+				  "Medbyliv Hip Hop Hoodie ",
+				  "Kanye Lucky Me I See Ghosts Hoodie ",
+				  "SOLY HUX Letter Graphic Hoodies",
+				  "Legendary Whitetails Outfitter Crew Fleece ",
+				  "Columbia Steens Mountain Fleece Jacket"
+				];
+
+				var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
+					
+					
+					
 						var colorHeader = "#8EAAB2";
 						var colorFooter = "#808080";
 						var colorGlyph = "#585656";
@@ -589,6 +602,9 @@ if (feels > 94){
 						document.getElementById('feels').innerHTML = "It's cloudy and cool outside, so you might wanna put on something with sleeves. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely #HoodieSZN!';    
 						var weatherGlyph = '<i class="fas fa-cloud"></i>';
 						document.getElementById('glyph').innerHTML = weatherGlyph;			
+						
+							const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
+				document.getElementById('whattowear').innerHTML = todaysoutfit;
 					}
 					
 			
@@ -651,6 +667,8 @@ if (feels > 94){
 							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Enjoy yourself, but be careful!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
+							
+							
 						}
 
 
