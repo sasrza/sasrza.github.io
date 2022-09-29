@@ -24,24 +24,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Libre+Franklin:wght@500&display=swap" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@500&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300&display=swap" rel="stylesheet">
-
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@800&family=Gudea:wght@400;700&display=swap" rel="stylesheet">
-
-<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@700&display=swap" rel="stylesheet">
 <style>
 * {
 		box-sizing: border-box;
@@ -59,21 +45,13 @@
 }
 
 body {
-		font-family: 'Montserrat', sans-serif;
-		<!-- font-family: 'Josefin Sans', sans-serif; -->
-<!-- font-family: 'Fira Sans', sans-serif; -->
-<!-- font-family: 'Cabin', sans-serif; -->
-<!-- font-family: 'Signika Negative', sans-serif; -->
-<!-- font-family: 'Comfortaa', cursive; -->
 
-font-family: 'Gudea', sans-serif;
-
+		font-family: 'Libre Franklin', sans-serif;
 		color: #fff;
 }
 
 html {
-		font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
-
+		font-family: 'Libre Franklin', sans-serif;
 		padding: 5px;
 }
 
@@ -103,11 +81,12 @@ html {
 		margin-bottom: 110px;
 		margin-top: 30px;
 		padding: 20px;
-		margin-bottom: 10px;
+		margin-bottom: 1px;
 		background-color: #FFB700;
 		color: #ffffff;
 		text-transform: uppercase;
 		border-radius: 5px;
+				font-size: 20px;
 }
 
 .menu li:hover {
@@ -119,19 +98,18 @@ html {
 		color: #000000;
 		text-align: center;
 		margin: 0;
-		padding: 0;
-		padding: 5px;
+		padding: 0px;
 		margin-top: 0px;
-		margin-bottom: 0px;
-		font-size: 40px;
+		margin-bottom: 1px;
+		font-size: 35px;
 }
 
 .footer {
 		background-color: #FFFFFF;
 		color: #ffffff;
 		text-align: center;
-		font-size: 25px;
-		padding: 15px;
+		font-size: 15px;
+		padding: 5px;
 		border-radius: 10px;
 		text-transform: uppercase;
 }
@@ -153,6 +131,10 @@ p#glyph {
 		margin-bottom: 0px;
 }
 
+p#feels {
+		margin-top: 20px;
+		margin-bottom: 0px;
+}
 p#temp {
 		margin-top: 0px;
 		margin-bottom: 0px;
@@ -171,8 +153,8 @@ h1.weathericon{
 		font-size: 350px;
 		margin: 0;
 		padding: 0;
-		margin-top: 50px;
-		margin-bottom: 50px;
+		<!-- margin-top: 50px; -->
+		<!-- margin-bottom: 50px; -->
   }
 
 h1.same{
@@ -490,7 +472,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 				console.log("Weather conditions: " + description);
 				var weatherGlyph = '<i class="wi wi-rain-mix"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
-				document.getElementById('feels').innerHTML = "It's raining badly outside! Stay in the house. It feels like " + feels + "&deg; The humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Grab an umbrella if you have gotta go out.';    
+				document.getElementById('feels').innerHTML = "It's raining badly outside! Unless you've really got somewhere you need to be, stay in the house. <br><br>It feels like " + feels + "&deg; The humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> Grab an umbrella if you have gotta go out.';    
 				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 
@@ -510,7 +492,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 						<!-- var weatherGlyph = '<i class="fab fa-hotjar"></i>'; -->
 						<!-- document.getElementById('glyph').innerHTML = weatherGlyph; -->
 						
-						document.getElementById('feels').innerHTML = "<b>Weather Advisory:</b> It's raining and hot, so there's a great chance for lighting! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Grab your umbrella and listen for thunder!';    
+						document.getElementById('feels').innerHTML = "<b>Weather Advisory:</b> It's raining and hot, so there's a great chance for lighting!<br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. <br><br>Grab your umbrella and listen for thunder!';    
 						var weatherGlyph = '<i class="wi wi-thunderstorm"></i>';
 						document.getElementById('glyph').innerHTML = weatherGlyph;
 					}
@@ -554,7 +536,7 @@ document.getElementById('printme').innerHTML = codeBlock;
 				console.log("Weather conditions: " + description);				
 				var weatherGlyph = '<i class="wi wi-day-cloudy-high"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
-				document.getElementById('feels').innerHTML = "Sure, it's kinda cloudy, but it's actually pretty nice outside! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Throw on some shorts and a t-shirt and have some outdoor fun.';    
+				document.getElementById('feels').innerHTML = "Sure, it's kinda cloudy, but it's actually pretty nice outside!<br><br> It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Throw on some shorts and a t-shirt and have some outdoor fun.';    
 				const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 		
@@ -568,7 +550,7 @@ if (feels > 94){
 						document.querySelector('h1.weathercond').style.color = colorHeader;
 						document.querySelector('h1.weathericon').style.color = colorGlyph;
 						document.querySelector('body').style.backgroundColor = "#FFCDCD";		
-												document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's cloudy and super hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Have fun, but be careful!';    
+												document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's cloudy and super hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Have fun, but be careful!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 
@@ -599,7 +581,7 @@ if (feels > 94){
 						document.querySelector('h1.weathercond').style.color = colorGlyph;
 						document.querySelector('h1.weathericon').style.color = colorGlyph;
 						document.querySelector('body').style.backgroundColor = "#C0E0EA";		
-						document.getElementById('feels').innerHTML = "It's cloudy and cool outside, so you might wanna put on something with sleeves. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely #HoodieSZN!';    
+						document.getElementById('feels').innerHTML = "It's cloudy and cool outside, so you might wanna put on something with sleeves. <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely #HoodieSZN!';    
 						var weatherGlyph = '<i class="fas fa-cloud"></i>';
 						document.getElementById('glyph').innerHTML = weatherGlyph;			
 						
@@ -650,8 +632,31 @@ if (feels > 94){
 						const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 						document.getElementById('whattowear').innerHTML = todaysoutfit;		
 				
-						if (feels < 94){
-							document.getElementById('feels').innerHTML = "It's clear and absolutely beautiful outdoors! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress accordingly. Now get out there and have some fun!';    
+				if (feels < 66){
+					
+							var CHS= [  // Clear & Cool
+							"Goodthreads Pullover Fleece Hoodie",
+							"Medbyliv Hip Hop Hoodie ",
+							"Kanye Lucky Me I See Ghosts Hoodie ",
+							"SOLY HUX Letter Graphic Hoodies",
+							"Legendary Whitetails Outfitter Crew Fleece ",
+							"Columbia Steens Mountain Fleece Jacket"
+							];
+							
+											var colorGlyph = "#0086E3";
+												document.querySelector('h1.weathericon').style.color = colorGlyph;
+											document.querySelector('body').style.backgroundColor = "#93E8FF";		
+						var weatherGlyph = '<i class="fas fa-sun"></i>';
+						document.getElementById('glyph').innerHTML = weatherGlyph;
+							var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
+							document.getElementById('feels').innerHTML = "Conditions are clear and pretty, but cool outside, so you might wanna put on something with sleeves. <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> It&apos;s a great day to wear a hoodie or fleece pullover. Checkout the suggestion above and stay warm, my friend.';    
+							const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
+							document.getElementById('whattowear').innerHTML = todaysoutfit;
+					} // Clear & Cool
+				
+				
+						else if (feels < 80){
+							document.getElementById('feels').innerHTML = "OMG what great weather! It's clear and absolutely beautiful outdoors! <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress accordingly. Now get out there and have some fun!';    
 						}
 						else if (feels >= 94){
 							
@@ -664,12 +669,14 @@ if (feels > 94){
 							document.querySelector('h1.weathericon').style.color = colorGlyph;
 							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
 							
-							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Enjoy yourself, but be careful!';    
+							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen.  <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Enjoy yourself, but be careful!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 							
 							
 						}
+						
+						
 
 
 	}// CLEAR WEATHER CONDITIONS
@@ -678,7 +685,7 @@ if (feels > 94){
 
 		if (hourpart >= 20 || hourpart < 6){ // Activate Night Mode from 8pm - 6am
 	
-					document.getElementById('feels').innerHTML = "Good evening! It's dark outside. Make it a Netflix night and stay in. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';      
+					document.getElementById('feels').innerHTML = "Good evening! It's dark outside. Might we suggest some movies to watch on Amazon Prime? <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br>Have a good night, see you in the morning!';      
 		
 						var colorHeader = "#012653";
 						var colorFooter = "#012653";
@@ -702,7 +709,7 @@ if (feels > 94){
 		}// Activate Night Mode
 		
 		else if (hourpart >= 6 && hourpart <=8){ // Activate Morning Mode between 6-8am
-				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';      
+				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br>Okay, now get out there and conquer the world!';      
 				var weatherGlyph = '<i class="wi wi-sunrise"></i>';	
 				
 			
@@ -771,7 +778,7 @@ function showPosition(position) {
  
 
 <div class="header">
-				<h1 class=same>Current Weather Conditions In&nbsp;</h1><h1 class=same id="location">
+				<h1 class=same>Weather Conditions In&nbsp;</h1><h1 class=same id="location">
 </div>
 
 <div class="row">
