@@ -645,7 +645,7 @@ if (feels > 94){
 							
 											var colorGlyph = "#0086E3";
 												document.querySelector('h1.weathericon').style.color = colorGlyph;
-											document.querySelector('body').style.backgroundColor = "#93E8FF";		
+											document.querySelector('body').style.backgroundColor = "#D5F6FF";		
 						var weatherGlyph = '<i class="fas fa-sun"></i>';
 						document.getElementById('glyph').innerHTML = weatherGlyph;
 							var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
@@ -708,7 +708,7 @@ if (feels > 94){
 		
 		}// Activate Night Mode
 		
-		else if (hourpart >= 6 && hourpart <=8){ // Activate Morning Mode between 6-8am
+		else if (hourpart >= 6 && hourpart <=7){ // Activate Morning Mode between 6-8am
 				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br>Okay, now get out there and conquer the world!';      
 				var weatherGlyph = '<i class="wi wi-sunrise"></i>';	
 				
