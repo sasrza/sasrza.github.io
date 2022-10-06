@@ -21,6 +21,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@700&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+
 <style>
 * {
 		box-sizing: border-box;
@@ -41,6 +50,7 @@ body {
 
 
 font-family: 'Public Sans', sans-serif;
+<!-- font-family: 'Figtree', sans-serif; -->
 
 		color: #fff;
 }
@@ -48,6 +58,7 @@ font-family: 'Public Sans', sans-serif;
 html {
 
 font-family: 'Public Sans', sans-serif;
+<!-- font-family: 'Figtree', sans-serif; -->
 
 		padding: 5px;
 }
@@ -58,10 +69,10 @@ font-family: 'Public Sans', sans-serif;
 		padding: 75px;
 		text-align: center;
 		text-transform: uppercase;
-		font-size: 35px;
+		font-size: 40px;
 		font-weight: bold;
 		border-radius: 10px;
-
+<!-- font-family: 'Figtree', sans-serif; -->
 }
 
 .menu ul {
@@ -99,6 +110,7 @@ font-family: 'Public Sans', sans-serif;
 		margin-top: 0px;
 		margin-bottom: 1px;
 		font-size: 37px;
+		font-family: 'Lato', sans-serif;
 }
 
 .footer {
@@ -109,6 +121,7 @@ font-family: 'Public Sans', sans-serif;
 		padding: 5px;
 		border-radius: 10px;
 		text-transform: uppercase;
+				font-family: 'Figtree', sans-serif;
 }
 
 h1.weathercond {
@@ -121,6 +134,7 @@ h1.weathercond {
 		padding: 0;
 		margin-top: 0px;
 		margin-bottom: 0px;
+		font-family: 'Figtree', sans-serif;
 }
 
 p#glyph {
@@ -156,6 +170,7 @@ h1.weathericon{
 
 h1.same{
 display: inline
+
 }
 
 /* unvisited link */
@@ -186,6 +201,7 @@ ul {
 		margin-inline-start: 0px;
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
+				font-family: 'Lato', sans-serif;
 }
 
 
@@ -567,8 +583,7 @@ if (feels > 94){
 				];
 
 				var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
-					
-					
+							
 					
 						var colorHeader = "#8EAAB2";
 						var colorFooter = "#808080";
@@ -629,7 +644,39 @@ if (feels > 94){
 						const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 						document.getElementById('whattowear').innerHTML = todaysoutfit;		
 				
-				if (feels < 66){
+								if (feels < 51){
+					
+							var CHS= [  // Clear & Chilly
+							"Goodthreads Pullover Fleece Hoodie",
+							"Medbyliv Hip Hop Hoodie ",
+							"Kanye Lucky Me I See Ghosts Hoodie ",
+							"SOLY HUX Letter Graphic Hoodies",
+							"Legendary Whitetails Outfitter Crew Fleece ",
+							"Columbia Steens Mountain Fleece Jacket",
+							"Columbia Heavenly Jacket",
+							"Amazon Essentials Lightweight Puffer Jacket",
+							"BALEAF Lightweight Warm Puffer Jacket ",
+							"MARMOT PreCip Jacket"
+							];
+							
+							var colorHeader = "#2DD8FF";
+							var colorFooter = "#2DD8FF";
+							var colorGlyph = "#00D0FE";
+							document.querySelector('div.header').style.backgroundColor = colorHeader;
+							document.querySelector('div.footer').style.backgroundColor = colorFooter;
+							document.querySelector('h1.weathercond').style.color = colorHeader;
+							document.querySelector('h1.weathericon').style.color = colorGlyph;
+							document.querySelector('body').style.backgroundColor = "#CFF6FF";	
+							
+							var weatherGlyph = '<i class="fas fa-sun"></i>';
+							document.getElementById('glyph').innerHTML = weatherGlyph;
+							var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
+							document.getElementById('feels').innerHTML = "Conditions are clear and pretty, but somewhat chilly outside, so you might wanna dress warm. <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> It&apos;s a great day to wear a hoodie or fleece pullover. Maybe throw on some layers in case the weather changes.';    
+							const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
+							document.getElementById('whattowear').innerHTML = todaysoutfit;
+					} // Clear & Chilly
+						
+				else if (feels < 71){
 					
 							var CHS= [  // Clear & Cool
 							"Goodthreads Pullover Fleece Hoodie",
@@ -640,16 +687,18 @@ if (feels > 94){
 							"Columbia Steens Mountain Fleece Jacket"
 							];
 							
-											var colorGlyph = "#0086E3";
-												document.querySelector('h1.weathericon').style.color = colorGlyph;
-											document.querySelector('body').style.backgroundColor = "#D5F6FF";		
-						var weatherGlyph = '<i class="fas fa-sun"></i>';
-						document.getElementById('glyph').innerHTML = weatherGlyph;
+							var colorGlyph = "#0086E3";
+							document.querySelector('h1.weathericon').style.color = colorGlyph;
+							document.querySelector('body').style.backgroundColor = "#C9F5FF";		
+
+							
+							var weatherGlyph = '<i class="fas fa-sun"></i>';
+							document.getElementById('glyph').innerHTML = weatherGlyph;
 							var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
 							document.getElementById('feels').innerHTML = "Conditions are clear and pretty, but cool outside, so you might wanna put on something with sleeves. <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> It&apos;s a great day to wear a hoodie or fleece pullover. Checkout the suggestion above and stay warm, my friend.';    
 							const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
 							document.getElementById('whattowear').innerHTML = todaysoutfit;
-					} // Clear & Cool
+				} // Clear & Cool
 				
 				
 						else if (feels < 80){
