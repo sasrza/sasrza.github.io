@@ -644,7 +644,39 @@ if (feels > 94){
 						const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 						document.getElementById('whattowear').innerHTML = todaysoutfit;		
 				
-								if (feels < 51){
+				if (feels < 41){
+					
+							var CHS= [  // Clear & Cold
+							"Goodthreads Pullover Fleece Hoodie",
+							"Medbyliv Hip Hop Hoodie ",
+							"Kanye Lucky Me I See Ghosts Hoodie ",
+							"SOLY HUX Letter Graphic Hoodies",
+							"Legendary Whitetails Outfitter Crew Fleece ",
+							"Columbia Steens Mountain Fleece Jacket",
+							"Columbia Heavenly Jacket",
+							"Amazon Essentials Lightweight Puffer Jacket",
+							"BALEAF Lightweight Warm Puffer Jacket ",
+							"MARMOT PreCip Jacket"
+							];
+							
+							var colorHeader = "#00AAFF";
+							var colorFooter = "#008CD2";
+							var colorGlyph = "#4EC4FF";
+							document.querySelector('div.header').style.backgroundColor = colorHeader;
+							document.querySelector('div.footer').style.backgroundColor = colorFooter;
+							document.querySelector('h1.weathercond').style.color = colorHeader;
+							document.querySelector('h1.weathericon').style.color = colorGlyph;
+							document.querySelector('body').style.backgroundColor = "#F0FAFF";	
+							
+							var weatherGlyph = '<i class="fas fa-sun"></i>';
+							document.getElementById('glyph').innerHTML = weatherGlyph;
+							var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
+							document.getElementById('feels').innerHTML = "Conditions are clear but it's cold AF outside. Dress warm! It&apos;s a great day to wear a hoodie or fleece pullover. Bundle up!<br><br>It feels like <font color=#008CD2>" + feels + "&deg;</font> the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';    
+							const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
+							document.getElementById('whattowear').innerHTML = todaysoutfit;
+					} // Clear & Cold
+				
+								else if (feels < 61){
 					
 							var CHS= [  // Clear & Chilly
 							"Goodthreads Pullover Fleece Hoodie",
@@ -756,7 +788,7 @@ if (feels > 94){
 		
 		else if (hourpart >= 6 && hourpart <=7){ // Activate Morning Mode between 6-8am
 				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br>Okay, now get out there and conquer the world!';      
-				var weatherGlyph = '<i class="wi wi-sunrise"></i>';	
+				var weatherGlyph = '<i class="fas fa-coffee"></i>';	
 				
 			
 				document.getElementById('glyph').innerHTML = weatherGlyph;
