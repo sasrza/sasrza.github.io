@@ -676,7 +676,7 @@ if (feels > 94){
 							var weatherGlyph = '<i class="fas fa-sun"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 							var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
-							document.getElementById('feels').innerHTML = "Conditions are clear but it's cold AF outside. Dress warm! It&apos;s a great day to wear a hoodie or fleece pullover. Bundle up!<br><br>It feels like <font color=#008CD2>" + feels + "&deg;</font> the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';    
+							document.getElementById('feels').innerHTML = "Conditions are clear but it's cold AF outside. Dress warm if you have to go out. It&apos;s a great day to wear a hoodie or fleece pullover. Bundle up, cause the hawk is out!<br><br>It feels like <font color=#008CD2>" + feels + "&deg;</font> the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';    
 							const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
 							document.getElementById('whattowear').innerHTML = todaysoutfit;
 					} // Clear & Cold
