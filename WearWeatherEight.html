@@ -273,63 +273,14 @@ ul {
 
 if(description.indexOf('snow') >= 0) {
       document.body.className = 'snowy';
-
-      if (fahrenheit < 5){
-          const todaysoutfit = "Holy sh*t it's snowy and cold AF!  Stay home!<br>  Suggestion: You should consider moving!";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="fas fa-icicles"></i>';
-document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-        }
-        if (fahrenheit <= 25 & fahrenheit >=5){
-       const todaysoutfit = "It's cold and snowy. Don't drive. Just stay home!<br>Suggestion: A vacation somewhere warm.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="far fa-snowflake"></i>';
-document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-        }
-           else if (fahrenheit <=45 & fahrenheit>25 ){
-          const todaysoutfit = "Yay, it's snowing out there!<br>Suggestion: Winter coat, jeans";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="far fa-snowflake"></i>';
-document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-          }
-          else if (fahrenheit <=67 & fahrenheit > 45){
-            const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="far fa-snowflake"></i>';
-document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-          }
-          else if (fahrenheit > 67 & fahrenheit <=79){
-            const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="far fa-snowflake"></i>';
-document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-          }
-          else if (fahrenheit > 80){
-            const todaysoutfit = "If it's this hot and snowing, hell has frozen over.<br>Suggestion: Pray.";
-          document.getElementById('whattowear').innerHTML = todaysoutfit;
-          var codeBlock = '<i class="far fa-snowflake"></i>';
-document.getElementById('printme').innerHTML = codeBlock;
-   document.getElementById('feels').innerHTML = "The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';        
-          }
-
-// SUNNY WEATHER CONDITIONS
-
-    } else if( description.indexOf('sunny') >= 0 ) {
-      document.body.className = 'sunny';
-	  
-		var colorHeader = "#FFB600";
-		var colorFooter = "#FFB600";
-		var colorGlyph = "#FF8B00";
+var colorHeader = "#616A6B";
+		var colorFooter = "#AAB7B8";
+		var colorGlyph = "#99A3A4";
 		document.querySelector('div.header').style.backgroundColor = colorHeader;
 		document.querySelector('div.footer').style.backgroundColor = colorFooter;
 		document.querySelector('h1.weathercond').style.color = colorHeader;
 		document.querySelector('h1.weathericon').style.color = colorGlyph;
-		document.querySelector('body').style.backgroundColor = "#FFF6E1";		
+		document.querySelector('body').style.backgroundColor = "#F2F4F4";		
 		
 		var CHS= [ 
 				  "Rhone Commuter Shorts",
@@ -350,13 +301,13 @@ document.getElementById('printme').innerHTML = codeBlock;
 				var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
 				console.log("Sunny Weather Suggestion: " + CloudyHotSuggestion);
 				console.log("Weather conditions: " + description);
-				var weatherGlyph = '<i class="wi wi-day-sunny"></i>';
+				var weatherGlyph = '<i class="fas fa-snowflake"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
-				document.getElementById('feels').innerHTML = "It's super sunny outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
+				document.getElementById('feels').innerHTML = "It's snowing outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
 				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 				
-				if (feels > 95){
+				if (feels > 20){
 							
 							var colorHeader = "#FF4930";
 							var colorFooter = "#FF4930";
@@ -367,12 +318,14 @@ document.getElementById('printme').innerHTML = codeBlock;
 							document.querySelector('h1.weathericon').style.color = colorGlyph;
 							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
 							
-							document.getElementById('feels').innerHTML = "It's sunny and beautiful, but pretty hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
-							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
+							document.getElementById('feels').innerHTML = "It's snowy and beautiful, but pretty hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
+							var weatherGlyph = '<i class="fas fa-snowflake"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 						}
 				
-    }  // SUNNY WEATHER CONDITIONS
+    }  // SNOWY WEATHER CONDITIONS
+
+
 
 // MISTY WEATHER CONDITIONS
       
@@ -676,7 +629,7 @@ if (feels > 94){
 							var weatherGlyph = '<i class="fas fa-sun"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 							var CloudyHotSuggestion= CHS[Math.floor(Math.random()*CHS.length)];
-							document.getElementById('feels').innerHTML = "Conditions are clear but it's cold AF outside. Dress warm if you have to go out. It&apos;s a great day to wear a hoodie or fleece pullover. Bundle up, cause the hawk is out!<br><br>It feels like <font color=#008CD2>" + feels + "&deg;</font> the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';    
+							document.getElementById('feels').innerHTML = "Conditions are clear but it's cold AF outside. Dress warm! It&apos;s a great day to wear a hoodie or fleece pullover. Bundle up!<br><br>It feels like <font color=#008CD2>" + feels + "&deg;</font> the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.';    
 							const todaysoutfit = CloudyHotSuggestion + " <a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a>  ";
 							document.getElementById('whattowear').innerHTML = todaysoutfit;
 					} // Clear & Cold
