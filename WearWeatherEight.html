@@ -309,14 +309,15 @@ var colorHeader = "#616A6B";
 				
 				if (feels > 20){
 							
-							var colorHeader = "#FF4930";
-							var colorFooter = "#FF4930";
-							var colorGlyph = "#FF2E00";
+			var colorHeader = "#616A6B";
+		var colorFooter = "#AAB7B8";
+		var colorGlyph = "#99A3A4";
 							document.querySelector('div.header').style.backgroundColor = colorHeader;
 							document.querySelector('div.footer').style.backgroundColor = colorFooter;
 							document.querySelector('h1.weathercond').style.color = colorHeader;
 							document.querySelector('h1.weathericon').style.color = colorGlyph;
-							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
+						document.querySelector('body').style.backgroundColor = "#F2F4F4";		
+			
 							
 							document.getElementById('feels').innerHTML = "It's snowy and beautiful, but pretty hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
 							var weatherGlyph = '<i class="fas fa-snowflake"></i>';
