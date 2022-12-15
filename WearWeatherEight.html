@@ -280,7 +280,7 @@ var colorHeader = "#616A6B";
 		document.querySelector('div.footer').style.backgroundColor = colorFooter;
 		document.querySelector('h1.weathercond').style.color = colorHeader;
 		document.querySelector('h1.weathericon').style.color = colorGlyph;
-		document.querySelector('body').style.backgroundColor = "#F5FAFA";		
+		document.querySelector('body').style.backgroundColor = "#F2F4F4";		
 		
 		var CHS= [ 
 				  "Rhone Commuter Shorts",
@@ -303,7 +303,7 @@ var colorHeader = "#616A6B";
 				console.log("Weather conditions: " + description);
 				var weatherGlyph = '<i class="fas fa-snowflake"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
-				document.getElementById('feels').innerHTML = "It's snowing outside and absolutely frigid! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
+				document.getElementById('feels').innerHTML = "It's snowing outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
 				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 				
@@ -316,10 +316,10 @@ var colorHeader = "#616A6B";
 							document.querySelector('div.footer').style.backgroundColor = colorFooter;
 							document.querySelector('h1.weathercond').style.color = colorHeader;
 							document.querySelector('h1.weathericon').style.color = colorGlyph;
-						document.querySelector('body').style.backgroundColor = "#F5FAFA";		
+						document.querySelector('body').style.backgroundColor = "#F2F4F4";		
 			
 							
-							document.getElementById('feels').innerHTML = "It's snowy and beautiful outside! Be sure to stay safe. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Stay inside if you can, but make a snowman if you've gotta go out!!';    
+							document.getElementById('feels').innerHTML = "It's snowy and beautiful, but pretty hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Now get out there and enjoy yourself!';    
 							var weatherGlyph = '<i class="fas fa-snowflake"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 						}
