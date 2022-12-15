@@ -719,7 +719,7 @@ if (feels > 94){
 	
 // ACTIVATE DAY/NIGHT MODE
 
-		if (hourpart >= 20 || hourpart < 5){ // Activate Night Mode from 8pm - 6am
+		if (hourpart >= 20 || hourpart < 4){ // Activate Night Mode from 8pm - 6am
 	
 					document.getElementById('feels').innerHTML = "Good evening! It's dark outside. Might we suggest some movies to watch on Amazon Prime? <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br>Have a good night, see you in the morning!';      
 		
@@ -744,7 +744,7 @@ if (feels > 94){
 		
 		}// Activate Night Mode
 		
-		else if (hourpart >= 6 && hourpart <=7){ // Activate Morning Mode between 6-8am
+		else if (hourpart >= 5 && hourpart < 6){ // Activate Morning Mode between 6-8am
 				document.getElementById('feels').innerHTML = "Good morning! Pop a pod in the Keurig, fry up some bacon and shake off the sleepies. You've got work to do, places to go and people to see! <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br>Okay, now get out there and conquer the world!';      
 				var weatherGlyph = '<i class="fas fa-coffee"></i>';	
 				
