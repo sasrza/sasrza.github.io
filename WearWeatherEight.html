@@ -292,7 +292,7 @@ var colorHeader = "#616A6B";
 				console.log("Weather conditions: " + description);
 				var weatherGlyph = '<i class="fas fa-snowflake"></i>';
 				document.getElementById('glyph').innerHTML = weatherGlyph;
-				document.getElementById('feels').innerHTML = "It's snowing outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;';       
+				document.getElementById('feels').innerHTML = "It's snowing and frigid outside! The humidity is " + humid + '%' + " and it feels Like " + feels + '&deg;<br>Be safe if you must go out!';       
 				const todaysoutfit = CloudyHotSuggestion + " <sup><a href='https://www.amazon.com/s/?field-keywords=" + CloudyHotSuggestion + "'><i class='fab fa-amazon'></i></a> </sup>  ";
 				document.getElementById('whattowear').innerHTML = todaysoutfit;
 				
@@ -308,7 +308,7 @@ var colorHeader = "#616A6B";
 						document.querySelector('body').style.backgroundColor = "#F5FAFA";		
 			
 							
-							document.getElementById('feels').innerHTML = "It's snowy! Be sure to stay safe if you must go out. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. Be safe, tho!';    
+							document.getElementById('feels').innerHTML = "It's snowy! Be sure to stay safe if you must go out. It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br> Be safe, tho!';    
 							var weatherGlyph = '<i class="fas fa-snowflake"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 						}
