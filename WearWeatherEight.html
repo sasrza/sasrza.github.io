@@ -457,7 +457,7 @@ document.getElementById('feels').innerHTML = "It's misty and overcast outside! B
 						<!-- var weatherGlyph = '<i class="fab fa-hotjar"></i>'; -->
 						<!-- document.getElementById('glyph').innerHTML = weatherGlyph; -->
 						
-						document.getElementById('feels').innerHTML = "<b>Weather Advisory:</b> It's raining and hot, so there's a great chance for lighting!<br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. <br><br>Grab your umbrella and listen for thunder!';    
+						document.getElementById('feels').innerHTML = "<b>Weather Advisory:</b> It's raining and hot, so there's a great chance for lighting!<br><br>It feels like <b>" + feels + "&deg; </b>the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph. <br><br>Grab your umbrella and listen for thunder!';    
 						var weatherGlyph = '<i class="wi wi-thunderstorm"></i>';
 						document.getElementById('glyph').innerHTML = weatherGlyph;
 					}
@@ -515,7 +515,7 @@ if (feels > 94){
 						document.querySelector('h1.weathercond').style.color = colorHeader;
 						document.querySelector('h1.weathericon').style.color = colorGlyph;
 						document.querySelector('body').style.backgroundColor = "#FFCDCD";		
-												document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's cloudy and super hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Have fun, but be careful!';    
+												document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's cloudy and super-duper hot outside! Be sure to stay hydrated and don't forget to wear sunscreen. Burnt skin is not the vibe. <br><br><b><font color='FF2E00'>Holy cow, it feels like " + feels + "&deg;!!!</b></font> <br><br>The humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Have fun, but be careful and drink lots of water!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 
@@ -699,7 +699,7 @@ if (feels > 94){
 							document.querySelector('h1.weathericon').style.color = colorGlyph;
 							document.querySelector('body').style.backgroundColor = "#FFCDCD";		
 							
-							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen.  <br><br>It feels like " + feels + "&deg; the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Enjoy yourself, but be careful!';    
+							document.getElementById('feels').innerHTML = "<b>Heat Advisory:</b> It's clear and beautiful, but very hot outside! Be sure to stay hydrated and don't forget to wear sunscreen.  <br><br>It feels like <b>" + feels + "&deg; </b>the humidity is " + humid + '%' + ' and the wind speed is ' + wind + 'mph.<br><br> This is definitely shorts and t-shirt weather, so dress light. Enjoy yourself, but be careful!';    
 							var weatherGlyph = '<i class="fab fa-hotjar"></i>';
 							document.getElementById('glyph').innerHTML = weatherGlyph;
 							
@@ -831,7 +831,7 @@ function showPosition(position) {
 </div>
 
 <div class="footer">
-  <p>WearWeather™ Version 8.2</p>
+  <p>WearWeather™ Version 8.3</p>
 </div>
 
       </center>
