@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Countdown</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Quicksand:wght@400;600;700&display=swap');
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+    .fun-number {
+      font-family: 'Baloo 2', cursive;
+      letter-spacing: -0.05em; /* tighten number spacing */
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #2563eb, #10b981, #9333ea);
+      background-size: 600% 600%;
+      animation: gradientMove 6s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .bounce {
+      animation: bounceIn 1s ease;
+    }
+
+    .my-custom-leading {
+      line-height: 15rem !important;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col items-center justify-center gradient-bg text-white text-center px-4">
+
+  <!-- Event Title -->
+  <h1 id="eventTitle" class="text-xl sm:text-2xl md:text-3xl font-extrabold mb-2 drop-shadow-lg">
+  </h1>
+
+  <!-- Countdown -->
+  <div id="countdown" class="flex flex-col items-center leaing-tight">
+    <span id="days" class="fun-number text-[24rem] sm:text-[29rem] md:text-[34rem] font-extrabold drop-shadow-3xl my-custom-leading">
+    </span>
+    <span class="text-xl sm:text-2xl md:text-3xl font-bold leading-snug opacity-100 mt-0.5">
+      Days Until William's Birthday!
+    </span>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none"></canvas>
+
+  <script>
+    // 🎯 Event details
+    const eventTitle = "";
+    const eventDate = new Date(2025, 9, 9); // October is month 9 (0-indexed)
+    document.getElementById("eventTitle").textContent = eventTitle;
+
+    const countdown = document.getElementById("countdown");
+    const daysElement = document.getElementById("days");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = eventDate - now;
+
+      if (diff <= 0) {
+        countdown.innerHTML =
+          "<span class='text-4xl sm:text-5xl md:text-6xl font-extrabold bounce'>🎉 Happy Birthday William! 🎉</span>";
+        startConfetti();
+        return;
+      }
+
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      daysElement.textContent = days;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000 * 60 * 60); // update every hour
+
+    // 🎊 Confetti effect
+    const canvas = document.getElementById("confettiCanvas");
+    const ctx = canvas.getContext("2d");
+    let confettiPieces = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function randomColor() {
+      const colors = ["#60a5fa", "#34d399", "#a78bfa", "#f472b6", "#fbbf24"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function startConfetti() {
+      confettiPieces = [];
+      for (let i = 0; i < 150; i++) {
+        confettiPieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 8 + 4,
+          color: randomColor(),
+          speed: Math.random() * 3 + 2,
+          rotation: Math.random() * 360,
+        });
+      }
+      requestAnimationFrame(updateConfetti);
+    }
+
+    function updateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confettiPieces.forEach((p) => {
+        p.y += p.speed;
+        p.rotation += 2;
+        if (p.y > canvas.height) p.y = -10;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+      });
+      requestAnimationFrame(updateConfetti);
+    }
+  </script>
+</body>
+</html>
