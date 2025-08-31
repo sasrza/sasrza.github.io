@@ -19,7 +19,7 @@
     .gradient-bg {
       background: linear-gradient(135deg, #2563eb, #10b981, #9333ea, #146149, #51DBB0, #1A2C7A, #F80C5B, #F8340C);
       background-size: 600% 600%;
-      animation: gradientMove 9s ease infinite;
+      animation: gradientMove 6s ease infinite;
     }
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
@@ -36,11 +36,11 @@
     }
 
     .my-custom-leading {
-      line-height: 15rem !important;
+      line-height: 14rem !important;
     }
 
   .my-custom-element.font-extrabold {
-  font-weight: 550; /* Or any other desired value */
+  font-weight: 525; /* Or any other desired value */
 }
   </style>
 </head>
@@ -102,7 +102,7 @@
     resizeCanvas();
 
     function randomColor() {
-      const colors = ["#60a5fa", "#34d399", "#a78bfa", "#f472b6", "#fbbf24"];
+      const colors = ["#60a5fa", "#34d399", "#a78bfa", "#f472b6", "#fbbf24",  "#2563eb", "#10b981", "#9333ea", "#146149", "#51DBB0", "#1A2C7A", "#F80C5B", "#F8340C"];
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
@@ -139,6 +139,7 @@
   </script>
 </body>
 </html>
+
 
 
 
