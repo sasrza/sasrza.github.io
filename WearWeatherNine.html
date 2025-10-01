@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>WearWeather™</title>
+
+<!-- Weather & Font Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="./css/weather-icons.min.css">
+
+<link rel="icon" type="image/png" href="WW8.png">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.header, .footer {
+  text-align: center;
+  padding: 20px;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.weather-section {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+h1.weathericon {
+  font-size: 120px;
+  margin: 10px 0;
+}
+
+h1.weathercond {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+#temp {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0;
+}
+
+#description {
+  font-size: 20px;
+  color: #555;
+}
+
+#feels {
+  margin: 15px 0;
+  font-size: 18px;
+}
+
+#whattowear {
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.footer {
+  font-size: 14px;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="header">WearWeather™</div>
+  <div class="weather-section">
+    <h1 class="weathericon" id="glyph"></h1>
+    <h1 class="weathercond" id="location">Loading...</h1>
+    <p id="temp"></p>
+    <p id="description"></p>
+    <p id="feels"></p>
+    <p id="whattowear"></p>
+  </div>
+  <div class="footer">Stay stylish & weather-ready</div>
+</div>
+
+<script>
+const key = 'YOUR_API_KEY';
+
+// Random message helper
+function randomMessage(options) {
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+// Fallback: IP-based geolocation
+async function getLocation() {
+  try {
+    let res = await fetch("https://ipapi.co/json/");
+    let data = await res.json();
+    weatherBallon(data.latitude, data.longitude);
+  } catch {
+    navigator.geolocation.getCurrentPosition(pos => {
+      weatherBallon(pos.coords.latitude, pos.coords.longitude);
+    });
+  }
+}
+
+function weatherBallon(lat, lon) {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
+    .then(resp => resp.json())
+    .then(data => drawWeather(data))
+    .catch(() => document.getElementById('location').innerHTML = "Couldn't load weather 😢");
+}
+
+function drawWeather(d) {
+  let temp = Math.round(d.main.temp);
+  let feels = Math.round(d.main.feels_like);
+  let humid = d.main.humidity;
+  let wind = d.wind.speed;
+  let desc = d.weather[0].description;
+  let name = d.name;
+
+  document.getElementById('location').innerText = name;
+  document.getElementById('temp').innerHTML = temp + "&deg;F";
+  document.getElementById('description').innerText = desc.charAt(0).toUpperCase() + desc.slice(1);
+
+  // --- WEATHER CONDITIONS ---
+  if(desc.includes("rain")) {
+    document.body.style.backgroundColor = "#DDE7F0";
+    document.getElementById('glyph').innerHTML = '<i class="fas fa-cloud-showers-heavy"></i>';
+    document.getElementById('feels').innerHTML = randomMessage([
+      `Looks soggy out there ☔ Feels like ${feels}°F with ${humid}% humidity.`,
+      `Rainy vibes today 🌧 Feels like ${feels}°F, don’t forget an umbrella.`,
+      `Wet and wild outside. Feels like ${feels}°F with ${wind} mph winds.`
+    ]);
+  }
+  else if(desc.includes("cloud")) {
+    document.body.style.backgroundColor = "#ECECEC";
+    document.getElementById('glyph').innerHTML = '<i class="wi wi-day-cloudy-high"></i>';
+    document.getElementById('feels').innerHTML = randomMessage([
+      `Cloudy skies but not too bad 🌥 Feels like ${feels}°F.`,
+      `Overcast mood today. Feels like ${feels}°F with ${humid}% humidity.`,
+      `A gray day ahead ☁ Feels like ${feels}°F, with winds at ${wind} mph.`
+    ]);
+  }
+  else if(desc.includes("snow")) {
+    document.body.style.backgroundColor = "#F0FBFF";
+    document.getElementById('glyph').innerHTML = '<i class="fas fa-snowflake"></i>';
+    document.getElementById('feels').innerHTML = randomMessage([
+      `Snow day ❄ Feels like ${feels}°F. Stay warm out there!`,
+      `Flurries in the air. Feels like ${feels}°F with ${humid}% humidity.`,
+      `It’s frosty outside! Feels like ${feels}°F, winds at ${wind} mph.`
+    ]);
+  }
+  else { // Clear
+    document.body.style.backgroundColor = "#E0F7FF";
+    document.getElementById('glyph').innerHTML = '<i class="fas fa-sun"></i>';
+    document.getElementById('feels').innerHTML = randomMessage([
+      `Sunny and nice ☀ Feels like ${feels}°F.`,
+      `Clear skies ahead 🌞 It’s ${feels}°F, humidity ${humid}%.`,
+      `Beautiful day outside! Feels like ${feels}°F with a breeze of ${wind} mph.`
+    ]);
+  }
+
+  // Outfit suggestion
+  let outfits = ["Nike Dri-Fit Tee", "Columbia Rain Jacket", "Adidas Hoodie", "Under Armour Shorts"];
+  let pick = outfits[Math.floor(Math.random() * outfits.length)];
+  document.getElementById('whattowear').innerHTML = `Consider: ${pick} <a href="https://www.amazon.com/s?k=${pick}" target="_blank"><i class="fab fa-amazon"></i></a>`;
+}
+
+getLocation();
+</script>
+</body>
+</html>
