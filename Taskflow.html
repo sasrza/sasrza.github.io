@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TaskFlow</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TaskFlow">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%236366f1%22/><path d=%22M30 50L45 65L70 35%22 stroke=%22white%22 stroke-width=%228%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%236366f1%22/><path d=%22M30 50L45 65L70 35%22 stroke=%22white%22 stroke-width=%2210%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/></svg>">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --danger: #ef4444;
+            --success: #22c55e;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: env(safe-area-inset-top) 16px 32px 16px;
+        }
+
+        .app-container { width: 100%; max-width: 500px; margin-top: 20px; }
+
+        header { margin-bottom: 24px; }
+        header h1 { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        .input-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+
+        .input-group { display: flex; flex-direction: column; gap: 12px; }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: #fff;
+            appearance: none;
+        }
+
+        .add-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .add-btn:active { transform: scale(0.97); }
+
+        .task-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .task-item {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .task-item.is-completed { opacity: 0.5; }
+        .task-item.is-completed .task-title { text-decoration: line-through; color: var(--text-muted); }
+
+        /* Custom Toggle Checkbox */
+        .check-btn {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            margin-right: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .is-completed .check-btn {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .check-btn::after {
+            content: "✓";
+            color: white;
+            font-size: 14px;
+            display: none;
+        }
+
+        .is-completed .check-btn::after { display: block; }
+
+        .task-content { flex-grow: 1; }
+        .task-title { display: block; font-weight: 600; font-size: 1rem; transition: all 0.2s; }
+        .task-meta { font-size: 0.75rem; color: var(--text-muted); }
+
+        .tag-pill {
+            background: #eef2ff;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-right: 12px;
+        }
+
+        .del-icon {
+            color: #cbd5e1;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .empty-state { text-align: center; padding: 40px 0; color: var(--text-muted); font-style: italic; }
+        .clear-all { margin-top: 30px; background: none; border: none; color: var(--text-muted); text-decoration: underline; width: 100%; cursor: pointer; padding-bottom: 20px;}
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>TaskFlow</h1>
+        <p id="date-display"></p>
+    </header>
+
+    <div class="input-card">
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="New objective...">
+            <select id="tagInput">
+                <option value="Task">Task</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Purchase">Purchase</option>
+            </select>
+            <button class="add-btn" onclick="addTask()">Add to List</button>
+        </div>
+    </div>
+
+    <div id="taskList" class="task-list"></div>
+
+    <button class="clear-all" onclick="clearAll()">Wipe all data</button>
+</div>
+
+<script>
+    document.getElementById('date-display').innerText = new Date().toLocaleDateString('en-US', {
+        weekday: 'long', month: 'long', day: 'numeric'
+    });
+
+    document.addEventListener('DOMContentLoaded', renderTasks);
+
+    function addTask() {
+        const nameInput = document.getElementById('taskInput');
+        const tagInput = document.getElementById('tagInput');
+        if (!nameInput.value) return;
+
+        const newTask = {
+            id: Date.now(),
+            name: nameInput.value,
+            tag: tagInput.value,
+            completed: false,
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        };
+
+        const tasks = JSON.parse(localStorage.getItem('flowTasks') || '[]');
+        tasks.unshift(newTask);
+        localStorage.setItem('flowTasks', JSON.stringify(tasks));
+
+        renderTasks();
+        nameInput.value = '';
+    }
+
+    function toggleComplete(id) {
+        let tasks = JSON.parse(localStorage.getItem('flowTasks') || '[]');
+        tasks = tasks.map(task => {
+            if (task.id === id) task.completed = !task.completed;
+            return task;
+        });
+        localStorage.setItem('flowTasks', JSON.stringify(tasks));
+        renderTasks();
+    }
+
+    function deleteTask(id) {
+        let tasks = JSON.parse(localStorage.getItem('flowTasks') || '[]');
+        tasks = tasks.filter(t => t.id !== id);
+        localStorage.setItem('flowTasks', JSON.stringify(tasks));
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('taskList');
+        const tasks = JSON.parse(localStorage.getItem('flowTasks') || '[]');
+
+        if (tasks.length === 0) {
+            container.innerHTML = '<div class="empty-state">All caught up!</div>';
+            return;
+        }
+
+        container.innerHTML = tasks.map(task => `
+            <div class="task-item ${task.completed ? 'is-completed' : ''}">
+                <div class="check-btn" onclick="toggleComplete(${task.id})"></div>
+                <div class="task-content" onclick="toggleComplete(${task.id})">
+                    <span class="task-title">${task.name}</span>
+                    <span class="task-meta">${task.date}</span>
+                </div>
+                <span class="tag-pill">${task.tag}</span>
+                <button class="del-icon" onclick="deleteTask(${task.id})">✕</button>
+            </div>
+        `).join('');
+    }
+
+    function clearAll() {
+        if(confirm("Wipe all tasks?")) {
+            localStorage.removeItem('flowTasks');
+            renderTasks();
+        }
+    }
+</script>
+
+</body>
+</html>
