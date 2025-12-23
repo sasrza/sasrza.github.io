@@ -2,26 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TaskFlow</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TaskFlow™</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TaskFlow">
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%236366f1%22/><path d=%22M30 50L45 65L70 35%22 stroke=%22white%22 stroke-width=%228%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%236366f1%22/><path d=%22M30 50L45 65L70 35%22 stroke=%22white%22 stroke-width=%2210%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%236366f1'/><path d='M50 90L75 115L130 60' stroke='white' stroke-width='14' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><path d='M30 50L45 65L70 35' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
 
     <style>
         :root {
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --danger: #ef4444;
             --success: #22c55e;
+            --overlay: rgba(15, 23, 42, 0.6);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -31,22 +32,42 @@
             background-color: var(--bg);
             color: var(--text-main);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
-            padding: env(safe-area-inset-top) 16px 32px 16px;
         }
 
-        .app-container { width: 100%; max-width: 500px; margin-top: 20px; }
+        /* Hero Header */
+        .top-header {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: calc(env(safe-area-inset-top) + 30px) 20px 40px 20px;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
 
-        header { margin-bottom: 24px; }
-        header h1 { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        header p { color: var(--text-muted); font-size: 0.9rem; }
+        .top-header h1 { font-size: 2rem; font-weight: 800; }
+        .top-header p { opacity: 0.9; font-size: 0.9rem; margin-top: 4px; font-weight: 500; }
+
+        .counter-badge {
+            display: inline-block;
+            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .app-container { width: 100%; max-width: 500px; padding: 0 16px; margin-top: -25px; }
 
         .input-card {
             background: var(--card-bg);
             padding: 20px;
             border-radius: 20px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
             margin-bottom: 24px;
         }
 
@@ -59,7 +80,7 @@
             border-radius: 12px;
             font-size: 16px;
             background-color: #fff;
-            appearance: none;
+            color: var(--text-main);
         }
 
         .add-btn {
@@ -71,11 +92,11 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.1s;
         }
 
         .add-btn:active { transform: scale(0.97); }
 
+        /* List Styling */
         .task-list { display: flex; flex-direction: column; gap: 12px; }
 
         .task-item {
@@ -84,93 +105,133 @@
             border-radius: 16px;
             display: flex;
             align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            animation: slideUp 0.3s ease-out;
         }
 
-        .task-item.is-completed { opacity: 0.5; }
-        .task-item.is-completed .task-title { text-decoration: line-through; color: var(--text-muted); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Custom Toggle Checkbox */
+        .is-completed { opacity: 0.5; }
+        .is-completed .task-title { text-decoration: line-through; }
+
         .check-btn {
-            width: 24px;
-            height: 24px;
+            min-width: 24px; height: 24px;
             border: 2px solid #cbd5e1;
             border-radius: 50%;
             margin-right: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
         }
-
-        .is-completed .check-btn {
-            background-color: var(--success);
-            border-color: var(--success);
-        }
-
-        .check-btn::after {
-            content: "✓";
-            color: white;
-            font-size: 14px;
-            display: none;
-        }
-
+        .is-completed .check-btn { background-color: var(--success); border-color: var(--success); }
+        .check-btn::after { content: "✓"; color: white; font-size: 12px; display: none; }
         .is-completed .check-btn::after { display: block; }
 
-        .task-content { flex-grow: 1; }
-        .task-title { display: block; font-weight: 600; font-size: 1rem; transition: all 0.2s; }
-        .task-meta { font-size: 0.75rem; color: var(--text-muted); }
+        .task-content { flex-grow: 1; overflow: hidden; }
+        .task-title { display: block; font-weight: 600; font-size: 1rem; }
+        .task-meta { font-size: 0.7rem; color: var(--text-muted); }
 
+        /* Categories */
         .tag-pill {
-            background: #eef2ff;
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.65rem;
             font-weight: 800;
             text-transform: uppercase;
-            margin-right: 12px;
+            margin-left: 8px;
+        }
+        .tag-work { background: #dbeafe; color: #1e40af; }
+        .tag-personal { background: #dcfce7; color: #166534; }
+        .tag-purchase { background: #fef3c7; color: #92400e; }
+        .tag-task { background: #f1f5f9; color: #475569; }
+
+        .del-icon { color: #cbd5e1; background: none; border: none; font-size: 1.2rem; padding-left: 10px; cursor: pointer; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--overlay);
+            backdrop-filter: blur(4px);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
         }
 
-        .del-icon {
-            color: #cbd5e1;
-            background: none;
+        .modal-card {
+            background: white;
+            padding: 24px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+            animation: modalPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-card h3 { font-size: 1.25rem; margin-bottom: 8px; }
+        .modal-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; }
+
+        .modal-actions { display: flex; flex-direction: column; gap: 10px; }
+        .modal-btn {
+            padding: 14px;
+            border-radius: 12px;
             border: none;
-            font-size: 1.4rem;
-            padding: 5px;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
         }
+        .btn-confirm { background-color: var(--danger); color: white; }
+        .btn-cancel { background-color: #f1f5f9; color: var(--text-main); }
 
-        .empty-state { text-align: center; padding: 40px 0; color: var(--text-muted); font-style: italic; }
-        .clear-all { margin-top: 30px; background: none; border: none; color: var(--text-muted); text-decoration: underline; width: 100%; cursor: pointer; padding-bottom: 20px;}
+        .clear-all { margin-top: 40px; background: none; border: none; color: var(--text-muted); text-decoration: underline; width: 100%; padding-bottom: 40px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <header>
-        <h1>TaskFlow</h1>
-        <p id="date-display"></p>
-    </header>
+<header class="top-header">
+    <h1>TaskFlow™</h1>
+    <p id="date-display"></p>
+    <div class="counter-badge" id="counter">0 tasks remaining</div>
+</header>
 
+<div class="app-container">
     <div class="input-card">
         <div class="input-group">
-            <input type="text" id="taskInput" placeholder="New objective...">
+            <input type="text" id="taskInput" placeholder="Enter your task here">
             <select id="tagInput">
                 <option value="Task">Task</option>
                 <option value="Work">Work</option>
                 <option value="Personal">Personal</option>
                 <option value="Purchase">Purchase</option>
             </select>
-            <button class="add-btn" onclick="addTask()">Add to List</button>
+            <button class="add-btn" onclick="addTask()">Add Task</button>
         </div>
     </div>
 
     <div id="taskList" class="task-list"></div>
 
-    <button class="clear-all" onclick="clearAll()">Wipe all data</button>
+    <button class="clear-all" onclick="openModal()">Remove all tasks in list</button>
+</div>
+
+<div id="clearModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3>Are you sure?</h3>
+        <p>This will permanently delete all the tasks in your list.</p>
+        <div class="modal-actions">
+            <button class="modal-btn btn-confirm" onclick="confirmClear()">Remove All</button>
+            <button class="modal-btn btn-cancel" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -203,10 +264,7 @@
 
     function toggleComplete(id) {
         let tasks = JSON.parse(localStorage.getItem('flowTasks') || '[]');
-        tasks = tasks.map(task => {
-            if (task.id === id) task.completed = !task.completed;
-            return task;
-        });
+        tasks = tasks.map(t => t.id === id ? {...t, completed: !t.completed} : t);
         localStorage.setItem('flowTasks', JSON.stringify(tasks));
         renderTasks();
     }
@@ -220,10 +278,14 @@
 
     function renderTasks() {
         const container = document.getElementById('taskList');
+        const counter = document.getElementById('counter');
         const tasks = JSON.parse(localStorage.getItem('flowTasks') || '[]');
 
+        const remaining = tasks.filter(t => !t.completed).length;
+        counter.innerText = `${remaining} task${remaining === 1 ? '' : 's'} remaining`;
+
         if (tasks.length === 0) {
-            container.innerHTML = '<div class="empty-state">All caught up!</div>';
+            container.innerHTML = '<div class="empty-state"><center>There are no tasks in your list. Add some!</center></div>';
             return;
         }
 
@@ -234,17 +296,25 @@
                     <span class="task-title">${task.name}</span>
                     <span class="task-meta">${task.date}</span>
                 </div>
-                <span class="tag-pill">${task.tag}</span>
+                <span class="tag-pill tag-${task.tag.toLowerCase()}">${task.tag}</span>
                 <button class="del-icon" onclick="deleteTask(${task.id})">✕</button>
             </div>
         `).join('');
     }
 
-    function clearAll() {
-        if(confirm("Wipe all tasks?")) {
-            localStorage.removeItem('flowTasks');
-            renderTasks();
-        }
+    /* Modal Logic */
+    function openModal() {
+        document.getElementById('clearModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('clearModal').style.display = 'none';
+    }
+
+    function confirmClear() {
+        localStorage.removeItem('flowTasks');
+        renderTasks();
+        closeModal();
     }
 </script>
 
