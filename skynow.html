@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
-    <meta name="theme-color" content="#0f172a"> 
+    <meta name="theme-color" content="#0f172a">
 
     <title>SkyNow™ v1.0</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
@@ -17,7 +17,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-    <style>
+   <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.12);
             --glass-border: rgba(255, 255, 255, 0.2);
@@ -26,62 +26,79 @@
             --icon-uv: #f78fb3; --icon-vis: #a29bfe;
         }
 
-        body {
-            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
-            height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center;
-            transition: background 1s ease; background: #0f172a; color: white; overflow: hidden;
+        /* Fixed Status Bar and Background */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #0f172a; /* This is what colors the status bar */
+            overflow: hidden;
         }
 
-        /* Dynamic Backgrounds */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            transition: background 1s ease;
+            color: white;
+        }
+
+        /* Background Themes */
         body.night { background: radial-gradient(circle at top, #1e293b 0%, #020617 100%); }
         body.day-clear { background: radial-gradient(circle at top, #38bdf8 0%, #0369a1 100%); }
         body.day-cloudy { background: radial-gradient(circle at top, #94a3b8 0%, #475569 100%); }
-        body.day-rainy { background: radial-gradient(circle at top, #64748b 0%, #1e293b 100%); }
-        body.day-snowy { background: radial-gradient(circle at top, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
 
-        /* iPhone 15 Spacing Adjustment */
+        /* The Fix: Pushes content down only enough for the Dynamic Island */
         .app-container { 
-            width: 80%; /* Gives a nice gutter on iPhone 15 */
-            max-width: 340px; 
-            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; 
+            width: 86%; 
+            max-width: 360px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            gap: 12px;
+            /* iPhone 15 Safe Area Logic */
+            padding-top: env(safe-area-inset-top); 
+            margin-top: 10px; /* Fine-tune if it feels too high */
         }
 
         .location-wrapper { display: flex; align-items: center; gap: 10px; }
         #location { font-size: 32px; margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; }
-        .refresh-gps { background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        
+        .refresh-gps { 
+            background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); 
+            color: white; border-radius: 50%; width: 32px; height: 32px; 
+            display: flex; align-items: center; justify-content: center; 
+        }
 
-        #live-time { font-size: 13px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: 2px; }
+        #live-time { font-size: 13px; font-weight: 700; opacity: 0.8; text-transform: uppercase; }
 
-        .weather-card { width: 100%; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 30px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .weather-card { 
+            width: 100%; background: var(--glass-bg); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid var(--glass-border); border-radius: 40px; 
+            padding: 30px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+        }
 
         #glyph { font-size: 75px; margin-bottom: 2px; }
-        
-        /* Yellow Moon Fix */
-        #glyph .fa-moon, .stat-box .fa-moon { color: var(--accent-gold); text-shadow: 0 0 15px rgba(251, 191, 36, 0.3); }
+        #glyph .fa-moon, .stat-box .fa-moon { color: var(--accent-gold); }
 
         .temp-main { font-size: 90px; font-weight: 900; letter-spacing: -4px; margin: 0; line-height: 0.85; }
         
-        /* Centered Hi/Lo Stack */
         .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 12px 0; }
         .hi-lo-stack .hi { color: #ff5f6d; } .hi-lo-stack .lo { color: #00d2ff; }
 
         .description-group { margin-bottom: 20px; }
-        #persona-desc { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        #api-desc { font-size: 12px; font-weight: 600; opacity: 0.6; text-transform: lowercase; margin-top: 4px; font-style: italic; }
+        #persona-desc { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        #api-desc { font-size: 12px; font-weight: 600; opacity: 0.5; font-style: italic; }
 
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
-        .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 18px; padding: 12px 2px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .stat-box i { font-size: 16px; }
-        .stat-box .fa-thermometer-half { color: var(--icon-temp); }
-        .stat-box .fa-tint { color: var(--icon-humid); }
-        .stat-box .fa-wind { color: var(--icon-wind); }
-        .stat-box .fa-sun { color: var(--accent-gold); }
-        .stat-box .fa-eye { color: var(--icon-vis); }
-
-        .stat-value { font-size: 13px; font-weight: 800; }
+        .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 18px; padding: 12px 2px; }
+        .stat-value { font-size: 13px; font-weight: 800; display: block; }
         .stat-label { font-size: 8px; font-weight: 800; opacity: 0.6; text-transform: uppercase; }
 
-        .footer { font-size: 10px; opacity: 0.4; font-weight: 800; letter-spacing: 2px; margin-top: 8px; }
+        .footer { font-size: 10px; opacity: 0.3; font-weight: 800; margin-top: 10px; }
     </style>
 </head>
 <body>
