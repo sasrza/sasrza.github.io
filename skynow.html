@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
+    <meta name="theme-color" content="#0f172a"> 
+
     <title>SkyNow™ v1.0</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -14,12 +16,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.12);
             --glass-border: rgba(255, 255, 255, 0.2);
             --accent-gold: #fbbf24;
-            --icon-temp: #5fff6c; --icon-humid: #00d2ff; --icon-wind: #95c8cf;
+            --icon-temp: #ff5f6d; --icon-humid: #00d2ff; --icon-wind: #34e89e;
             --icon-uv: #f78fb3; --icon-vis: #a29bfe;
         }
 
@@ -29,61 +32,55 @@
             transition: background 1s ease; background: #0f172a; color: white; overflow: hidden;
         }
 
-        /* Dynamic Themes */
+        /* Dynamic Backgrounds */
         body.night { background: radial-gradient(circle at top, #1e293b 0%, #020617 100%); }
         body.day-clear { background: radial-gradient(circle at top, #38bdf8 0%, #0369a1 100%); }
         body.day-cloudy { background: radial-gradient(circle at top, #94a3b8 0%, #475569 100%); }
         body.day-rainy { background: radial-gradient(circle at top, #64748b 0%, #1e293b 100%); }
         body.day-snowy { background: radial-gradient(circle at top, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
 
+        /* iPhone 15 Spacing Adjustment */
         .app-container { 
-        width: 88%; /* Reduced from 92% to give more "breathing room" */
-        max-width: 360px; /* iPhone 15 width is roughly 393px, so 360px keeps it centered with a margin */
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        text-align: center; 
-        gap: 12px; 
+            width: 80%; /* Gives a nice gutter on iPhone 15 */
+            max-width: 340px; 
+            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; 
         }
 
-        /* Restored Header */
         .location-wrapper { display: flex; align-items: center; gap: 10px; }
-        #location { font-size: 34px; margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; }
+        #location { font-size: 32px; margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; }
         .refresh-gps { background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
         #live-time { font-size: 13px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: 2px; }
 
-        .weather-card { width: 100%; background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .weather-card { width: 100%; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 30px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
 
         #glyph { font-size: 75px; margin-bottom: 2px; }
-        .temp-main { font-size: 88px; font-weight: 900; letter-spacing: -4px; margin: 0; line-height: 0.9; }
         
-        /* Hi/Lo Centered Stack */
-        .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
+        /* Yellow Moon Fix */
+        #glyph .fa-moon, .stat-box .fa-moon { color: var(--accent-gold); text-shadow: 0 0 15px rgba(251, 191, 36, 0.3); }
+
+        .temp-main { font-size: 90px; font-weight: 900; letter-spacing: -4px; margin: 0; line-height: 0.85; }
+        
+        /* Centered Hi/Lo Stack */
+        .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 12px 0; }
         .hi-lo-stack .hi { color: #ff5f6d; } .hi-lo-stack .lo { color: #00d2ff; }
 
-        /* Dual Description */
         .description-group { margin-bottom: 20px; }
         #persona-desc { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        #api-desc { font-size: 12px; font-weight: 600; opacity: 0.6; text-transform: uppercase; margin-top: 4px; font-style: italic; }
+        #api-desc { font-size: 12px; font-weight: 600; opacity: 0.6; text-transform: lowercase; margin-top: 4px; font-style: italic; }
 
-        /* Full Grid Restored */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
-        .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 18px; padding: 12px 5px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 18px; padding: 12px 2px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .stat-box i { font-size: 16px; }
         .stat-box .fa-thermometer-half { color: var(--icon-temp); }
         .stat-box .fa-tint { color: var(--icon-humid); }
         .stat-box .fa-wind { color: var(--icon-wind); }
         .stat-box .fa-sun { color: var(--accent-gold); }
         .stat-box .fa-eye { color: var(--icon-vis); }
-        .stat-box .fa-moon { color: #f7d794; }
 
-        .stat-value { font-size: 14px; font-weight: 800; }
+        .stat-value { font-size: 13px; font-weight: 800; }
         .stat-label { font-size: 8px; font-weight: 800; opacity: 0.6; text-transform: uppercase; }
-        /* Change only the moon icon to a bright yellow */
-        .fa-moon {
-            color: #fef08a !important; /* A soft, glowing yellow */
-}
+
         .footer { font-size: 10px; opacity: 0.4; font-weight: 800; letter-spacing: 2px; margin-top: 8px; }
     </style>
 </head>
@@ -135,11 +132,12 @@
         };
 
         function updateClock() {
-            const now = new Date();
-            const options = { weekday: 'short', month: 'short', day: 'numeric' };
-            document.getElementById('live-time').innerHTML = now.toLocaleDateString('en-US', options) + " • " + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        }
-
+        const now = new Date();
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        // Fixed: hour is now 'numeric' to remove leading zero
+        document.getElementById('live-time').innerHTML = now.toLocaleDateString('en-US', options) + " • " + 
+            now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
         function initApp() {
             updateClock();
             const sLat = localStorage.getItem('ww_lat'), sLon = localStorage.getItem('ww_lon');
@@ -158,8 +156,7 @@
 
         function weatherBallon(lat, lon) {
             fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
-                .then(resp => resp.json())
-                .then(data => drawWeather(data));
+                .then(resp => resp.json()).then(data => drawWeather(data));
         }
 
         function drawWeather(d) {
@@ -176,11 +173,11 @@
             document.getElementById('wind-val').innerHTML = Math.round(d.wind.speed);
             document.getElementById('vis-val').innerHTML = (d.visibility / 1609).toFixed(1);
             
-            const sTime = new Date(d.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('set-val').innerHTML = sTime;
+            const sTime = new Date(d.sys.sunset * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            document.getElementById('set-val').innerHTML = sTime.toLowerCase();
             
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
-            document.getElementById('api-desc').innerHTML = `${raw}`;
+            document.getElementById('api-desc').innerHTML = `Currently: ${raw}`;
 
             let glyph = '', bgClass = '';
             if (isNight) {
