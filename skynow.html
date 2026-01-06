@@ -14,20 +14,24 @@
 
     <style>
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.01);
+            --glass-bg: rgba(255, 255, 255, 0.12);
             --glass-border: rgba(255, 255, 255, 0.2);
+            /* New Icon Accent Colors */
+            --icon-temp: #e2ff5f;   /* Warm Pink/Red */
+            --icon-humid: #00d2ff;  /* Bright Blue */
+            --icon-wind: #34e89e;   /* Mint Green */
             --accent-gold: #fbbf24;
-            --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         body {
-            margin: 0; padding: 15px; font-family: 'Inter', sans-serif;
-            height: 100vh; display: flex; justify-content: center; align-items: center;
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+            height: 100vh; width: 100vw;
+            display: flex; justify-content: center; align-items: center;
             transition: background 1s ease; background: #0f172a; color: white;
             overflow: hidden;
         }
 
-        /* Dynamic Themes with deeper colors to fill the space */
+        /* Dynamic Themes */
         body.night { background: radial-gradient(circle at top, #1e293b 0%, #020617 100%); }
         body.day-clear { background: radial-gradient(circle at top, #38bdf8 0%, #0369a1 100%); }
         body.day-cloudy { background: radial-gradient(circle at top, #94a3b8 0%, #475569 100%); }
@@ -35,177 +39,70 @@
         body.day-snowy { background: radial-gradient(circle at top, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
 
         .app-container { 
-            width: 100%; 
-            max-width: 420px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; /* Added breathing room between elements */
-            align-items: center; /* Centers children horizontally */
-            text-align: center;
+            width: 90%; max-width: 400px; 
+            display: flex; flex-direction: column; align-items: center; 
+            text-align: center; gap: 20px;
         }
 
-        header { margin-bottom: 5px; }
-        
-        #location { 
-            font-size: 40px; margin: 0; text-transform: uppercase; 
-            font-weight: 900; letter-spacing: -1.5px; line-height: 1;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-        }
+        .location-wrapper { display: flex; align-items: center; gap: 12px; justify-content: center; }
+        #location { font-size: 38px; margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
 
-        #live-time {
-            font-size: 13px; font-weight: 700; opacity: 0.8; 
-            text-transform: uppercase; margin-top: 6px; letter-spacing: 1.5px;
+        .refresh-gps {
+            background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);
+            color: white; border-radius: 50%; width: 35px; height: 35px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 14px; transition: 0.2s;
         }
+        .refresh-gps:active { transform: scale(0.9); background: var(--accent-gold); color: black; }
+
+        #live-time { font-size: 14px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: 8px; letter-spacing: 1.5px; }
 
         .weather-card {
-            background: var(--glass-bg); 
-            backdrop-filter: blur(25px); 
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border); 
-            border-radius: 40px; 
-            padding: 35px 20px; /* Increased padding for a "fuller" feel */
-            box-shadow: var(--card-shadow);
-            position: relative;
+            width: 100%; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border); border-radius: 40px; padding: 40px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        #glyph { 
-            font-size: 90px; margin-bottom: 10px; 
-            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.3)); 
-        }
+        #glyph { font-size: 90px; margin-bottom: 10px; }
+        .temp-main { font-size: 92px; font-weight: 900; margin: 0; line-height: 0.9; letter-spacing: -4px; }
+        #description { font-size: 18px; text-transform: uppercase; letter-spacing: 3px; margin: 15px 0 25px 0; font-weight: 700; opacity: 0.9; }
+        .aside-message { font-size: 16px; line-height: 1.5; margin-bottom: 30px; font-weight: 500; }
 
-        .temp-main { 
-            font-size: 88px; font-weight: 900; margin: 0; line-height: 0.9;
-            letter-spacing: -4px;
-        }
-
-        #description { 
-            font-size: 18px; text-transform: uppercase; letter-spacing: 3px; 
-            margin: 15px 0 20px 0; font-weight: 700; opacity: 0.9; 
-        }
-
-        .aside-message { 
-            font-size: 15px; line-height: 1.5; margin-bottom: 30px; 
-            padding: 0 15px; font-weight: 500;
-        }
-
-        .stats-grid { 
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; 
-        }
-
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
         .stat-box {
-            background: rgba(255, 255, 255, 0.08); 
-            border: 1px solid var(--glass-border);
-            border-radius: 22px; 
-            padding: 18px 5px; 
-            display: flex; flex-direction: column; gap: 6px;
-            transition: transform 0.2s ease;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 15px 5px; display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
+        
+        /* Icon Color Styling */
+        .stat-box i { font-size: 20px; }
+        .stat-box .fa-thermometer-half { color: var(--icon-temp); }
+        .stat-box .fa-tint { color: var(--icon-humid); }
+        .stat-box .fa-wind { color: var(--icon-wind); }
 
-        .stat-box i { font-size: 18px; color: var(--accent-gold); }
-        .stat-label { font-size: 10px; font-weight: 800; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-value { font-size: 16px; font-weight: 800; }
+        .stat-value { font-size: 15px; font-weight: 800; }
+        .stat-label { font-size: 9px; font-weight: 800; opacity: 0.6; text-transform: uppercase; }
 
-        .footer { 
-            margin-top: 15px; font-size: 11px; opacity: 0.4; 
-            font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-        }
+        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; letter-spacing: 2px; }
     </style>
-
-    <script>
-        const key = 'd0704da8612745131eda6e9b3ce8ebb5';
-
-        function updateClock() {
-            const now = new Date();
-            const options = { weekday: 'short', month: 'short', day: 'numeric' };
-            const dateStr = now.toLocaleDateString('en-US', options);
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('live-time').innerHTML = `${dateStr} • ${timeStr}`;
-        }
-
-        async function getSilentLocation() {
-            try {
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-                weatherBallon(data.latitude, data.longitude);
-            } catch (error) {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(pos => {
-                        weatherBallon(pos.coords.latitude, pos.coords.longitude);
-                    });
-                }
-            }
-        }
-
-        function weatherBallon(lat, lon) {
-            fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
-                .then(resp => resp.json())
-                .then(data => drawWeather(data));
-        }
-
-        function drawWeather(d) {
-            const desc = d.weather[0].description.toLowerCase();
-            const hour = new Date().getHours();
-            const isNight = hour >= 20 || hour < 5;
-
-            document.getElementById('location').innerHTML = d.name;
-            document.getElementById('temp-num').innerHTML = Math.round(d.main.temp) + '&deg;';
-            document.getElementById('description').innerHTML = desc;
-            document.getElementById('feels-val').innerHTML = Math.round(d.main.feels_like) + '&deg;';
-            document.getElementById('humid-val').innerHTML = d.main.humidity + '%';
-            document.getElementById('wind-val').innerHTML = Math.round(d.wind.speed) + ' mph';
-
-            let glyph = '';
-            let message = '';
-            let bgClass = '';
-
-            if (isNight) {
-                bgClass = 'night';
-                glyph = '<i class="fas fa-moon"></i>';
-                message = "Good evening! It's nighttime in " + d.name + ".";
-                if (desc.includes('snow')) glyph = '<i class="fas fa-snowflake"></i>';
-                else if (desc.includes('rain')) glyph = '<i class="fas fa-cloud-moon-rain"></i>';
-            } else {
-                if (desc.includes('snow')) {
-                    glyph = '<i class="fas fa-snowflake"></i>';
-                    message = "Snowy conditions! Bundle up and stay safe.";
-                    bgClass = 'day-snowy';
-                } else if (desc.includes('rain')) {
-                    glyph = '<i class="fas fa-cloud-showers-heavy"></i>';
-                    message = "It's raining outside. Take an umbrella!";
-                    bgClass = 'day-rainy';
-                } else if (desc.includes('cloud')) {
-                    glyph = '<i class="fas fa-cloud-sun"></i>';
-                    message = "Overcast today, but a great day for a walk.";
-                    bgClass = 'day-cloudy';
-                } else {
-                    glyph = '<i class="fas fa-sun"></i>';
-                    message = "Bright and sunny! Enjoy the beautiful day.";
-                    bgClass = 'day-clear';
-                }
-            }
-
-            document.body.className = bgClass;
-            document.getElementById('glyph').innerHTML = glyph;
-            document.getElementById('message-text').innerHTML = message;
-        }
-
-        setInterval(updateClock, 1000);
-        window.onload = () => { getSilentLocation(); updateClock(); };
-    </script>
 </head>
 <body>
     <div class="app-container">
         <header>
-            <h1 id="location">LOADING...</h1>
+            <div class="location-wrapper">
+                <h1 id="location">LOADING...</h1>
+                <button class="refresh-gps" onclick="getPreciseLocation()" title="Update Location">
+                    <i class="fas fa-location-arrow"></i>
+                </button>
+            </div>
             <div id="live-time">---</div>
         </header>
-
+        
         <main class="weather-card">
             <div id="glyph"></div>
             <h2 id="temp-num" class="temp-main">--&deg;</h2>
             <p id="description">---</p>
-            <div id="message-text" class="aside-message">Establishing connection...</div>
-
+            <div id="message-text" class="aside-message">Connecting to satellites...</div>
+            
             <div class="stats-grid">
                 <div class="stat-box">
                     <i class="fas fa-thermometer-half"></i>
@@ -224,8 +121,98 @@
                 </div>
             </div>
         </main>
-
         <footer class="footer">SkyNow™ v1.0</footer>
     </div>
+
+    <script>
+        const key = 'd0704da8612745131eda6e9b3ce8ebb5';
+
+        // Enhanced description mapping
+        const descriptiveMap = {
+            'clear sky': 'Purely Sun-Drenched',
+            'few clouds': 'A Few Drifting Clouds',
+            'scattered clouds': 'Sun Peeking Through',
+            'broken clouds': 'A Mostly Cloudy Canopy',
+            'overcast clouds': 'Deep Gray & Gloomy',
+            'light rain': 'A Soft, Gentle Mist',
+            'moderate rain': 'Steady Refreshing Rainfall',
+            'heavy intensity rain': 'A Heavy Downpour',
+            'snow': 'Whirling Winter Snowflakes',
+            'thunderstorm': 'Electric & Stormy Skies',
+            'mist': 'A Hazy, Veiled Atmosphere'
+        };
+
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'short', month: 'short', day: 'numeric' };
+            document.getElementById('live-time').innerHTML = 
+                now.toLocaleDateString('en-US', options) + " • " + 
+                now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function initApp() {
+            updateClock();
+            const savedLat = localStorage.getItem('ww_lat');
+            const savedLon = localStorage.getItem('ww_lon');
+            if (savedLat && savedLon) { weatherBallon(savedLat, savedLon); } 
+            else { getPreciseLocation(); }
+        }
+
+        function getPreciseLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        localStorage.setItem('ww_lat', pos.coords.latitude);
+                        localStorage.setItem('ww_lon', pos.coords.longitude);
+                        weatherBallon(pos.coords.latitude, pos.coords.longitude);
+                    },
+                    (err) => { document.getElementById('message-text').innerHTML = "GPS Denied."; },
+                    { enableHighAccuracy: true }
+                );
+            }
+        }
+
+        function weatherBallon(lat, lon) {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
+                .then(resp => resp.json())
+                .then(data => drawWeather(data));
+        }
+
+        function drawWeather(d) {
+            const rawDesc = d.weather[0].description.toLowerCase();
+            const hour = new Date().getHours();
+            const isNight = hour >= 20 || hour < 5;
+
+            // Apply Descriptive Mapping
+            document.getElementById('description').innerHTML = descriptiveMap[rawDesc] || rawDesc;
+            
+            document.getElementById('location').innerHTML = d.name;
+            document.getElementById('temp-num').innerHTML = Math.round(d.main.temp) + '&deg;';
+            document.getElementById('feels-val').innerHTML = Math.round(d.main.feels_like) + '&deg;';
+            document.getElementById('humid-val').innerHTML = d.main.humidity + '%';
+            document.getElementById('wind-val').innerHTML = Math.round(d.wind.speed) + ' mph';
+
+            let glyph = '', message = '', bgClass = '';
+
+            if (isNight) {
+                bgClass = 'night'; glyph = '<i class="fas fa-moon"></i>';
+                message = "The stars are out in " + d.name + ".";
+                if (rawDesc.includes('snow')) glyph = '<i class="fas fa-snowflake"></i>';
+                else if (rawDesc.includes('rain')) glyph = '<i class="fas fa-cloud-moon-rain"></i>';
+            } else {
+                if (rawDesc.includes('snow')) { glyph = '<i class="fas fa-snowflake"></i>'; message = "Stay warm!"; bgClass = 'day-snowy'; }
+                else if (rawDesc.includes('rain')) { glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; message = "Umbrella weather."; bgClass = 'day-rainy'; }
+                else if (rawDesc.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; message = "Quietly overcast."; bgClass = 'day-cloudy'; }
+                else { glyph = '<i class="fas fa-sun"></i>'; message = "A perfect day!"; bgClass = 'day-clear'; }
+            }
+
+            document.body.className = bgClass;
+            document.getElementById('glyph').innerHTML = glyph;
+            document.getElementById('message-text').innerHTML = message;
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = initApp;
+    </script>
 </body>
 </html>
