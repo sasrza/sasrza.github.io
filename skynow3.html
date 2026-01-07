@@ -8,7 +8,7 @@
     <meta id="status-bar-style" name="apple-mobile-web-app-status-bar-style" content="black-transparent">
     <meta id="theme-meta" name="theme-color" content="#0f172a"> 
 
-    <title>SkyNow™ v4.0</title>
+    <title>SkyNow™ 4.1</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -27,48 +27,57 @@
             --icon-uv: #f78fb3; --icon-vis: #a29bfe;
         }
 
-        /* Crucial: html and body must have the same background to kill the white bar */
         html, body { 
-            height: 100vh; 
+            height: 100%; 
             margin: 0; 
             padding: 0; 
-            overflow: hidden; 
+            overflow: hidden;
             background-color: #0f172a; 
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; 
+            justify-content: center; 
+            /* Push to the top to control the gap precisely */
+            align-items: flex-start; 
             transition: background 1s ease, color 0.5s ease;
             color: white;
         }
 
-        /* Themes */
+        /* Weather Themes */
         body.night { background: radial-gradient(circle at top, #1e293b 0%, #020617 100%); }
-        body.day-clear { background: radial-gradient(circle at top, #e67e22 0%, #8e44ad 100%); } /* Matches your sunset screenshot */
+        body.day-clear { background: radial-gradient(circle at top, #e67e22 0%, #8e44ad 100%); }
         body.day-cloudy { background: radial-gradient(circle at top, #94a3b8 0%, #475569 100%); }
         body.day-rainy { background: radial-gradient(circle at top, #64748b 0%, #1e293b 100%); }
         body.day-snowy { background: radial-gradient(circle at top, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
         body.sunset { background: radial-gradient(circle at top, #f59e0b 0%, #7c3aed 100%); }
 
         .app-container { 
-            width: 88%; max-width: 360px;
-            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
-            /* Trimming back the white space: pushing content closer to the Dynamic Island */
-            padding-top: calc(env(safe-area-inset-top) + 2px);
+            width: 88%; 
+            max-width: 360px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            gap: 10px;
+            /* This targets the GREEN gap: env gets you past the clock, 10px is the padding */
+            padding-top: calc(env(safe-area-inset-top) + 10px);
         }
 
         .location-wrapper { display: flex; align-items: center; gap: 8px; }
         #location { font-size: 34px; margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; }
         .refresh-gps { background: rgba(255,255,255,0.15); border: 1px solid var(--glass-border); color: inherit; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        #live-time { font-size: 13px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -5px; }
+        #live-time { font-size: 13px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
 
         .weather-card { 
             width: 100%; background: var(--glass-bg); 
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
             border: 1px solid var(--glass-border); border-radius: 40px; 
             padding: 25px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+            /* Added margin to help center the card vertically in the remaining space */
+            margin-top: 10px;
         }
 
         #glyph { font-size: 80px; margin-bottom: 2px; }
@@ -79,9 +88,8 @@
 
         .description-group { margin-bottom: 20px; }
         #persona-desc { font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        #api-desc { font-size: 12px; font-weight: 600; opacity: 0.6; text-transform: uppercase; margin-top: 4px; }
+        #api-desc { font-size: 11px; font-weight: 600; opacity: 0.5;  text-transform: uppercase;  margin-top: 2px; }
 
-        /* Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
         .stat-box { 
             background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); 
@@ -89,7 +97,7 @@
             display: flex; flex-direction: column; align-items: center; gap: 4px; 
         }
         
-        .stat-box i { font-size: 16px; margin-bottom: 2px; }
+        .stat-box i { font-size: 16px; }
         .stat-box .fa-thermometer-half { color: var(--icon-temp); }
         .stat-box .fa-tint { color: var(--icon-humid); }
         .stat-box .fa-wind { color: var(--icon-wind); }
@@ -136,7 +144,7 @@
                 <div class="stat-box"><i class="fas fa-moon"></i><span id="set-val" class="stat-value">--:--</span><span class="stat-label">Sunset</span></div>
             </div>
         </main>
-        <footer class="footer">SkyNow™ v4.0</footer>
+        <footer class="footer">SkyNow™ v3.0</footer>
     </div>
 
     <script>
@@ -215,9 +223,8 @@
             document.body.className = bgClass;
             document.getElementById('glyph').innerHTML = glyph;
 
-            // DYNAMIC STATUS BAR SYNC
             document.getElementById('theme-meta').setAttribute('content', themeHex);
-            document.documentElement.style.backgroundColor = themeHex; // Syncs the very top "over-scroll" color
+            document.documentElement.style.backgroundColor = themeHex;
             
             const statusStyle = (bgClass === 'day-snowy') ? 'default' : 'black-transparent';
             document.getElementById('status-bar-style').setAttribute('content', statusStyle);
