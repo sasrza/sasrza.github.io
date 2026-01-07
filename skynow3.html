@@ -79,7 +79,7 @@
 
         .description-group { margin-bottom: 20px; }
         #persona-desc { font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        #api-desc { font-size: 12px; font-weight: 600; opacity: 0.6; text-transform: lowercase; margin-top: 4px; font-style: italic; }
+        #api-desc { font-size: 12px; font-weight: 600; opacity: 0.6; text-transform: uppercase; margin-top: 4px; }
 
         /* Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
@@ -197,7 +197,7 @@
             document.getElementById('set-val').innerHTML = sTime.toLowerCase();
             
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
-            document.getElementById('api-desc').innerHTML = `currently: ${raw}`;
+            document.getElementById('api-desc').innerHTML = `${raw}`;
 
             let glyph = '', bgClass = '', themeHex = '#0f172a';
 
