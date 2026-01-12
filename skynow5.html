@@ -8,7 +8,7 @@
     <meta id="status-bar-style" name="apple-mobile-web-app-status-bar-style" content="black-transparent">
     <meta id="theme-meta" name="theme-color" content="#0f172a"> 
 
-    <title>SkyNow™ 5.01</title>
+    <title>SkyNow™ 5.0</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -224,7 +224,7 @@
             </div>
             <div class="stats-grid" id="stats-container"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.01</footer>
+        <footer class="footer">SkyNow™ 5.0</footer>
     </div>
 
     <script>
@@ -269,10 +269,16 @@
 
         function drawWeather(d) {
             const raw = d.weather[0].description.toLowerCase();
-            const nowTS = Math.floor(Date.now() / 1000);
-            const isNight = nowTS > d.sys.sunset || nowTS < d.sys.sunrise;
-            const isGoldenHour = (nowTS > d.sys.sunset - 3600 && nowTS <= d.sys.sunset) || (nowTS < d.sys.sunrise + 3600 && nowTS >= d.sys.sunrise);
-
+            
+            // FIX: Use the 'dt' from the API instead of Date.now()
+            // This ensures we are judging 'night' based on the city's local data time
+            const cityTime = d.dt; 
+            
+            const isNight = cityTime > d.sys.sunset || cityTime < d.sys.sunrise;
+            
+            // Calculate Golden Hour using the same cityTime
+            const isGoldenHour = (cityTime > d.sys.sunset - 3600 && cityTime <= d.sys.sunset) || 
+                                (cityTime < d.sys.sunrise + 3600 && cityTime >= d.sys.sunrise);
             // Logic for showing alert banner
             const alertWords = ['storm', 'thunderstorm', 'heavy', 'tornado', 'hurricane', 'extreme'];
             const hasAlert = alertWords.some(word => raw.includes(word));
