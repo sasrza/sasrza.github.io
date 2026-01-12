@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta id="status-bar-style" name="apple-mobile-web-app-status-bar-style" content="black-transparent">
+    <meta id="theme-meta" name="theme-color" content="#0f172a"> 
+
+    <title>SkyNow™ 5.0</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16-SN.png">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --accent-gold: #fbbf24;
+            --icon-temp: #e640dd; --icon-humid: #00d2ff; --icon-wind: #34e89e;
+            --icon-uv: #f78fb3; --icon-vis: #a29bfe;
+        }
+
+        html, body { 
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden;
+            background-color: #0f172a; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex; 
+            justify-content: center; 
+            /* Push to the top to control the gap precisely */
+            align-items: flex-start; 
+            transition: background 1s ease, color 0.5s ease;
+            color: white;
+        }
+
+
+
+        /* Target the smaller sunset/moon icon in the stats grid */
+        .stat-box .fa-moon {
+            color: var(--accent-gold);
+       }
+        body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
+        body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
+        body.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
+        body.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
+        body.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
+
+        .app-container { 
+            width: 88%; 
+            max-width: 360px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            gap: 10px;
+            /* This targets the GREEN gap: env gets you past the clock, 10px is the padding */
+            padding-top: calc(env(safe-area-inset-top) + 45px);
+        }
+
+        .location-wrapper { display: flex; align-items: center; gap: 8px; }
+        #location { font-size: 38px; margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; }
+        .refresh-gps { background: rgba(255,255,255,0.15); border: 1px solid var(--glass-border); color: inherit; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+        #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
+
+        .weather-card { 
+            width: 100%; background: var(--glass-bg); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid var(--glass-border); border-radius: 40px; 
+            padding: 25px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+            /* Added margin to help center the card vertically in the remaining space */
+            margin-top: 10px;
+        }
+
+        #glyph { font-size: 80px; margin-bottom: 2px; }
+        .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -4px; margin: 0; line-height: 0.85; }
+        
+        .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
+        .hi-lo-stack .hi { color: #a0020f; color 0.8s ease;} .hi-lo-stack .lo { color: #006075; color 0.8s ease;}
+
+        /* Weather Themes */
+        body.night #glyph .fa-moon {
+            color: var(--accent-gold);
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
+        }
+
+        body.night .hi-lo-stack .hi { 
+            color: #ff2e63; /* Brighter Magenta/Red */
+            text-shadow: 0 0 8px rgba(255, 46, 99, 0.4); 
+        }
+        body.night .hi-lo-stack .lo { 
+            color: #00fff0; /* Bright Electric Cyan */
+            text-shadow: 0 0 8px rgba(0, 255, 240, 0.4); 
+        }
+
+        body.night .stat-box i {
+            filter: brightness(1.4) saturate(1.2);
+        }
+
+        .description-group { margin-bottom: 20px; }
+        #persona-desc { font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+        #api-desc { font-size: 11px; font-weight: 600; opacity: 0.5;  text-transform: uppercase;  margin-top: 2px; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+        .stat-box { 
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); 
+            border-radius: 20px; padding: 12px 2px; 
+            display: flex; flex-direction: column; align-items: center; gap: 4px; 
+        }
+        
+        .stat-box i { font-size: 16px; }
+        .stat-box .fa-thermometer-half { color: var(--icon-temp); }
+        .stat-box .fa-tint { color: var(--icon-humid); }
+        .stat-box .fa-wind { color: var(--icon-wind); }
+        .stat-box .fa-sun { color: var(--accent-gold); }
+        .stat-box .fa-eye { color: var(--icon-vis); }
+        .stat-box .fa-moon { color: var(--accent-gold); }
+
+        .stat-value { font-size: 14px; font-weight: 800; }
+        .stat-label { font-size: 9px; font-weight: 800; opacity: 0.6; text-transform: uppercase; }
+
+        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="location-wrapper">
+                <h1 id="location">LOADING...</h1>
+                <button class="refresh-gps" onclick="getPreciseLocation()"><i class="fas fa-location-arrow"></i></button>
+            </div>
+            <div id="live-time">---</div>
+        </header>
+        
+        <main class="weather-card">
+            <div id="glyph"></div>
+            <h2 id="temp-num" class="temp-main">--&deg;</h2>
+            
+            <div class="hi-lo-stack">
+                <span class="hi">High: <span id="hi-val">--</span>&deg;</span>
+                <span class="lo">Low: <span id="lo-val">--</span>&deg;</span>
+            </div>
+
+            <div class="description-group">
+                <p id="persona-desc">---</p>
+                <p id="api-desc">---</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-box"><i class="fas fa-thermometer-half"></i><span id="feels-val" class="stat-value">--&deg;</span><span class="stat-label">Feels</span></div>
+                <div class="stat-box"><i class="fas fa-tint"></i><span id="humid-val" class="stat-value">--%</span><span class="stat-label">Humid</span></div>
+                <div class="stat-box"><i class="fas fa-wind"></i><span id="wind-val" class="stat-value">--</span><span class="stat-label">Wind</span></div>
+                <div class="stat-box"><i class="fas fa-sun"></i><span id="uv-val" class="stat-value">Low</span><span class="stat-label">UV Index</span></div>
+                <div class="stat-box"><i class="fas fa-eye"></i><span id="vis-val" class="stat-value">--</span><span class="stat-label">Visibility</span></div>
+                <div class="stat-box"><i class="fas fa-moon"></i><span id="set-val" class="stat-value">--:--</span><span class="stat-label">Sunset</span></div>
+            </div>
+        </main>
+        <footer class="footer">SkyNow™ 5.0</footer>
+    </div>
+
+    <script>
+        const key = 'd0704da8612745131eda6e9b3ce8ebb5';
+
+        const descriptiveMap = {
+            'clear sky': 'Purely Sun-Drenched', 'few clouds': 'A Few Drifting Clouds',
+            'scattered clouds': 'Sun Peeking Through', 'broken clouds': 'A Mostly Cloudy Canopy',
+            'overcast clouds': 'Solid Gray Overcast', 'light rain': 'A Soft, Gentle Mist',
+            'moderate rain': 'Steady Refreshing Rainfall', 'heavy intensity rain': 'A Heavy Downpour'
+        };
+
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'short', month: 'short', day: 'numeric' };
+            document.getElementById('live-time').innerHTML = now.toLocaleDateString('en-US', options) + " • " + 
+                now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        }
+
+        function initApp() {
+            updateClock();
+            const sLat = localStorage.getItem('sn_lat'), sLon = localStorage.getItem('sn_lon');
+            if (sLat && sLon) weatherBallon(sLat, sLon); else getPreciseLocation();
+        }
+
+        function getPreciseLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    localStorage.setItem('sn_lat', pos.coords.latitude);
+                    localStorage.setItem('sn_lon', pos.coords.longitude);
+                    weatherBallon(pos.coords.latitude, pos.coords.longitude);
+                }, null, { enableHighAccuracy: true });
+            }
+        }
+
+        function weatherBallon(lat, lon) {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
+                .then(resp => resp.json()).then(data => drawWeather(data));
+        }
+
+        function drawWeather(d) {
+            const raw = d.weather[0].description.toLowerCase();
+            const nowTS = Math.floor(Date.now() / 1000);
+            
+            const isNight = nowTS > d.sys.sunset || nowTS < d.sys.sunrise;
+            const isGoldenHour = (nowTS > d.sys.sunset - 3600 && nowTS <= d.sys.sunset) || (nowTS < d.sys.sunrise + 3600 && nowTS >= d.sys.sunrise);
+
+            document.getElementById('location').innerHTML = d.name;
+            document.getElementById('temp-num').innerHTML = Math.round(d.main.temp) + '&deg;';
+            document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
+            document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
+            document.getElementById('feels-val').innerHTML = Math.round(d.main.feels_like) + '&deg;';
+            document.getElementById('humid-val').innerHTML = d.main.humidity + '%';
+            document.getElementById('wind-val').innerHTML = Math.round(d.wind.speed);
+            document.getElementById('vis-val').innerHTML = (d.visibility / 1609).toFixed(1);
+            
+            const sTime = new Date(d.sys.sunset * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            document.getElementById('set-val').innerHTML = sTime.toLowerCase();
+            
+            document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
+            document.getElementById('api-desc').innerHTML = `${raw}`;
+
+            let glyph = '', bgClass = '', themeHex = '#0f172a';
+
+            if (isGoldenHour) {
+                bgClass = 'sunset'; glyph = '<i class="fas fa-cloud-sun"></i>'; themeHex = "#4B0082";
+            } else if (isNight) {
+                bgClass = 'night'; 
+                glyph = '<i class="fas fa-moon"></i>'; // The CSS targets .fa-moon inside #glyph
+            }else {
+                if (raw.includes('snow')) { glyph = '<i class="fas fa-snowflake"></i>'; bgClass = 'day-snowy'; themeHex = "#f8fafc"; }
+                else if (raw.includes('rain')) { glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; bgClass = 'day-rainy'; themeHex = "#64748b"; }
+                else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; themeHex = "#94a3b8"; }
+                else { glyph = '<i class="fas fa-sun"></i>'; bgClass = 'day-clear'; themeHex = "#e67e22"; }
+            }
+
+            document.body.className = bgClass;
+            document.getElementById('glyph').innerHTML = glyph;
+
+            document.getElementById('theme-meta').setAttribute('content', themeHex);
+            document.documentElement.style.backgroundColor = themeHex;
+            
+            const statusStyle = (bgClass === 'day-snowy') ? 'default' : 'black-transparent';
+            document.getElementById('status-bar-style').setAttribute('content', statusStyle);
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = initApp;
+    </script>
+</body>
+</html>
