@@ -25,36 +25,36 @@
             --alert-red: #ff4757;
         }
 
-/* --- iOS Status Bar & Transparency Fixes --- */
-        html, body {
+        /* THE KEY FIX: Force content to start at the absolute top 0 */
+        html {
             height: 100%;
-            margin: 0;
-            padding: 0;
-            transition: background 2s ease-in-out, color 0.5s ease;
-            background-attachment: fixed;
+            background-color: #94a3b8; /* Default fallback color */
         }
-
-        /* Applying themes to BOTH html and body kills the white status bar gap */
-        html.day-clear, body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
-        html.day-cloudy, body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
-        html.day-haze, body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
-        html.day-rainy, body.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
-        html.day-snowy, body.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
-        html.sunset, body.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
-        html.night, body.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
-        html.night-rain, body.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
-        html.night-snow, body.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
-        html.night-storm, body.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
 
         body {
             font-family: 'Inter', sans-serif;
+            margin: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            transition: background 2s ease-in-out, color 0.5s ease;
             color: white;
+            /* This forces icons to stay dark if the background is light */
             color-scheme: light; 
-            overflow-x: hidden;
         }
+
+        /* --- THEMES --- */
+        body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
+        body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
+        body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
+        body.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
+        body.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
+        body.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
+        body.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
+        body.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
+        body.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
+        body.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
 
         .app-container { 
             width: 88%; 
@@ -64,10 +64,28 @@
             align-items: center; 
             text-align: center; 
             gap: 10px; 
-            /* THE FIX: Respects the iOS Notch/Status bar height */
+            /* env(safe-area-inset-top) ensures we don't hit the Dynamic Island */
             padding-top: calc(env(safe-area-inset-top) + 15px); 
         }
-        
+
+        /* ... rest of your styling for weather card, stats, etc remains the same ... */
+        #alert-banner {
+            width: 100%; background: var(--alert-red); color: white;
+            font-size: 11px; font-weight: 800; text-transform: uppercase;
+            padding: 6px 0; margin-top: 10px; border-radius: 12px;
+            display: none; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+
+        .refresh-gps { 
+            background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: white; border-radius: 50%; width: 28px; height: 28px; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: background 0.3s ease; -webkit-tap-highlight-color: transparent;
+        }
+        .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
+        @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
         #location { 
             font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
@@ -75,30 +93,6 @@
 
         .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
         .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
-
-        .refresh-gps { 
-            background: rgba(255, 255, 255, 0.10); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            color: white; 
-            border-radius: 50%; width: 28px; height: 28px; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .refresh-gps:active { 
-            transform: scale(0.8); 
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
-        .refresh-gps.searching { 
-            color: var(--accent-gold); 
-            background: rgba(52, 241, 93, 0.2);
-            border-color: rgba(5, 255, 117, 0.4);
-        }
-        @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-
         #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
 
         .weather-card { 
@@ -109,7 +103,6 @@
         }
 
         #glyph { font-size: 80px; margin-bottom: 2px; }
-
         .temp-main { 
             font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85;
             font-variant-numeric: tabular-nums; 
@@ -143,10 +136,7 @@
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .footer { 
-            font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; 
-            letter-spacing: 1px; transition: all 0.5s ease;
-        }
+        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -159,6 +149,7 @@
                 </button>
             </div>
             <div id="live-time">---</div>
+            <div id="alert-banner"><i class="fas fa-exclamation-triangle"></i> Severe Weather Alert</div>
         </header>
         
         <main class="weather-card">
@@ -176,10 +167,11 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.9</footer>
+        <footer class="footer">SkyNow™ 5.01</footer>
     </div>
 
     <script>
+        // ... (Keep your existing Javascript here) ...
         const key = 'd0704da8612745131eda6e9b3ce8ebb5';
 
         const tooltipData = {
@@ -207,42 +199,10 @@
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 2); 
                 const current = Math.floor(easeOut * (end - start) + start);
-                obj.innerHTML = current + '&deg;';
+                obj.innerHTML = (id === 'temp-num') ? current + '&deg;' : current;
                 if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
-        }
-
-        async function checkForecast(lat, lon) {
-            try {
-                const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`);
-                const data = await resp.json();
-                
-                const nowTemp = Math.round(data.list[0].main.temp);
-                const sixHourForecast = data.list[2]; 
-                const futureTemp = Math.round(sixHourForecast.main.temp);
-                const futureWeather = sixHourForecast.weather[0].main.toLowerCase();
-                const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
-
-                const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 5.9"; 
-
-                if (futureWeather !== currentMainWeather) {
-                    if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
-                    else if (futureWeather.includes('snow')) alertText = "❄️ Snow on the way soon";
-                    else if (futureWeather.includes('cloud')) alertText = "☁️ Clouds rolling in shortly";
-                } 
-                else if (futureTemp <= nowTemp - 5) {
-                    alertText = `📉 Temp dropping to ${futureTemp}° soon. Bundle up!`;
-                }
-                else if (futureTemp >= nowTemp + 5) {
-                    alertText = `📈 Warming up to ${futureTemp}° within 6 hours`;
-                }
-
-                footer.innerHTML = alertText;
-                footer.style.opacity = (alertText !== "SkyNow™ 5.9") ? "0.9" : "0.4";
-                if (alertText !== "SkyNow™ 5.9") footer.style.color = "#fbbf24";
-            } catch(e) { console.log("Forecast error", e); }
         }
 
         function updateClock() {
@@ -255,31 +215,29 @@
         function getPreciseLocation() {
             const btn = document.getElementById('gps-btn');
             if (btn) btn.classList.add('searching');
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
+                    if (window.navigator.vibrate) window.navigator.vibrate(20);
                     localStorage.setItem('sn_lat', pos.coords.latitude);
                     localStorage.setItem('sn_lon', pos.coords.longitude);
                     weatherBallon(pos.coords.latitude, pos.coords.longitude);
                     setTimeout(() => { if (btn) btn.classList.remove('searching'); }, 1000);
-                }, (err) => { 
-                    if (btn) btn.classList.remove('searching'); 
-                }, { enableHighAccuracy: true });
+                }, () => { if (btn) btn.classList.remove('searching'); }, { enableHighAccuracy: true });
             }
         }
 
         function weatherBallon(lat, lon) {
             fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
-                .then(resp => resp.json()).then(data => {
-                    drawWeather(data);
-                    checkForecast(lat, lon);
-                });
+                .then(resp => resp.json()).then(data => drawWeather(data));
         }
 
         function drawWeather(d) {
             const raw = d.weather[0].description.toLowerCase();
             const isNight = d.dt > d.sys.sunset || d.dt < d.sys.sunrise;
             const isGoldenHour = (d.dt > d.sys.sunset - 3600 && d.dt <= d.sys.sunset) || (d.dt < d.sys.sunrise + 3600 && d.dt >= d.sys.sunrise);
+            
+            const alertWords = ['storm', 'thunderstorm', 'heavy', 'tornado', 'hurricane', 'extreme'];
+            document.getElementById('alert-banner').style.display = alertWords.some(word => raw.includes(word)) ? 'block' : 'none';
 
             const descriptiveMap = {
                 'clear sky': isNight ? 'Starlit & Still' : 'Purely Sun-Drenched',
@@ -345,10 +303,7 @@
                 else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
                 else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
             }
-// This applies the class to BOTH tags so the notch matches the app
-            document.documentElement.className = bgClass; 
             document.body.className = bgClass;
-            
             document.getElementById('glyph').innerHTML = glyph;
         }
 
