@@ -7,8 +7,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
 
-    <title>SkyNow™ 5.3</title>
+    <title>SkyNow™ 5.5</title>
     
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16-SN.png">
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -21,22 +25,26 @@
             --alert-red: #ff4757;
         }
 
-        /* FIX: Removed solid color to allow gradient to fill status bar area */
-        html, body { 
-            height: 100%; margin: 0; padding: 0; overflow: hidden;
-            background-color: transparent; 
+        /* THE KEY FIX: Force content to start at the absolute top 0 */
+        html {
+            height: 100%;
+            background-color: #94a3b8; /* Default fallback color */
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            display: flex; justify-content: center; align-items: flex-start; 
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
             transition: background 2s ease-in-out, color 0.5s ease;
             color: white;
-            /* Ensure the background covers the entire viewport including safe areas */
-            background-attachment: fixed;
+            /* This forces icons to stay dark if the background is light */
+            color-scheme: light; 
         }
 
-        /* --- THEMES (Gradients now flow to the very top) --- */
+        /* --- THEMES --- */
         body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
         body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
         body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
@@ -48,6 +56,19 @@
         body.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
         body.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
 
+        .app-container { 
+            width: 88%; 
+            max-width: 360px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            gap: 10px; 
+            /* env(safe-area-inset-top) ensures we don't hit the Dynamic Island */
+            padding-top: calc(env(safe-area-inset-top) + 15px); 
+        }
+
+        /* ... rest of your styling for weather card, stats, etc remains the same ... */
         #alert-banner {
             width: 100%; background: var(--alert-red); color: white;
             font-size: 11px; font-weight: 800; text-transform: uppercase;
@@ -65,13 +86,6 @@
         .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
         @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* Padding adjustment for iOS dynamic island / notch */
-        .app-container { 
-            width: 88%; max-width: 360px; display: flex; flex-direction: column; 
-            align-items: center; text-align: center; gap: 10px; 
-            padding-top: calc(env(safe-area-inset-top) + 20px); 
-        }
-        
         #location { 
             font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
@@ -95,7 +109,8 @@
         }
 
         #impact-label {
-            font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 5px; height: 12px;
+            font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px;
+            letter-spacing: 0.5px;
         }
         
         .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
@@ -116,7 +131,7 @@
 
         #tooltip {
             position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.8); color: white; padding: 10px 15px; border-radius: 15px;
+            background: rgba(0,0,0,0.85); color: white; padding: 10px 15px; border-radius: 15px;
             font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10;
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
         }
@@ -140,7 +155,7 @@
         <main class="weather-card">
             <div id="glyph"></div>
             <h2 id="temp-num" class="temp-main">--&deg;</h2>
-            <div id="impact-label"></div>
+            <div id="impact-label">FEELS LIKE TEMPERATURE</div>
             <div class="hi-lo-stack">
                 <span class="hi">High: <span id="hi-val">--</span>&deg;</span>
                 <span class="lo">Low: <span id="lo-val">--</span>&deg;</span>
@@ -152,19 +167,20 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.3</footer>
+        <footer class="footer">SkyNow™ 5.5</footer>
     </div>
 
     <script>
+        // ... (Keep your existing Javascript here) ...
         const key = 'd0704da8612745131eda6e9b3ce8ebb5';
 
         const tooltipData = {
             "ACTUAL TEMP": "The true air temperature without weather factors.",
-            "HUMIDITY": "The amount of moisture currently in the air.",
-            "WIND SPEED": "How fast the air is moving near the surface.",
-            "UV INDEX": "The strength of sunburn-producing UV radiation.",
-            "VISIBILITY": "The furthest distance you can see clearly.",
-            "SUNSET": "The time the sun disappears below the horizon."
+            "HUMIDITY": "The percentage of water vapor in the air.",
+            "WIND SPEED": "How fast the air is moving at ground level.",
+            "UV INDEX": "Sun intensity; protect your skin accordingly.",
+            "VISIBILITY": "Maximum distance clear objects are visible.",
+            "SUNSET": "Approximate time the sun dips below the horizon."
         };
 
         function showTooltip(label) {
@@ -249,9 +265,10 @@
             const feels = Math.round(d.main.feels_like);
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
+            
             if (feels > actual + 2) impactEl.innerText = "Humidity Impacting Feel";
             else if (feels < actual - 2) impactEl.innerText = "Wind Chill Impacting Feel";
-            else impactEl.innerText = "";
+            else impactEl.innerText = "FEELS LIKE TEMPERATURE";
 
             animateValue("temp-num", 0, feels, 1200);
 
@@ -273,8 +290,8 @@
                 </div>
             `).join('');
 
-            let glyph = '', bgClass = '', themeHex = '#0f172a';
-            if (isGoldenHour) { bgClass = 'sunset'; glyph = '<i class="fas fa-cloud-sun"></i>'; themeHex = "#4B0082"; }
+            let glyph = '', bgClass = '';
+            if (isGoldenHour) { bgClass = 'sunset'; glyph = '<i class="fas fa-cloud-sun"></i>'; }
             else if (isNight) {
                 if (raw.includes('storm')) { bgClass = 'night-storm'; glyph = '<i class="fas fa-bolt" style="color:#fbbf24"></i>'; }
                 else if (raw.includes('rain')) { bgClass = 'night-rain'; glyph = '<i class="fas fa-cloud-moon-rain" style="color:#fbbf24"></i>'; }
@@ -282,7 +299,7 @@
             } else {
                 if (raw.includes('snow')) { glyph = '<i class="fas fa-snowflake"></i>'; bgClass = 'day-snowy'; }
                 else if (raw.includes('rain')) { glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; bgClass = 'day-rainy'; }
-                else if (raw.includes('haze') || raw.includes('mist') || raw.includes('smoke')) { glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-haze'; themeHex = "#a8a29e"; }
+                else if (raw.includes('haze') || raw.includes('mist') || raw.includes('smoke')) { glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-haze'; }
                 else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
                 else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
             }
