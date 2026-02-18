@@ -25,39 +25,36 @@
             --alert-red: #ff4757;
         }
 
-        /* --- iOS Status Bar & Transparency Fixes --- */
-        html {
+/* --- iOS Status Bar & Transparency Fixes --- */
+        html, body {
             height: 100%;
-            /* This ensures the 'top' of the page matches the day-clear vibe by default */
-            background-color: transparent; 
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
             margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            padding: 0;
             transition: background 2s ease-in-out, color 0.5s ease;
-            color: white;
-            color-scheme: light; /* Forces status bar icons to be dark/readable */
-            overflow-x: hidden;
-            /* CRITICAL: Fixes background bleeding under status bar */
             background-attachment: fixed;
         }
 
-        /* --- THEMES --- */
-        body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
-        body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
-        body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
-        body.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
-        body.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
-        body.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
-        body.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
-        body.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
-        body.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
-        body.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
+        /* Applying themes to BOTH html and body kills the white status bar gap */
+        html.day-clear, body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
+        html.day-cloudy, body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
+        html.day-haze, body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
+        html.day-rainy, body.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
+        html.day-snowy, body.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
+        html.sunset, body.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
+        html.night, body.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
+        html.night-rain, body.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
+        html.night-snow, body.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
+        html.night-storm, body.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: white;
+            color-scheme: light; 
+            overflow-x: hidden;
+        }
 
         .app-container { 
             width: 88%; 
@@ -179,7 +176,7 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.8</footer>
+        <footer class="footer">SkyNow™ 5.9</footer>
     </div>
 
     <script>
@@ -228,7 +225,7 @@
                 const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 5.8"; 
+                let alertText = "SkyNow™ 5.9"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
@@ -243,8 +240,8 @@
                 }
 
                 footer.innerHTML = alertText;
-                footer.style.opacity = (alertText !== "SkyNow™ 5.8") ? "0.9" : "0.4";
-                if (alertText !== "SkyNow™ 5.8") footer.style.color = "#fbbf24";
+                footer.style.opacity = (alertText !== "SkyNow™ 5.9") ? "0.9" : "0.4";
+                if (alertText !== "SkyNow™ 5.9") footer.style.color = "#fbbf24";
             } catch(e) { console.log("Forecast error", e); }
         }
 
@@ -348,7 +345,10 @@
                 else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
                 else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
             }
+// This applies the class to BOTH tags so the notch matches the app
+            document.documentElement.className = bgClass; 
             document.body.className = bgClass;
+            
             document.getElementById('glyph').innerHTML = glyph;
         }
 
