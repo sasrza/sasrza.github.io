@@ -5,15 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta id="status-bar-style" name="apple-mobile-web-app-status-bar-style" content="black-transparent">
-    <meta id="theme-meta" name="theme-color" content="#0f172a"> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
 
-    <title>SkyNow™ 5.2</title>
+    <title>SkyNow™ 5.3</title>
     
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16-SN.png">
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -26,19 +21,22 @@
             --alert-red: #ff4757;
         }
 
+        /* FIX: Removed solid color to allow gradient to fill status bar area */
         html, body { 
             height: 100%; margin: 0; padding: 0; overflow: hidden;
-            background-color: #0f172a; 
+            background-color: transparent; 
         }
 
         body {
             font-family: 'Inter', sans-serif;
             display: flex; justify-content: center; align-items: flex-start; 
-            transition: background 2s ease-in-out, color 0.5s ease; /* SMOOTH TRANSITION */
+            transition: background 2s ease-in-out, color 0.5s ease;
             color: white;
+            /* Ensure the background covers the entire viewport including safe areas */
+            background-attachment: fixed;
         }
 
-        /* --- THEMES --- */
+        /* --- THEMES (Gradients now flow to the very top) --- */
         body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
         body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
         body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
@@ -67,7 +65,12 @@
         .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
         @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        .app-container { width: 88%; max-width: 360px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding-top: calc(env(safe-area-inset-top) + 45px); }
+        /* Padding adjustment for iOS dynamic island / notch */
+        .app-container { 
+            width: 88%; max-width: 360px; display: flex; flex-direction: column; 
+            align-items: center; text-align: center; gap: 10px; 
+            padding-top: calc(env(safe-area-inset-top) + 20px); 
+        }
         
         #location { 
             font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
@@ -104,14 +107,13 @@
         .stat-box { 
             background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; 
             padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; 
-            cursor: pointer; transition: transform 0.1s ease;
+            cursor: pointer; transition: transform 0.1s ease; -webkit-tap-highlight-color: transparent;
         }
         .stat-box:active { transform: scale(0.95); }
         .stat-box i { font-size: 18px; }
         .stat-value { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
         .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* TOOLTIP STYLE */
         #tooltip {
             position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
             background: rgba(0,0,0,0.8); color: white; padding: 10px 15px; border-radius: 15px;
@@ -150,7 +152,7 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.2</footer>
+        <footer class="footer">SkyNow™ 5.3</footer>
     </div>
 
     <script>
@@ -199,9 +201,7 @@
             if (btn) btn.classList.add('searching');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
-                    // HAPTIC FEEDBACK
                     if (window.navigator.vibrate) window.navigator.vibrate(20);
-                    
                     localStorage.setItem('sn_lat', pos.coords.latitude);
                     localStorage.setItem('sn_lon', pos.coords.longitude);
                     weatherBallon(pos.coords.latitude, pos.coords.longitude);
@@ -246,7 +246,6 @@
             document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
             document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
 
-            // IMPACT LOGIC
             const feels = Math.round(d.main.feels_like);
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
