@@ -8,7 +8,7 @@
     <meta id="status-bar-style" name="apple-mobile-web-app-status-bar-style" content="black-transparent">
     <meta id="theme-meta" name="theme-color" content="#0f172a"> 
 
-    <title>SkyNow™ 5.1</title>
+    <title>SkyNow™ 5.0</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -34,7 +34,7 @@
         body {
             font-family: 'Inter', sans-serif;
             display: flex; justify-content: center; align-items: flex-start; 
-            transition: background 1s ease, color 0.5s ease;
+            transition: background 2s ease-in-out, color 0.5s ease; /* SMOOTH TRANSITION */
             color: white;
         }
 
@@ -82,17 +82,18 @@
             width: 100%; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
             border: 1px solid var(--glass-border); border-radius: 40px; padding: 25px 15px; 
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); margin-top: 5px;
+            position: relative;
         }
 
         #glyph { font-size: 80px; margin-bottom: 2px; }
         .temp-main { 
-    font-size: 95px; 
-    font-weight: 900; 
-    letter-spacing: -1px; /* Changed from -4px to -1px to prevent overlap */
-    margin: 0; 
-    line-height: 0.85;
-    font-variant-numeric: tabular-nums; 
-}
+            font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85;
+            font-variant-numeric: tabular-nums; 
+        }
+
+        #impact-label {
+            font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 5px; height: 12px;
+        }
         
         .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
         .hi-lo-stack .hi { color: #a0020f; } .hi-lo-stack .lo { color: #006075; }
@@ -100,10 +101,24 @@
         body[class*='night'] .hi-lo-stack .lo { color: #00fff0; }
 
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
-        .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .stat-box { 
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; 
+            padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; 
+            cursor: pointer; transition: transform 0.1s ease;
+        }
+        .stat-box:active { transform: scale(0.95); }
         .stat-box i { font-size: 18px; }
         .stat-value { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
         .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* TOOLTIP STYLE */
+        #tooltip {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.8); color: white; padding: 10px 15px; border-radius: 15px;
+            font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
+        }
+
         .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; }
     </style>
 </head>
@@ -123,6 +138,7 @@
         <main class="weather-card">
             <div id="glyph"></div>
             <h2 id="temp-num" class="temp-main">--&deg;</h2>
+            <div id="impact-label"></div>
             <div class="hi-lo-stack">
                 <span class="hi">High: <span id="hi-val">--</span>&deg;</span>
                 <span class="lo">Low: <span id="lo-val">--</span>&deg;</span>
@@ -132,14 +148,30 @@
                 <p id="api-desc" style="font-size: 11px; font-weight: 600; opacity: 0.5; text-transform: uppercase; margin-top: 2px;">---</p>
             </div>
             <div class="stats-grid" id="stats-container"></div>
+            <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.1</footer>
+        <footer class="footer">SkyNow™ 5.0</footer>
     </div>
 
     <script>
         const key = 'd0704da8612745131eda6e9b3ce8ebb5';
 
-        // Smooth Ease-Out Animation
+        const tooltipData = {
+            "ACTUAL TEMP": "The true air temperature without weather factors.",
+            "HUMIDITY": "The amount of moisture currently in the air.",
+            "WIND SPEED": "How fast the air is moving near the surface.",
+            "UV INDEX": "The strength of sunburn-producing UV radiation.",
+            "VISIBILITY": "The furthest distance you can see clearly.",
+            "SUNSET": "The time the sun disappears below the horizon."
+        };
+
+        function showTooltip(label) {
+            const tip = document.getElementById('tooltip');
+            tip.innerText = tooltipData[label] || "";
+            tip.style.display = 'block';
+            setTimeout(() => { tip.style.display = 'none'; }, 3000);
+        }
+
         function animateValue(id, start, end, duration) {
             const obj = document.getElementById(id);
             if (!obj) return;
@@ -147,7 +179,7 @@
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 2); // Power2 Out
+                const easeOut = 1 - Math.pow(1 - progress, 2); 
                 const current = Math.floor(easeOut * (end - start) + start);
                 obj.innerHTML = (id === 'temp-num') ? current + '&deg;' : current;
                 if (progress < 1) window.requestAnimationFrame(step);
@@ -167,6 +199,9 @@
             if (btn) btn.classList.add('searching');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
+                    // HAPTIC FEEDBACK
+                    if (window.navigator.vibrate) window.navigator.vibrate(20);
+                    
                     localStorage.setItem('sn_lat', pos.coords.latitude);
                     localStorage.setItem('sn_lon', pos.coords.longitude);
                     weatherBallon(pos.coords.latitude, pos.coords.longitude);
@@ -208,16 +243,22 @@
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
             document.getElementById('api-desc').innerHTML = `${raw}`;
             
-            // Static High/Low
             document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
             document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
 
-            // Smooth count-up ONLY for Main Temp (Feels Like)
-            animateValue("temp-num", 0, Math.round(d.main.feels_like), 1200);
+            // IMPACT LOGIC
+            const feels = Math.round(d.main.feels_like);
+            const actual = Math.round(d.main.temp);
+            const impactEl = document.getElementById('impact-label');
+            if (feels > actual + 2) impactEl.innerText = "Humidity Impacting Feel";
+            else if (feels < actual - 2) impactEl.innerText = "Wind Chill Impacting Feel";
+            else impactEl.innerText = "";
+
+            animateValue("temp-num", 0, feels, 1200);
 
             const sTime = new Date(d.sys.sunset * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
             const stats = [
-                { icon: 'fa-thermometer-half', val: Math.round(d.main.temp) + '&deg;', label: 'ACTUAL TEMP', color: '#e640dd' },
+                { icon: 'fa-thermometer-half', val: actual + '&deg;', label: 'ACTUAL TEMP', color: '#e640dd' },
                 { icon: 'fa-tint', val: d.main.humidity + '%', label: 'HUMIDITY', color: '#00d2ff' },
                 { icon: 'fa-wind', val: Math.round(d.wind.speed) + ' mph', label: 'WIND SPEED' , color: '#34e89e' },
                 { icon: 'fa-sun', val: 'LOW', label: 'UV INDEX', color: '#fbbf24' },
@@ -226,7 +267,7 @@
             ];
 
             document.getElementById('stats-container').innerHTML = stats.map(s => `
-                <div class="stat-box">
+                <div class="stat-box" onclick="showTooltip('${s.label}')">
                     <i class="fas ${s.icon}" style="color:${s.color}"></i>
                     <span class="stat-value">${s.val}</span>
                     <span class="stat-label">${s.label}</span>
@@ -242,7 +283,6 @@
             } else {
                 if (raw.includes('snow')) { glyph = '<i class="fas fa-snowflake"></i>'; bgClass = 'day-snowy'; }
                 else if (raw.includes('rain')) { glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; bgClass = 'day-rainy'; }
-                // Restore HAZE/MIST/SMOKE Logic
                 else if (raw.includes('haze') || raw.includes('mist') || raw.includes('smoke')) { glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-haze'; themeHex = "#a8a29e"; }
                 else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
                 else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
