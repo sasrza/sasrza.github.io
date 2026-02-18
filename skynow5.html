@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
 
-    <title>SkyNow™</title>
+    <title>SkyNow™ 5 BETA</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -21,14 +21,14 @@
         :root {
             --glass-bg: rgba(255, 255, 255, 0.12);
             --glass-border: rgba(255, 255, 255, 0.2);
-            --accent-gold: #fbbf24;
+            --accent-color: #27F565; /* Neon Green */
             --alert-red: #ff4757;
         }
 
-        /* THE KEY FIX: Force content to start at the absolute top 0 */
+        /* iOS Status Bar Fix */
         html {
             height: 100%;
-            background-color: #94a3b8; /* Default fallback color */
+            background-color: #475569; 
         }
 
         body {
@@ -40,8 +40,9 @@
             align-items: flex-start;
             transition: background 2s ease-in-out, color 0.5s ease;
             color: white;
-            /* This forces icons to stay dark if the background is light */
-            color-scheme: light; 
+            color-scheme: light; /* Forces status bar icons to remain dark/readable */
+            overflow: hidden;
+            background-attachment: fixed;
         }
 
         /* --- THEMES --- */
@@ -64,28 +65,9 @@
             align-items: center; 
             text-align: center; 
             gap: 10px; 
-            /* env(safe-area-inset-top) ensures we don't hit the Dynamic Island */
             padding-top: calc(env(safe-area-inset-top) + 15px); 
         }
-
-        /* ... rest of your styling for weather card, stats, etc remains the same ... */
-        #alert-banner {
-            width: 100%; background: var(--alert-red); color: white;
-            font-size: 11px; font-weight: 800; text-transform: uppercase;
-            padding: 6px 0; margin-top: 10px; border-radius: 12px;
-            display: none; animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-
-        .refresh-gps { 
-            background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); 
-            color: white; border-radius: 50%; width: 28px; height: 28px; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: background 0.3s ease; -webkit-tap-highlight-color: transparent;
-        }
-        .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
-        @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-
+        
         #location { 
             font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
@@ -93,6 +75,27 @@
 
         .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
         .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
+
+        /* GPS Button with Neon Green Feedback */
+        .refresh-gps { 
+            background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: white; border-radius: 50%; width: 28px; height: 28px; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .refresh-gps:active { transform: scale(0.8); }
+
+        .refresh-gps.searching { 
+            color: var(--accent-color); 
+            background: rgba(39, 245, 101, 0.15); 
+            border-color: rgba(39, 245, 101, 0.4);
+        }
+
+        .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
+        @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
         #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
 
         .weather-card { 
@@ -103,6 +106,7 @@
         }
 
         #glyph { font-size: 80px; margin-bottom: 2px; }
+
         .temp-main { 
             font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85;
             font-variant-numeric: tabular-nums; 
@@ -136,7 +140,10 @@
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; }
+        .footer { 
+            font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; 
+            letter-spacing: 1px; transition: all 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -149,7 +156,6 @@
                 </button>
             </div>
             <div id="live-time">---</div>
-            <div id="alert-banner"><i class="fas fa-exclamation-triangle"></i> Severe Weather Alert</div>
         </header>
         
         <main class="weather-card">
@@ -167,11 +173,10 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.01</footer>
+        <footer class="footer">SkyNow™ 5 BETA</footer>
     </div>
 
     <script>
-        // ... (Keep your existing Javascript here) ...
         const key = 'd0704da8612745131eda6e9b3ce8ebb5';
 
         const tooltipData = {
@@ -199,10 +204,43 @@
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 2); 
                 const current = Math.floor(easeOut * (end - start) + start);
-                obj.innerHTML = (id === 'temp-num') ? current + '&deg;' : current;
+                obj.innerHTML = current + '&deg;';
                 if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
+        }
+
+        async function checkForecast(lat, lon) {
+            try {
+                const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`);
+                const data = await resp.json();
+                
+                const nowTemp = Math.round(data.list[0].main.temp);
+                const sixHourForecast = data.list[2]; 
+                const futureTemp = Math.round(sixHourForecast.main.temp);
+                const futureWeather = sixHourForecast.weather[0].main.toLowerCase();
+                const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
+
+                const footer = document.querySelector('.footer');
+                let alertText = "SkyNow™ 5.0 BETA"; 
+
+                // Smart Alert Logic (Threshold 3 degrees)
+                if (futureWeather !== currentMainWeather) {
+                    if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
+                    else if (futureWeather.includes('snow')) alertText = "❄️ Snow on the way soon";
+                    else if (futureWeather.includes('cloud')) alertText = "☁️ Clouds rolling in shortly";
+                } 
+                else if (futureTemp <= nowTemp - 5) {
+                    alertText = `📉 Temp dropping to ${futureTemp}° soon. Bundle up!`;
+                }
+                else if (futureTemp >= nowTemp + 5) {
+                    alertText = `📈 Warming up to ${futureTemp}° within 6 hours`;
+                }
+
+                footer.innerHTML = alertText;
+                footer.style.opacity = (alertText !== "SkyNow™ 5.0 BETA") ? "0.9" : "0.4";
+                if (alertText !== "SkyNow™ 5.0 BETA") footer.style.color = "var(--accent-color)";
+            } catch(e) { console.log("Forecast error", e); }
         }
 
         function updateClock() {
@@ -215,29 +253,31 @@
         function getPreciseLocation() {
             const btn = document.getElementById('gps-btn');
             if (btn) btn.classList.add('searching');
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
-                    if (window.navigator.vibrate) window.navigator.vibrate(20);
                     localStorage.setItem('sn_lat', pos.coords.latitude);
                     localStorage.setItem('sn_lon', pos.coords.longitude);
                     weatherBallon(pos.coords.latitude, pos.coords.longitude);
-                    setTimeout(() => { if (btn) btn.classList.remove('searching'); }, 1000);
-                }, () => { if (btn) btn.classList.remove('searching'); }, { enableHighAccuracy: true });
+                    setTimeout(() => { if (btn) btn.classList.remove('searching'); }, 1200);
+                }, (err) => { 
+                    if (btn) btn.classList.remove('searching'); 
+                }, { enableHighAccuracy: true });
             }
         }
 
         function weatherBallon(lat, lon) {
             fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
-                .then(resp => resp.json()).then(data => drawWeather(data));
+                .then(resp => resp.json()).then(data => {
+                    drawWeather(data);
+                    checkForecast(lat, lon);
+                });
         }
 
         function drawWeather(d) {
             const raw = d.weather[0].description.toLowerCase();
             const isNight = d.dt > d.sys.sunset || d.dt < d.sys.sunrise;
             const isGoldenHour = (d.dt > d.sys.sunset - 3600 && d.dt <= d.sys.sunset) || (d.dt < d.sys.sunrise + 3600 && d.dt >= d.sys.sunrise);
-            
-            const alertWords = ['storm', 'thunderstorm', 'heavy', 'tornado', 'hurricane', 'extreme'];
-            document.getElementById('alert-banner').style.display = alertWords.some(word => raw.includes(word)) ? 'block' : 'none';
 
             const descriptiveMap = {
                 'clear sky': isNight ? 'Starlit & Still' : 'Purely Sun-Drenched',
@@ -266,8 +306,8 @@
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
             
-            if (feels > actual + 2) impactEl.innerText = "Humidity Impacting Feel";
-            else if (feels < actual - 2) impactEl.innerText = "Wind Chill Impacting Feel";
+            if (feels > actual + 3) impactEl.innerText = "Humidity Impacting Feel";
+            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Impacting Feel";
             else impactEl.innerText = "FEELS LIKE TEMPERATURE";
 
             animateValue("temp-num", 0, feels, 1200);
