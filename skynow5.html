@@ -8,7 +8,7 @@
     <meta id="status-bar-style" name="apple-mobile-web-app-status-bar-style" content="black-transparent">
     <meta id="theme-meta" name="theme-color" content="#0f172a"> 
 
-    <title>SkyNow™ 6.0</title>
+    <title>SkyNow™ 5.1</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -23,9 +23,7 @@
             --glass-bg: rgba(255, 255, 255, 0.12);
             --glass-border: rgba(255, 255, 255, 0.2);
             --accent-gold: #fbbf24;
-            --icon-temp: #e640dd; --icon-humid: #00d2ff; --icon-wind: #34e89e;
-            --icon-uv: #f78fb3; --icon-vis: #756bff;
-            --alert-red: #ff1125;
+            --alert-red: #ff4757;
         }
 
         html, body { 
@@ -43,143 +41,70 @@
         /* --- THEMES --- */
         body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
         body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
+        body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
         body.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
         body.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
         body.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
         body.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
         body.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
         body.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
-        body.night-mist { background: linear-gradient(to bottom, #3d3d3d 0%, #1a1a1a 100%); }
         body.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
 
-        /* --- ALERT BANNER SYSTEM --- */
         #alert-banner {
-            width: 100%;
-            background: var(--alert-red);
-            color: white;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            padding: 6px 0;
-            margin-top: 10px;
-            border-radius: 12px;
-            display: none; /* Hidden by default */
-            animation: pulse 2s infinite;
+            width: 100%; background: var(--alert-red); color: white;
+            font-size: 11px; font-weight: 800; text-transform: uppercase;
+            padding: 6px 0; margin-top: 10px; border-radius: 12px;
+            display: none; animation: pulse 2s infinite;
         }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
         .refresh-gps { 
-            background: rgba(255, 255, 255, 0.10); 
-            border: 3px solid rgba(255, 255, 255, 0.1); 
-            color: white; 
-            border-radius: 50%; 
-            width: 28px; 
-            height: 28px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer;
-            transition: background 0.3s ease;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-            padding: 0; 
-            margin: 0;
-            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: white; border-radius: 50%; width: 28px; height: 28px; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: background 0.3s ease; -webkit-tap-highlight-color: transparent;
         }
+        .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
+        @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        .refresh-gps:active {
-            background: rgba(255, 255, 255, 0.3); 
-        }
-
-        .refresh-gps i {
-            font-size: 12px;
-        }
-
-        .refresh-gps.searching i {
-            animation: gps-pulse 1s infinite ease-in-out;
-        }
-
-        @keyframes gps-pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.25); opacity: 0.6; } 
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .app-container { 
-            width: 88%; max-width: 360px;
-            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
-            padding-top: calc(env(safe-area-inset-top) + 45px);
-        }
-
-        #location { 
-            font-size: clamp(24px, 8vw, 38px); /* Dynamically scales between 24px and 38px */
-            margin: 0; 
-            text-transform: uppercase; 
-            font-weight: 900; 
-            letter-spacing: -1.5px;
-            white-space: nowrap;       /* Prevents text from wrapping to a second line */
-            overflow: hidden;          /* Ensures long names don't push the icon off-screen */
-            text-overflow: ellipsis;   /* Adds '...' if the name is truly too long to fit */
-            max-width: 100%; 
-        }
-
-        .location-wrapper { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            width: 100%;
-            gap: 10px;
-            overflow: hidden; /* Keeps the container tidy */
-        }
-
-        .location-wrapper::before {
-            content: '';
-            width: calc(28px + 10px); 
-            height: 28px;
-            visibility: hidden;
-            flex-shrink: 0;
-        }
+        .app-container { width: 88%; max-width: 360px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding-top: calc(env(safe-area-inset-top) + 45px); }
         
+        #location { 
+            font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+        }
+
+        .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
+        .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
         #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
 
         .weather-card { 
-            width: 100%; background: var(--glass-bg); 
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            border: 1px solid var(--glass-border); border-radius: 40px; 
-            padding: 25px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
-            margin-top: 5px;
+            width: 100%; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid var(--glass-border); border-radius: 40px; padding: 25px 15px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); margin-top: 5px;
         }
 
         #glyph { font-size: 80px; margin-bottom: 2px; }
-        .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -4px; margin: 0; line-height: 0.85; }
+        .temp-main { 
+    font-size: 95px; 
+    font-weight: 900; 
+    letter-spacing: -1px; /* Changed from -4px to -1px to prevent overlap */
+    margin: 0; 
+    line-height: 0.85;
+    font-variant-numeric: tabular-nums; 
+}
         
-        body[class*='night'] .hi-lo-stack .hi { color: #ff2e63; text-shadow: 0 0 8px rgba(255, 46, 99, 0.4); }
-        body[class*='night'] .hi-lo-stack .lo { color: #00fff0; text-shadow: 0 0 8px rgba(0, 255, 240, 0.4); }
         .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
         .hi-lo-stack .hi { color: #a0020f; } .hi-lo-stack .lo { color: #006075; }
+        body[class*='night'] .hi-lo-stack .hi { color: #ff2e63; }
+        body[class*='night'] .hi-lo-stack .lo { color: #00fff0; }
 
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
-        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; }
-
-        .stat-box { 
-            background: rgba(255, 255, 255, 0.08); 
-            border: 1px solid var(--glass-border); 
-            border-radius: 20px; 
-            padding: 15px 2px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 6px; 
-        }
-
-        .stat-box i { font-size: 18px; margin-bottom: 2px; }
+        .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .stat-box i { font-size: 18px; }
         .stat-value { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
         .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
-
+        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -208,11 +133,27 @@
             </div>
             <div class="stats-grid" id="stats-container"></div>
         </main>
-        <footer class="footer">SkyNow™ 6.0</footer>
+        <footer class="footer">SkyNow™ 5.1</footer>
     </div>
 
     <script>
         const key = 'd0704da8612745131eda6e9b3ce8ebb5';
+
+        // Smooth Ease-Out Animation
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            if (!obj) return;
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 2); // Power2 Out
+                const current = Math.floor(easeOut * (end - start) + start);
+                obj.innerHTML = (id === 'temp-num') ? current + '&deg;' : current;
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
 
         function updateClock() {
             const now = new Date();
@@ -221,26 +162,16 @@
                 now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
         }
 
-        function initApp() {
-            updateClock();
-            const sLat = localStorage.getItem('sn_lat'), sLon = localStorage.getItem('sn_lon');
-            if (sLat && sLon) weatherBallon(sLat, sLon); else getPreciseLocation();
-        }
-
         function getPreciseLocation() {
             const btn = document.getElementById('gps-btn');
             if (btn) btn.classList.add('searching');
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
                     localStorage.setItem('sn_lat', pos.coords.latitude);
                     localStorage.setItem('sn_lon', pos.coords.longitude);
                     weatherBallon(pos.coords.latitude, pos.coords.longitude);
                     setTimeout(() => { if (btn) btn.classList.remove('searching'); }, 1000);
-                }, (err) => {
-                    if (btn) btn.classList.remove('searching');
-                    console.error(err);
-                }, { enableHighAccuracy: true });
+                }, () => { if (btn) btn.classList.remove('searching'); }, { enableHighAccuracy: true });
             }
         }
 
@@ -251,39 +182,41 @@
 
         function drawWeather(d) {
             const raw = d.weather[0].description.toLowerCase();
-            const cityTime = d.dt; 
-            const isNight = cityTime > d.sys.sunset || cityTime < d.sys.sunrise;
-            const isGoldenHour = (cityTime > d.sys.sunset - 3600 && cityTime <= d.sys.sunset) || 
-                                (cityTime < d.sys.sunrise + 3600 && cityTime >= d.sys.sunrise);
+            const isNight = d.dt > d.sys.sunset || d.dt < d.sys.sunrise;
+            const isGoldenHour = (d.dt > d.sys.sunset - 3600 && d.dt <= d.sys.sunset) || (d.dt < d.sys.sunrise + 3600 && d.dt >= d.sys.sunrise);
+            
             const alertWords = ['storm', 'thunderstorm', 'heavy', 'tornado', 'hurricane', 'extreme'];
-            const hasAlert = alertWords.some(word => raw.includes(word));
-            document.getElementById('alert-banner').style.display = hasAlert ? 'block' : 'none';
+            document.getElementById('alert-banner').style.display = alertWords.some(word => raw.includes(word)) ? 'block' : 'none';
 
             const descriptiveMap = {
                 'clear sky': isNight ? 'Starlit & Still' : 'Purely Sun-Drenched',
-                'few clouds': isNight ? 'Moonlight Peeking Through' : 'A Few Drifting Clouds',
+                'few clouds': isNight ? 'Moonlight Peeking' : 'A Few Drifting Clouds',
                 'scattered clouds': isNight ? 'Cloudy Lunar Glow' : 'Sun Peeking Through',
                 'broken clouds': 'A Mostly Cloudy Canopy',
                 'overcast clouds': 'Solid Gray Overcast',
-                'light rain': isNight ? 'Midnight Rain Showers' : 'A Soft, Gentle Mist',
-                'moderate rain': isNight ? 'Rainy Night Vibes' : 'Steady Refreshing Rainfall',
+                'light rain': 'A Soft, Gentle Mist',
+                'moderate rain': 'Steady Refreshing Rainfall',
                 'heavy intensity rain': 'A Heavy Downpour',
-                'snow': isNight ? 'Cold Snowy Night' : 'Whirling Winter Snowflakes',
-                'thunderstorm': isNight ? 'Electric Midnight Storm' : 'Electric & Stormy Skies',
-                'mist': isNight ? 'Dark & Hazy Mist' : 'A Hazy Mist'
+                'snow': 'Whirling Winter Snowflakes',
+                'thunderstorm': 'Electric & Stormy Skies',
+                'mist': 'A Hazy Mist',
+                'haze': 'Hazy Atmospheric Glow',
+                'smoke': 'Smoky Haze'
             };
 
             document.getElementById('location').innerHTML = d.name;
-            // SWAP 1: Set main temp to Feels Like
-            document.getElementById('temp-num').innerHTML = Math.round(d.main.feels_like) + '&deg;';
-            document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
-            document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
             document.getElementById('api-desc').innerHTML = `${raw}`;
+            
+            // Static High/Low
+            document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
+            document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
+
+            // Smooth count-up ONLY for Main Temp (Feels Like)
+            animateValue("temp-num", 0, Math.round(d.main.feels_like), 1200);
 
             const sTime = new Date(d.sys.sunset * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
             const stats = [
-                // SWAP 2: Set Feels Like stat box value to Actual Temp
                 { icon: 'fa-thermometer-half', val: Math.round(d.main.temp) + '&deg;', label: 'ACTUAL TEMP', color: '#e640dd' },
                 { icon: 'fa-tint', val: d.main.humidity + '%', label: 'HUMIDITY', color: '#00d2ff' },
                 { icon: 'fa-wind', val: Math.round(d.wind.speed) + ' mph', label: 'WIND SPEED' , color: '#34e89e' },
@@ -301,32 +234,28 @@
             `).join('');
 
             let glyph = '', bgClass = '', themeHex = '#0f172a';
-
             if (isGoldenHour) { bgClass = 'sunset'; glyph = '<i class="fas fa-cloud-sun"></i>'; themeHex = "#4B0082"; }
             else if (isNight) {
-                if (raw.includes('thunderstorm')) { bgClass = 'night-storm'; glyph = '<i class="fas fa-bolt" style="color:#fbbf24"></i>'; themeHex = "#1a1a2e"; }
-                else if (raw.includes('rain')) { bgClass = 'night-rain'; glyph = '<i class="fas fa-cloud-moon-rain" style="color:#fbbf24"></i>'; themeHex = "#2c3e50"; }
-                else if (raw.includes('snow')) { bgClass = 'night-snow'; glyph = '<i class="fas fa-snowflake"></i>'; themeHex = "#4a69bd"; }
-                else { bgClass = 'night'; glyph = '<i class="fas fa-moon" style="color:#fbbf24"></i>'; themeHex = "#1e293b"; }
+                if (raw.includes('storm')) { bgClass = 'night-storm'; glyph = '<i class="fas fa-bolt" style="color:#fbbf24"></i>'; }
+                else if (raw.includes('rain')) { bgClass = 'night-rain'; glyph = '<i class="fas fa-cloud-moon-rain" style="color:#fbbf24"></i>'; }
+                else { bgClass = 'night'; glyph = '<i class="fas fa-moon" style="color:#fbbf24"></i>'; }
             } else {
-                if (raw.includes('snow')) { glyph = '<i class="fas fa-snowflake"></i>'; bgClass = 'day-snowy'; themeHex = "#f8fafc"; }
-                else if (raw.includes('rain')) { glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; bgClass = 'day-rainy'; themeHex = "#64748b"; }
-                else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; themeHex = "#94a3b8"; }
-                // ADD THIS LINE FOR HAZE/SMOKE
-                else if (raw.includes('haze') || raw.includes('smoke') || raw.includes('mist')) { glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-cloudy'; themeHex = "#94a3b8"; }
-                else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; themeHex = "#e67e22"; }
-
+                if (raw.includes('snow')) { glyph = '<i class="fas fa-snowflake"></i>'; bgClass = 'day-snowy'; }
+                else if (raw.includes('rain')) { glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; bgClass = 'day-rainy'; }
+                // Restore HAZE/MIST/SMOKE Logic
+                else if (raw.includes('haze') || raw.includes('mist') || raw.includes('smoke')) { glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-haze'; themeHex = "#a8a29e"; }
+                else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
+                else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
             }
-
             document.body.className = bgClass;
             document.getElementById('glyph').innerHTML = glyph;
-            document.getElementById('theme-meta').setAttribute('content', themeHex);
-            document.documentElement.style.backgroundColor = themeHex;
-            document.getElementById('status-bar-style').setAttribute('content', (bgClass === 'day-snowy') ? 'default' : 'black-transparent');
         }
 
-        setInterval(updateClock, 1000);
-        window.onload = initApp;
+        window.onload = () => { updateClock(); setInterval(updateClock, 1000); initApp(); };
+        function initApp() {
+            const sLat = localStorage.getItem('sn_lat'), sLon = localStorage.getItem('sn_lon');
+            if (sLat && sLon) weatherBallon(sLat, sLon); else getPreciseLocation();
+        }
     </script>
 </body>
 </html>
