@@ -25,10 +25,10 @@
             --alert-red: #ff4757;
         }
 
-        /* iOS Status Bar & Background Fix */
+        /* THE KEY FIX: Force content to start at the absolute top 0 */
         html {
             height: 100%;
-            background-color: #475569; /* Fallback for safe areas */
+            background-color: #94a3b8; /* Default fallback color */
         }
 
         body {
@@ -40,9 +40,8 @@
             align-items: flex-start;
             transition: background 2s ease-in-out, color 0.5s ease;
             color: white;
-            /* Forces iOS status icons (clock/battery) to stay dark for legibility */
+            /* This forces icons to stay dark if the background is light */
             color-scheme: light; 
-            overflow: hidden;
         }
 
         /* --- THEMES --- */
@@ -65,16 +64,18 @@
             align-items: center; 
             text-align: center; 
             gap: 10px; 
+            /* env(safe-area-inset-top) ensures we don't hit the Dynamic Island */
             padding-top: calc(env(safe-area-inset-top) + 15px); 
         }
-        
-        #location { 
-            font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
-        }
 
-        .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
-        .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
+        /* ... rest of your styling for weather card, stats, etc remains the same ... */
+        #alert-banner {
+            width: 100%; background: var(--alert-red); color: white;
+            font-size: 11px; font-weight: 800; text-transform: uppercase;
+            padding: 6px 0; margin-top: 10px; border-radius: 12px;
+            display: none; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
         .refresh-gps { 
             background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); 
@@ -85,6 +86,13 @@
         .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
         @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
+        #location { 
+            font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+        }
+
+        .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
+        .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
         #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
 
         .weather-card { 
@@ -95,7 +103,6 @@
         }
 
         #glyph { font-size: 80px; margin-bottom: 2px; }
-
         .temp-main { 
             font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85;
             font-variant-numeric: tabular-nums; 
@@ -129,10 +136,7 @@
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .footer { 
-            font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; 
-            letter-spacing: 1px; transition: all 0.5s ease;
-        }
+        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -145,6 +149,7 @@
                 </button>
             </div>
             <div id="live-time">---</div>
+            <div id="alert-banner"><i class="fas fa-exclamation-triangle"></i> Severe Weather Alert</div>
         </header>
         
         <main class="weather-card">
@@ -162,10 +167,11 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ Version 5.6</footer>
+        <footer class="footer">SkyNow™ 5.5</footer>
     </div>
 
     <script>
+        // ... (Keep your existing Javascript here) ...
         const key = 'd0704da8612745131eda6e9b3ce8ebb5';
 
         const tooltipData = {
@@ -193,42 +199,10 @@
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 2); 
                 const current = Math.floor(easeOut * (end - start) + start);
-                obj.innerHTML = current + '&deg;';
+                obj.innerHTML = (id === 'temp-num') ? current + '&deg;' : current;
                 if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
-        }
-
-        async function checkForecast(lat, lon) {
-            try {
-                const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`);
-                const data = await resp.json();
-                
-                const nowTemp = Math.round(data.list[0].main.temp);
-                const sixHourForecast = data.list[2]; 
-                const futureTemp = Math.round(sixHourForecast.main.temp);
-                const futureWeather = sixHourForecast.weather[0].main.toLowerCase();
-                const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
-
-                const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ Version 5.6"; 
-
-                if (futureWeather !== currentMainWeather) {
-                    if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
-                    else if (futureWeather.includes('snow')) alertText = "❄️ Snow on the way soon";
-                    else if (futureWeather.includes('cloud')) alertText = "☁️ Clouds rolling in shortly";
-                } 
-                else if (futureTemp <= nowTemp - 7) {
-                    alertText = `📉 Temp dropping to ${futureTemp}° soon. Bundle up!`;
-                }
-                else if (futureTemp >= nowTemp + 7) {
-                    alertText = `📈 Warming up to ${futureTemp}° within 6 hours`;
-                }
-
-                footer.innerHTML = alertText;
-                footer.style.opacity = (alertText !== "SkyNow™ Version 5.6") ? "0.9" : "0.4";
-                if (alertText !== "SkyNow™ Version 5.6") footer.style.color = "#fbbf24";
-            } catch(e) { console.log("Forecast error", e); }
         }
 
         function updateClock() {
@@ -254,16 +228,16 @@
 
         function weatherBallon(lat, lon) {
             fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
-                .then(resp => resp.json()).then(data => {
-                    drawWeather(data);
-                    checkForecast(lat, lon);
-                });
+                .then(resp => resp.json()).then(data => drawWeather(data));
         }
 
         function drawWeather(d) {
             const raw = d.weather[0].description.toLowerCase();
             const isNight = d.dt > d.sys.sunset || d.dt < d.sys.sunrise;
             const isGoldenHour = (d.dt > d.sys.sunset - 3600 && d.dt <= d.sys.sunset) || (d.dt < d.sys.sunrise + 3600 && d.dt >= d.sys.sunrise);
+            
+            const alertWords = ['storm', 'thunderstorm', 'heavy', 'tornado', 'hurricane', 'extreme'];
+            document.getElementById('alert-banner').style.display = alertWords.some(word => raw.includes(word)) ? 'block' : 'none';
 
             const descriptiveMap = {
                 'clear sky': isNight ? 'Starlit & Still' : 'Purely Sun-Drenched',
