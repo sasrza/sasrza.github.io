@@ -8,7 +8,7 @@
 
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 5 - IS THAT WHITE BAR STILL AT THE BOTTOM?</title>
+    <title>SkyNow™ 5 - I'm seriously crashing out after this!</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -18,7 +18,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-    <style>
+<style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.02);
@@ -26,22 +26,23 @@
             --alert-red: #ff4757;
         }
     
-        /* FIX 2: Specific HTML/Body configuration for iOS Web Apps */
-        /* FIX: Ensures the gradient covers the entire screen, including the home indicator area */
+        /* FIX: Apply background to the entire viewport canvas */
         html {
-            height: 100%;
+            /* Using min-height: 100vh ensures the color goes to the absolute bottom edge */
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
             transition: background 2s ease-in-out;
+            /* This is the secret sauce for iOS safe areas */
             background-attachment: fixed;
-            overflow: hidden;
-            /* Added this to ensure the background covers the bottom "white" area */
-            background-color: transparent; 
+            margin: 0;
+            padding: 0;
         }
     
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            /* min-height ensures it fills the screen, but doesn't cut off */
-            min-height: 100%;
+            /* This ensures the body takes up the full space provided by HTML */
+            min-height: 100vh;
             min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
@@ -49,20 +50,21 @@
             color: white;
             color-scheme: dark; 
             overflow-x: hidden;
+            /* Keep the body transparent so the HTML gradient shows through */
             background: transparent !important;
         }
 
-        /* Weather Gradient Classes */
-        html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
-        html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
-        html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
-        html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
-        html.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
-        html.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
-        html.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
-        html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
-        html.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
-        html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
+        /* Weather Gradient Classes - Applied to HTML */
+        html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%) no-repeat fixed; }
+        html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%) no-repeat fixed; }
+        html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%) no-repeat fixed; }
+        html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%) no-repeat fixed; }
+        html.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%) no-repeat fixed; color: #1e293b; }
+        html.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%) no-repeat fixed; }
+        html.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%) no-repeat fixed; }
+        html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%) no-repeat fixed; }
+        html.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%) no-repeat fixed; }
+        html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%) no-repeat fixed; }
 
         .app-container { 
             width: 88%; 
@@ -74,6 +76,8 @@
             gap: 10px; 
             /* env(safe-area-inset-top) keeps content below the Dynamic Island/Notch */
             padding-top: calc(env(safe-area-inset-top) + 15px); 
+            /* Added bottom padding to ensure content doesn't sit on the home bar */
+            padding-bottom: env(safe-area-inset-bottom);
         }
         
         #location { 
