@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
     <title>SkyNow™ 5 BETA</title>
     
@@ -24,40 +24,39 @@
             --alert-red: #ff4757;
         }
     
-        /* FIX: Remove the solid background-color from html */
+        /* Move gradients to HTML so they bleed into the status bar area */
         html {
             height: 100%;
-            background: transparent; 
+            transition: background 2s ease-in-out;
+            background-attachment: fixed;
         }
     
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            /* FIX: Use min-height to ensure the gradient fills the status bar area */
             min-height: 100vh;
             min-height: -webkit-fill-available; 
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            transition: background 2s ease-in-out, color 0.5s ease;
             color: white;
-            /* Use 'dark' if you want white icons, 'light' if you want dark icons */
             color-scheme: dark; 
             overflow-x: hidden;
-            background-attachment: fixed;
+            background: transparent !important; /* Keep body clear */
         }
 
-        /* --- THEMES --- */
-        body.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
-        body.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
-        body.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
-        body.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
-        body.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
-        body.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
-        body.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
-        body.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
-        body.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
-        body.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
+        /* Update these selectors to target 'html' instead of 'body' */
+        html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
+        html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
+        html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
+        html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%); }
+        html.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); color: #1e293b; }
+        html.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%); }
+        html.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%); }
+        html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
+        html.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
+        html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
+
 
         .app-container { 
             width: 88%; 
@@ -345,7 +344,7 @@
                 else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
                 else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
             }
-            document.body.className = bgClass;
+            document.documentElement.className = bgClass; // Changed from document.body.className
             document.getElementById('glyph').innerHTML = glyph;
         }
 
