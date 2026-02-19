@@ -8,7 +8,7 @@
 
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 5.01</title>
+    <title>SkyNow™ 5.02</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -100,7 +100,7 @@
     .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
     #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
     .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
-    .hi-lo-stack .hi { color: #a0020f; } .hi-lo-stack .lo { color: #006075; }
+    .hi-lo-stack .hi { color: #c20a1a; } .hi-lo-stack .lo { color: #1205c7; }
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
     .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.1s ease; -webkit-tap-highlight-color: transparent; }
     .stat-box:active { transform: scale(0.95); }
@@ -138,7 +138,7 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.01</footer>
+        <footer class="footer">SkyNow™ 5.02</footer>
     </div>
 
     <script>
@@ -187,7 +187,7 @@
                 const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 5.01"; 
+                let alertText = "SkyNow™ 5.02"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
@@ -198,8 +198,8 @@
                 else if (futureTemp >= nowTemp + 4) alertText = `📈 Warming up to ${futureTemp}° shortly`;
 
                 footer.innerHTML = alertText;
-                footer.style.opacity = (alertText !== "SkyNow™ 5.01") ? "0.9" : "0.4";
-                if (alertText !== "SkyNow™ 5.01") footer.style.color = "var(--accent-color)";
+                footer.style.opacity = (alertText !== "SkyNow™ 5.02") ? "0.9" : "0.4";
+                if (alertText !== "SkyNow™ 5.02") footer.style.color = "var(--accent-color)";
             } catch(e) { console.log("Forecast error", e); }
         }
 
@@ -251,17 +251,17 @@
         if (isNight) uvLabel = "NONE";
 
         const descriptiveMap = {
-            'clear sky': isNight ? 'Starlit & Still' : 'Purely Sun-Drenched',
+            'clear sky': isNight ? 'Starlit & Still' : 'Sunny and beautiful',
             'few clouds': isNight ? 'Moonlight Peeking' : 'A Few Drifting Clouds',
-            'scattered clouds': isNight ? 'Cloudy Lunar Glow' : 'Sun Peeking Through',
-            'broken clouds': 'A Mostly Cloudy Canopy',
+            'scattered clouds': isNight ? 'Cloudy Lunar Glow' : 'Sun Peeking Through Clouds',
+            'broken clouds': 'Mostly Cloudy Canopy',
             'overcast clouds': 'Solid Gray Overcast',
-            'light rain': 'A Soft, Gentle Mist',
+            'light rain': 'Soft, Gentle Mist',
             'moderate rain': 'Steady Refreshing Rainfall',
             'heavy intensity rain': 'A Heavy Downpour',
             'snow': 'Whirling Winter Snowflakes',
             'thunderstorm': 'Electric & Stormy Skies',
-            'mist': 'A Hazy Mist',
+            'mist': 'Hazy & Misty',
             'haze': 'Hazy Atmospheric Glow',
             'smoke': 'Smoky Haze'
         };
@@ -276,8 +276,8 @@
         const actual = Math.round(d.main.temp);
         const impactEl = document.getElementById('impact-label');
         
-        if (feels > actual + 3) impactEl.innerText = "Humidity Impacting Temperature";
-        else if (feels < actual - 3) impactEl.innerText = "Wind Chill Impacting Temperature";
+        if (feels > actual + 3) impactEl.innerText = "High Humidity Is Impacting Temperature";
+        else if (feels < actual - 3) impactEl.innerText = "The Wind Chill Is Impacting Temperature";
         else impactEl.innerText = "FEELS LIKE TEMPERATURE";
 
         animateValue("temp-num", 0, feels, 1200);
