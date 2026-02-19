@@ -307,8 +307,8 @@
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
             
-            if (feels > actual + 3) impactEl.innerText = "Humidity Impacting Feel";
-            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Impacting Feel";
+            if (feels > actual + 3) impactEl.innerText = "Humidity Impacting Temp";
+            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Impacting Temp";
             else impactEl.innerText = "FEELS LIKE TEMPERATURE";
 
             animateValue("temp-num", 0, feels, 1200);
