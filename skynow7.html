@@ -8,7 +8,7 @@
 
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 5 - I'm seriously crashing out after this!</title>
+    <title>SkyNow™ 5 - Okay Gemini, you said I wouldn't "crash out". Prove it!</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -19,129 +19,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.02);
-            --accent-color: #27F565; 
-            --alert-red: #ff4757;
-        }
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.02);
+        --accent-color: #27F565; 
+        --alert-red: #ff4757;
+        /* Default fallback color to prevent white flash */
+        --bg-fallback: #1e293b; 
+    }
+
+    /* THE FIX: Apply background to EVERYTHING and lock it */
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+        /* This prevents the white 'rubber-band' effect on iOS */
+        background-color: var(--bg-fallback);
+        /* This makes the gradient fill the entire screen including safe areas */
+        height: 100vh;
+        height: -webkit-fill-available;
+        overflow-x: hidden;
+    }
+
+    html {
+        /* This is the key for Safari PWA background bleed */
+        background-attachment: fixed;
+        transition: background 2s ease-in-out;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        color: white;
+        color-scheme: dark; 
+        /* Ensures the body background doesn't override the HTML gradient */
+        background: transparent !important;
+    }
+
+    /* Weather Gradient Classes - Applied to HTML */
+    /* Added background-color to each to ensure the 'bottom' of the screen matches the gradient */
+    html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%) no-repeat fixed; background-color: #a34f06; }
+    html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%) no-repeat fixed; background-color: #475569; }
+    html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%) no-repeat fixed; background-color: #78716c; }
+    html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
+    html.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%) no-repeat fixed; background-color: #cbd5e1; color: #1e293b; }
+    html.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%) no-repeat fixed; background-color: #FFA500; }
+    html.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%) no-repeat fixed; background-color: #020617; }
+    html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%) no-repeat fixed; background-color: #000000; }
+    html.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
+    html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%) no-repeat fixed; background-color: #4b0082; }
+
+    .app-container { 
+        width: 88%; 
+        max-width: 360px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+        gap: 10px; 
+        padding-top: calc(env(safe-area-inset-top) + 15px); 
+        /* Safe area at the bottom for the home bar */
+        padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+    }
     
-        /* FIX: Apply background to the entire viewport canvas */
-        html {
-            /* Using min-height: 100vh ensures the color goes to the absolute bottom edge */
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
-            transition: background 2s ease-in-out;
-            /* This is the secret sauce for iOS safe areas */
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-        }
-    
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            /* This ensures the body takes up the full space provided by HTML */
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            color: white;
-            color-scheme: dark; 
-            overflow-x: hidden;
-            /* Keep the body transparent so the HTML gradient shows through */
-            background: transparent !important;
-        }
-
-        /* Weather Gradient Classes - Applied to HTML */
-        html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%) no-repeat fixed; }
-        html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%) no-repeat fixed; }
-        html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%) no-repeat fixed; }
-        html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%) no-repeat fixed; }
-        html.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%) no-repeat fixed; color: #1e293b; }
-        html.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%) no-repeat fixed; }
-        html.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%) no-repeat fixed; }
-        html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%) no-repeat fixed; }
-        html.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%) no-repeat fixed; }
-        html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%) no-repeat fixed; }
-
-        .app-container { 
-            width: 88%; 
-            max-width: 360px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-            gap: 10px; 
-            /* env(safe-area-inset-top) keeps content below the Dynamic Island/Notch */
-            padding-top: calc(env(safe-area-inset-top) + 15px); 
-            /* Added bottom padding to ensure content doesn't sit on the home bar */
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        
-        #location { 
-            font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; 
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
-        }
-
-        .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
-        .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
-
-        .refresh-gps { 
-            background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); 
-            color: white; border-radius: 50%; width: 28px; height: 28px; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .refresh-gps:active { transform: scale(0.8); }
-        .refresh-gps.searching { 
-            color: var(--accent-color); 
-            background: rgba(39, 245, 101, 0.15); 
-            border-color: rgba(39, 245, 101, 0.4);
-        }
-
-        .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
-        @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-
-        #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
-
-        .weather-card { 
-            width: 100%; background: var(--glass-bg); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); 
-            border: 1px solid var(--glass-border); border-radius: 40px; padding: 25px 15px; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); margin-top: 5px;
-            position: relative;
-        }
-
-        #glyph { font-size: 80px; margin-bottom: 2px; }
-        .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
-        #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
-        
-        .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
-        .hi-lo-stack .hi { color: #a0020f; } .hi-lo-stack .lo { color: #006075; }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
-        .stat-box { 
-            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; 
-            padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; 
-            cursor: pointer; transition: transform 0.1s ease; -webkit-tap-highlight-color: transparent;
-        }
-        .stat-box:active { transform: scale(0.95); }
-        .stat-box i { font-size: 18px; }
-        .stat-value { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
-        .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        #tooltip {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.85); color: white; padding: 10px 15px; border-radius: 15px;
-            font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10;
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; transition: all 0.5s ease; }
-    </style>
+    /* Rest of your styles stay exactly the same... */
+    #location { font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
+    .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
+    .refresh-gps { background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); -webkit-tap-highlight-color: transparent; }
+    .refresh-gps:active { transform: scale(0.8); }
+    .refresh-gps.searching { color: var(--accent-color); background: rgba(39, 245, 101, 0.15); border-color: rgba(39, 245, 101, 0.4); }
+    .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
+    @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
+    .weather-card { width: 100%; background: var(--glass-bg); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 25px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); margin-top: 5px; position: relative; }
+    #glyph { font-size: 80px; margin-bottom: 2px; }
+    .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
+    #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
+    .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
+    .hi-lo-stack .hi { color: #a0020f; } .hi-lo-stack .lo { color: #006075; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+    .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.1s ease; -webkit-tap-highlight-color: transparent; }
+    .stat-box:active { transform: scale(0.95); }
+    .stat-box i { font-size: 18px; }
+    .stat-value { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
+    .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
+    #tooltip { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 15px; border-radius: 15px; font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+    .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; transition: all 0.5s ease; }
+</style>
 </head>
 <body>
     <div class="app-container">
