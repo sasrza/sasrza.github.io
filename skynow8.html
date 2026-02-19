@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 5.02</title>
+    <title>SkyNow™ 5.03</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -23,29 +22,27 @@
         --glass-bg: rgba(255, 255, 255, 0.05);
         --glass-border: rgba(255, 255, 255, 0.02);
         --accent-color: #27F565; 
-        --alert-red: #ff4757;
-        /* Default fallback color to prevent white flash */
         --bg-fallback: #1e293b; 
+        /* Default adaptive colors */
+        --hi-color: #ff5e6c; 
+        --lo-color: #5eb5ff;
+        --text-main: #ffffff;
     }
 
-    /* THE FIX: Apply background to EVERYTHING and lock it */
     html, body {
         margin: 0;
         padding: 0;
         width: 100%;
         min-height: 100%;
-        /* This prevents the white 'rubber-band' effect on iOS */
         background-color: var(--bg-fallback);
-        /* This makes the gradient fill the entire screen including safe areas */
         height: 100vh;
         height: -webkit-fill-available;
         overflow-x: hidden;
     }
 
     html {
-        /* This is the key for Safari PWA background bleed */
         background-attachment: fixed;
-        transition:none;
+        transition: none;
     }
 
     body {
@@ -53,25 +50,43 @@
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        color: white;
+        color: var(--text-main);
         color-scheme: dark; 
-        /* Ensures the body background doesn't override the HTML gradient */
         background: transparent !important;
     }
 
-    /* Weather Gradient Classes - Applied to HTML */
-    /* Added background-color to each to ensure the 'bottom' of the screen matches the gradient */
+    /* THEME ENGINE - Applied to HTML tag */
     html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%) no-repeat fixed; background-color: #a34f06; }
     html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%) no-repeat fixed; background-color: #475569; }
-    html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%) no-repeat fixed; background-color: #78716c; }
+    html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #d1ccc0 50%, #78716c 100%) no-repeat fixed; background-color: #78716c; }
+    html.day-mist { background: linear-gradient(to bottom, #94a3b8 0%, #94a3b8 50%, #64748b 100%) no-repeat fixed; background-color: #64748b; }
     html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
-    html.day-snowy { background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%) no-repeat fixed; background-color: #cbd5e1; color: #1e293b; }
+    
+    /* ADAPTIVE SNOWY: High contrast for light background */
+    html.day-snowy { 
+        background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%) no-repeat fixed; 
+        background-color: #cbd5e1; 
+        --text-main: #1e293b; 
+        --hi-color: #b91c1c; 
+        --lo-color: #1d4ed8; 
+        --glass-bg: rgba(0, 0, 0, 0.05);
+        --glass-border: rgba(0, 0, 0, 0.05);
+    }
+
     html.sunset { background: linear-gradient(to bottom, #4B0082, #BF3475 30%, #FFA500 100%) no-repeat fixed; background-color: #FFA500; }
+    
+    /* ADAPTIVE NIGHTS: Neon pops for dark backgrounds */
+    html.night, html.night-rain, html.night-snow, html.night-storm { 
+        --hi-color: #ff4d6d; 
+        --lo-color: #00d2ff; 
+    }
+    
     html.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%) no-repeat fixed; background-color: #020617; }
     html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%) no-repeat fixed; background-color: #000000; }
     html.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
     html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%) no-repeat fixed; background-color: #4b0082; }
 
+    /* LAYOUT & COMPONENTS */
     .app-container { 
         width: 88%; 
         max-width: 360px; 
@@ -81,32 +96,36 @@
         text-align: center; 
         gap: 10px; 
         padding-top: calc(env(safe-area-inset-top) + 15px); 
-        /* Safe area at the bottom for the home bar */
         padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
     }
     
-    /* Rest of your styles stay exactly the same... */
     #location { font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
     .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
     .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
-    .refresh-gps { background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); -webkit-tap-highlight-color: transparent; }
+    
+    .refresh-gps { background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); -webkit-tap-highlight-color: transparent; }
     .refresh-gps:active { transform: scale(0.8); }
     .refresh-gps.searching { color: var(--accent-color); background: rgba(39, 245, 101, 0.15); border-color: rgba(39, 245, 101, 0.4); }
-    .refresh-gps.searching i { animation: gps-pulse 1s infinite ease-in-out; }
-    @keyframes gps-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    
     #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
+    
     .weather-card { width: 100%; background: var(--glass-bg); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 25px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); margin-top: 5px; position: relative; }
+    
     #glyph { font-size: 80px; margin-bottom: 2px; }
     .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
     #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
+    
     .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
-    .hi-lo-stack .hi { color: #c20a1a; } .hi-lo-stack .lo { color: #1205c7; }
+    .hi-lo-stack .hi { color: var(--hi-color); } 
+    .hi-lo-stack .lo { color: var(--lo-color); }
+    
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
     .stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; padding: 15px 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.1s ease; -webkit-tap-highlight-color: transparent; }
-    .stat-box:active { transform: scale(0.95); }
-    .stat-box i { font-size: 18px; }
+    .stat-box:active { background: rgba(255, 255, 255, 0.2); transform: scale(0.96); }
+    
     .stat-value { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
     .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
+    
     #tooltip { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 15px; border-radius: 15px; font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
     .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; transition: all 0.5s ease; }
 </style>
@@ -138,7 +157,7 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5.02</footer>
+        <footer class="footer">SkyNow™ 5.03</footer>
     </div>
 
     <script>
@@ -187,7 +206,7 @@
                 const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 5.02"; 
+                let alertText = "SkyNow™ 5.03"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
@@ -198,8 +217,8 @@
                 else if (futureTemp >= nowTemp + 4) alertText = `📈 Warming up to ${futureTemp}° shortly`;
 
                 footer.innerHTML = alertText;
-                footer.style.opacity = (alertText !== "SkyNow™ 5.02") ? "0.9" : "0.4";
-                if (alertText !== "SkyNow™ 5.02") footer.style.color = "var(--accent-color)";
+                footer.style.opacity = (alertText !== "SkyNow™ 5.03") ? "0.9" : "0.4";
+                if (alertText !== "SkyNow™ 5.03") footer.style.color = "var(--accent-color)";
             } catch(e) { console.log("Forecast error", e); }
         }
 
@@ -233,116 +252,127 @@
                 });
         }
 
-    function drawWeather(d) {
-        const raw = d.weather[0].description.toLowerCase();
-        const now = d.dt;
-        const isNight = now > d.sys.sunset || now < d.sys.sunrise;
-        const isGoldenHour = (now > d.sys.sunset - 3600 && now <= d.sys.sunset) || (now < d.sys.sunrise + 3600 && now >= d.sys.sunrise);
+        function drawWeather(d) {
+            const raw = d.weather[0].description.toLowerCase();
+            const now = d.dt;
+            const isNight = now > d.sys.sunset || now < d.sys.sunrise;
+            const isGoldenHour = (now > d.sys.sunset - 3600 && now <= d.sys.sunset) || (now < d.sys.sunrise + 3600 && now >= d.sys.sunrise);
 
-        // UV Index Logic: OpenWeather sometimes nests this or requires 
-        // a separate call, but if it's in the data (d.uvi), we use it.
-        // Otherwise, we default to "LOW" at night.
-        const uvValue = d.uvi || 0; 
-        let uvLabel = "LOW";
-        if (uvValue >= 3 && uvValue < 6) uvLabel = "MODERATE";
-        else if (uvValue >= 6 && uvValue < 8) uvLabel = "HIGH";
-        else if (uvValue >= 8 && uvValue < 11) uvLabel = "VERY HIGH";
-        else if (uvValue >= 11) uvLabel = "EXTREME";
-        if (isNight) uvLabel = "NONE";
+            const uvValue = d.uvi || 0; 
+            let uvLabel = "LOW";
+            if (uvValue >= 3 && uvValue < 6) uvLabel = "MODERATE";
+            else if (uvValue >= 6 && uvValue < 8) uvLabel = "HIGH";
+            else if (uvValue >= 8 && uvValue < 11) uvLabel = "VERY HIGH";
+            else if (uvValue >= 11) uvLabel = "EXTREME";
+            if (isNight) uvLabel = "NONE";
 
-        const descriptiveMap = {
-            'clear sky': isNight ? 'Starlit & Still' : 'Sunny and beautiful',
-            'few clouds': isNight ? 'Moonlight Peeking' : 'A Few Drifting Clouds',
-            'scattered clouds': isNight ? 'Cloudy Lunar Glow' : 'Sun Peeking Through Clouds',
-            'broken clouds': 'Mostly Cloudy Canopy',
-            'overcast clouds': 'Solid Gray Overcast',
-            'light rain': 'Soft, Gentle Mist',
-            'moderate rain': 'Steady Refreshing Rainfall',
-            'heavy intensity rain': 'A Heavy Downpour',
-            'snow': 'Whirling Winter Snowflakes',
-            'thunderstorm': 'Electric & Stormy Skies',
-            'mist': 'Hazy & Misty',
-            'haze': 'Hazy Atmospheric Glow',
-            'smoke': 'Smoky Haze'
-        };
+            const descriptiveMap = {
+                'clear sky': isNight ? 'Starlit & Still' : 'Sunny and beautiful',
+                'few clouds': isNight ? 'Moonlight Peeking' : 'A Few Drifting Clouds',
+                'scattered clouds': isNight ? 'Cloudy Lunar Glow' : 'Sun Peeking Through Clouds',
+                'broken clouds': 'Mostly Cloudy Canopy',
+                'overcast clouds': 'Solid Gray Overcast',
+                'light rain': 'Soft, Gentle Mist',
+                'moderate rain': 'Steady Refreshing Rainfall',
+                'heavy intensity rain': 'A Heavy Downpour',
+                'snow': 'Whirling Winter Snowflakes',
+                'thunderstorm': 'Electric & Stormy Skies',
+                'mist': 'Hazy & Misty',
+                'haze': 'Hazy Atmospheric Glow',
+                'smoke': 'Smoky Haze'
+            };
 
-        document.getElementById('location').innerHTML = d.name;
-        document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
-        document.getElementById('api-desc').innerHTML = `${raw}`;
-        document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
-        document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
+            document.getElementById('location').innerHTML = d.name;
+            document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
+            document.getElementById('api-desc').innerHTML = `${raw}`;
+            document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
+            document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
 
-        const feels = Math.round(d.main.feels_like);
-        const actual = Math.round(d.main.temp);
-        const impactEl = document.getElementById('impact-label');
+            const feels = Math.round(d.main.feels_like);
+            const actual = Math.round(d.main.temp);
+            const impactEl = document.getElementById('impact-label');
+            
+            if (feels > actual + 3) impactEl.innerText = "High Humidity Is Impacting Temperature";
+            else if (feels < actual - 3) impactEl.innerText = "The Wind Chill Is Impacting Temperature";
+            else impactEl.innerText = "FEELS LIKE TEMPERATURE";
+
+            animateValue("temp-num", 0, feels, 1200);
+
+            let sunLabel, sunValue, sunIcon;
+            if (isNight) {
+                sunLabel = 'SUNRISE';
+                sunIcon = 'fa-sun';
+                const targetSunrise = now > d.sys.sunset ? d.sys.sunrise + 86400 : d.sys.sunrise;
+                sunValue = new Date(targetSunrise * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+            } else {
+                sunLabel = 'SUNSET';
+                sunIcon = 'fa-moon';
+                sunValue = new Date(d.sys.sunset * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+            }
+
+            const stats = [
+                { icon: 'fa-thermometer-half', val: actual + '&deg;', label: 'ACTUAL TEMP', color: '#e640dd' },
+                { icon: 'fa-tint', val: d.main.humidity + '%', label: 'HUMIDITY', color: '#00d2ff' },
+                { icon: 'fa-wind', val: Math.round(d.wind.speed) + ' mph', label: 'WIND SPEED' , color: '#34e89e' },
+                { icon: 'fa-sun', val: uvLabel, label: 'UV INDEX', color: '#fbbf24' },
+                { icon: 'fa-eye', val: (d.visibility / 1609).toFixed(1) + ' miles', label: 'VISIBILITY', color: '#a29bfe' },
+                { icon: sunIcon, val: sunValue, label: sunLabel, color: '#fbbf24' }
+            ];
+
+            document.getElementById('stats-container').innerHTML = stats.map(s => `
+                <div class="stat-box" onclick="showTooltip('${s.label}')">
+                    <i class="fas ${s.icon}" style="color:${s.color}"></i>
+                    <span class="stat-value">${s.val}</span>
+                    <span class="stat-label">${s.label}</span>
+                </div>
+            `).join('');
+
+            let glyph = '', bgClass = '';
         
-        if (feels > actual + 3) impactEl.innerText = "High Humidity Is Impacting Temperature";
-        else if (feels < actual - 3) impactEl.innerText = "The Wind Chill Is Impacting Temperature";
-        else impactEl.innerText = "FEELS LIKE TEMPERATURE";
+            if (isGoldenHour) { 
+                bgClass = 'sunset'; 
+                glyph = '<i class="fas fa-cloud-sun"></i>'; 
+            } else if (isNight) {
+                if (raw.includes('storm')) { bgClass = 'night-storm'; glyph = '<i class="fas fa-bolt" style="color:#fbbf24"></i>'; }
+                else if (raw.includes('rain')) { bgClass = 'night-rain'; glyph = '<i class="fas fa-cloud-moon-rain" style="color:#fbbf24"></i>'; }
+                else if (raw.includes('snow')) { bgClass = 'night-snow'; glyph = '<i class="fas fa-snowflake"></i>'; }
+                else { bgClass = 'night'; glyph = '<i class="fas fa-moon" style="color:#fbbf24"></i>'; }
+            } else {
+                if (raw.includes('storm')) { 
+                    glyph = '<i class="fas fa-poo-storm"></i>'; bgClass = 'day-rainy'; 
+                } else if (raw.includes('snow')) { 
+                    glyph = '<i class="fas fa-snowflake"></i>'; bgClass = 'day-snowy'; 
+                } else if (raw.includes('rain') || raw.includes('drizzle')) { 
+                    glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; bgClass = 'day-rainy'; 
+                } else if (raw.includes('haze') || raw.includes('smoke')) { 
+                    glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-haze'; 
+                } else if (raw.includes('mist') || raw.includes('fog')) { 
+                    glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-mist'; 
+                } else if (raw.includes('cloud')) { 
+                    glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; 
+                } else { 
+                    glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; 
+                }
+            }
 
-        animateValue("temp-num", 0, feels, 1200);
+            document.documentElement.className = bgClass;
+            localStorage.setItem('sn_last_theme', bgClass);
 
-        // DYNAMIC SUN BOX LOGIC
-        let sunLabel, sunValue, sunIcon;
-        if (now > d.sys.sunset || now < d.sys.sunrise) {
-            sunLabel = 'SUNRISE';
-            sunIcon = 'fa-sun';
-            const targetSunrise = now > d.sys.sunset ? d.sys.sunrise + 86400 : d.sys.sunrise;
-            sunValue = new Date(targetSunrise * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
-        } else {
-            sunLabel = 'SUNSET';
-            sunIcon = 'fa-moon';
-            sunValue = new Date(d.sys.sunset * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+            const themeColors = {
+                'day-clear': '#e67e22', 'day-cloudy': '#94a3b8', 'day-haze': '#a8a29e', 'day-mist': '#94a3b8', 'day-rainy': '#64748b',
+                'day-snowy': '#f8fafc', 'sunset': '#4B0082', 'night': '#1e293b', 'night-rain': '#2c3e50',
+                'night-snow': '#4a69bd', 'night-storm': '#1a1a2e'
+            };
+            
+            const metaTheme = document.getElementById('status-bar-color');
+            if (metaTheme) metaTheme.setAttribute('content', themeColors[bgClass] || '#1e293b');
+            document.getElementById('glyph').innerHTML = glyph;
         }
-
-        const stats = [
-            { icon: 'fa-thermometer-half', val: actual + '&deg;', label: 'ACTUAL TEMP', color: '#e640dd' },
-            { icon: 'fa-tint', val: d.main.humidity + '%', label: 'HUMIDITY', color: '#00d2ff' },
-            { icon: 'fa-wind', val: Math.round(d.wind.speed) + ' mph', label: 'WIND SPEED' , color: '#34e89e' },
-            { icon: 'fa-sun', val: uvLabel, label: 'UV INDEX', color: '#fbbf24' },
-            { icon: 'fa-eye', val: (d.visibility / 1609).toFixed(1) + ' miles', label: 'VISIBILITY', color: '#a29bfe' },
-            { icon: sunIcon, val: sunValue, label: sunLabel, color: '#fbbf24' }
-        ];
-
-        document.getElementById('stats-container').innerHTML = stats.map(s => `
-            <div class="stat-box" onclick="showTooltip('${s.label}')">
-                <i class="fas ${s.icon}" style="color:${s.color}"></i>
-                <span class="stat-value">${s.val}</span>
-                <span class="stat-label">${s.label}</span>
-            </div>
-        `).join('');
-
-        // Background and status bar logic remains the same...
-        let glyph = '', bgClass = '';
-        if (isGoldenHour) { bgClass = 'sunset'; glyph = '<i class="fas fa-cloud-sun"></i>'; }
-        else if (isNight) {
-            if (raw.includes('storm')) { bgClass = 'night-storm'; glyph = '<i class="fas fa-bolt" style="color:#fbbf24"></i>'; }
-            else if (raw.includes('rain')) { bgClass = 'night-rain'; glyph = '<i class="fas fa-cloud-moon-rain" style="color:#fbbf24"></i>'; }
-            else { bgClass = 'night'; glyph = '<i class="fas fa-moon" style="color:#fbbf24"></i>'; }
-        } else {
-            if (raw.includes('snow')) { glyph = '<i class="fas fa-snowflake"></i>'; bgClass = 'day-snowy'; }
-            else if (raw.includes('rain')) { glyph = '<i class="fas fa-cloud-showers-heavy"></i>'; bgClass = 'day-rainy'; }
-            else if (raw.includes('haze') || raw.includes('mist') || raw.includes('smoke')) { glyph = '<i class="fas fa-smog"></i>'; bgClass = 'day-haze'; }
-            else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
-            else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
-        }
-
-        document.documentElement.className = bgClass;
-        localStorage.setItem('sn_last_theme', bgClass);
-
-        const themeColors = {
-            'day-clear': '#e67e22', 'day-cloudy': '#94a3b8', 'day-haze': '#a8a29e', 'day-rainy': '#64748b',
-            'day-snowy': '#f8fafc', 'sunset': '#4B0082', 'night': '#1e293b', 'night-rain': '#2c3e50',
-            'night-snow': '#4a69bd', 'night-storm': '#1a1a2e'
-        };
-        
-        const metaTheme = document.getElementById('status-bar-color');
-        if (metaTheme) metaTheme.setAttribute('content', themeColors[bgClass] || '#1e293b');
-        document.getElementById('glyph').innerHTML = glyph;
-    }
 
         window.onload = () => { updateClock(); setInterval(updateClock, 1000); initApp(); };
         function initApp() {
+            const lastTheme = localStorage.getItem('sn_last_theme');
+            if (lastTheme) document.documentElement.className = lastTheme;
             const sLat = localStorage.getItem('sn_lat'), sLon = localStorage.getItem('sn_lon');
             if (sLat && sLon) weatherBallon(sLat, sLon); else getPreciseLocation();
         }
