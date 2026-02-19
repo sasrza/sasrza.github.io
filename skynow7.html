@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
@@ -26,18 +26,20 @@
             --alert-red: #ff4757;
         }
     
-        /* Gradients on HTML to bleed into status bar area */
+        /* FIX 2: Specific HTML/Body configuration for iOS Web Apps */
         html {
             height: 100%;
             transition: background 2s ease-in-out;
             background-attachment: fixed;
-            overflow: hidden; /* Prevents "bounce" white space on mobile */
+            overflow: hidden; 
         }
     
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            height: 100%;
+            /* Use -webkit-fill-available to ensure full height on iOS */
+            height: 100vh;
+            height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -67,6 +69,7 @@
             align-items: center; 
             text-align: center; 
             gap: 10px; 
+            /* env(safe-area-inset-top) keeps content below the Dynamic Island/Notch */
             padding-top: calc(env(safe-area-inset-top) + 15px); 
         }
         
@@ -326,7 +329,7 @@
             // Apply the background class to HTML
             document.documentElement.className = bgClass;
 
-            // Sync the System Status Bar color with the top of the gradient
+            // FIX 3: Sync the System Status Bar color with the top of the gradient
             const themeColors = {
                 'day-clear': '#e67e22',
                 'day-cloudy': '#94a3b8',
