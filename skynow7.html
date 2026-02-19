@@ -6,7 +6,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-    <title>SkyNow™ 5 BETA</title>
+    <meta name="theme-color" id="status-bar-color" content="#a8a29e">
+    
+    <title>SkyNow™ 5 IN PROGRESS</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -24,28 +26,28 @@
             --alert-red: #ff4757;
         }
     
-        /* Move gradients to HTML so they bleed into the status bar area */
+        /* Gradients on HTML to bleed into status bar area */
         html {
             height: 100%;
             transition: background 2s ease-in-out;
             background-attachment: fixed;
+            overflow: hidden; /* Prevents "bounce" white space on mobile */
         }
     
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            min-height: 100vh;
-            min-height: -webkit-fill-available; 
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             color: white;
             color-scheme: dark; 
             overflow-x: hidden;
-            background: transparent !important; /* Keep body clear */
+            background: transparent !important;
         }
 
-        /* Update these selectors to target 'html' instead of 'body' */
+        /* Weather Gradient Classes */
         html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%); }
         html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%); }
         html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #78716c 100%); }
@@ -56,7 +58,6 @@
         html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%); }
         html.night-snow { background: linear-gradient(to bottom, #4a69bd 0%, #1e293b 100%); }
         html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%); }
-
 
         .app-container { 
             width: 88%; 
@@ -77,7 +78,6 @@
         .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
         .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
 
-        /* GPS Button with Neon Green Feedback */
         .refresh-gps { 
             background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); 
             color: white; border-radius: 50%; width: 28px; height: 28px; 
@@ -87,7 +87,6 @@
         }
 
         .refresh-gps:active { transform: scale(0.8); }
-
         .refresh-gps.searching { 
             color: var(--accent-color); 
             background: rgba(39, 245, 101, 0.15); 
@@ -107,22 +106,12 @@
         }
 
         #glyph { font-size: 80px; margin-bottom: 2px; }
-
-        .temp-main { 
-            font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85;
-            font-variant-numeric: tabular-nums; 
-        }
-
-        #impact-label {
-            font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px;
-            letter-spacing: 0.5px;
-        }
+        .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
+        #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
         
         .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
         .hi-lo-stack .hi { color: #a0020f; } .hi-lo-stack .lo { color: #006075; }
-        body[class*='night'] .hi-lo-stack .hi { color: #ff2e63; }
-        body[class*='night'] .hi-lo-stack .lo { color: #00fff0; }
-
+        
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
         .stat-box { 
             background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); border-radius: 20px; 
@@ -141,10 +130,7 @@
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .footer { 
-            font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; 
-            letter-spacing: 1px; transition: all 0.5s ease;
-        }
+        .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; transition: all 0.5s ease; }
     </style>
 </head>
 <body>
@@ -174,7 +160,7 @@
             <div class="stats-grid" id="stats-container"></div>
             <div id="tooltip"></div>
         </main>
-        <footer class="footer">SkyNow™ 5 BETA</footer>
+        <footer class="footer">SkyNow™ 5.01</footer>
     </div>
 
     <script>
@@ -215,7 +201,6 @@
             try {
                 const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`);
                 const data = await resp.json();
-                
                 const nowTemp = Math.round(data.list[0].main.temp);
                 const sixHourForecast = data.list[2]; 
                 const futureTemp = Math.round(sixHourForecast.main.temp);
@@ -223,24 +208,19 @@
                 const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 5.0 BETA"; 
+                let alertText = "SkyNow™ 5.01"; 
 
-                // Smart Alert Logic (Threshold 3 degrees)
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
                     else if (futureWeather.includes('snow')) alertText = "❄️ Snow on the way soon";
                     else if (futureWeather.includes('cloud')) alertText = "☁️ Clouds rolling in shortly";
                 } 
-                else if (futureTemp <= nowTemp - 5) {
-                    alertText = `📉 Temp dropping to ${futureTemp}° soon. Bundle up!`;
-                }
-                else if (futureTemp >= nowTemp + 5) {
-                    alertText = `📈 Warming up to ${futureTemp}° within 6 hours`;
-                }
+                else if (futureTemp <= nowTemp - 4) alertText = `📉 Temp dropping to ${futureTemp}° soon.`;
+                else if (futureTemp >= nowTemp + 4) alertText = `📈 Warming up to ${futureTemp}° shortly`;
 
                 footer.innerHTML = alertText;
-                footer.style.opacity = (alertText !== "SkyNow™ 5.0 BETA") ? "0.9" : "0.4";
-                if (alertText !== "SkyNow™ 5.0 BETA") footer.style.color = "var(--accent-color)";
+                footer.style.opacity = (alertText !== "SkyNow™ 5.01") ? "0.9" : "0.4";
+                if (alertText !== "SkyNow™ 5.01") footer.style.color = "var(--accent-color)";
             } catch(e) { console.log("Forecast error", e); }
         }
 
@@ -254,7 +234,6 @@
         function getPreciseLocation() {
             const btn = document.getElementById('gps-btn');
             if (btn) btn.classList.add('searching');
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
                     localStorage.setItem('sn_lat', pos.coords.latitude);
@@ -299,7 +278,6 @@
             document.getElementById('location').innerHTML = d.name;
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
             document.getElementById('api-desc').innerHTML = `${raw}`;
-            
             document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
             document.getElementById('lo-val').innerHTML = Math.round(d.main.temp_min);
 
@@ -307,8 +285,8 @@
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
             
-            if (feels > actual + 3) impactEl.innerText = "Humidity Impacting Temp";
-            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Impacting Temp";
+            if (feels > actual + 3) impactEl.innerText = "Humidity Impacting Temperature";
+            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Impacting Temperature";
             else impactEl.innerText = "FEELS LIKE TEMPERATURE";
 
             animateValue("temp-num", 0, feels, 1200);
@@ -344,7 +322,29 @@
                 else if (raw.includes('cloud')) { glyph = '<i class="fas fa-cloud-sun"></i>'; bgClass = 'day-cloudy'; }
                 else { glyph = '<i class="fas fa-sun" style="color:#fbbf24"></i>'; bgClass = 'day-clear'; }
             }
-            document.documentElement.className = bgClass; // Changed from document.body.className
+
+            // Apply the background class to HTML
+            document.documentElement.className = bgClass;
+
+            // Sync the System Status Bar color with the top of the gradient
+            const themeColors = {
+                'day-clear': '#e67e22',
+                'day-cloudy': '#94a3b8',
+                'day-haze': '#a8a29e',
+                'day-rainy': '#64748b',
+                'day-snowy': '#f8fafc',
+                'sunset': '#4B0082',
+                'night': '#1e293b',
+                'night-rain': '#2c3e50',
+                'night-snow': '#4a69bd',
+                'night-storm': '#1a1a2e'
+            };
+            
+            const metaTheme = document.getElementById('status-bar-color');
+            if (metaTheme) {
+                metaTheme.setAttribute('content', themeColors[bgClass] || '#1e293b');
+            }
+
             document.getElementById('glyph').innerHTML = glyph;
         }
 
