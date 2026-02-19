@@ -8,7 +8,7 @@
 
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 5 HOLY FUCK WOULD THIS WORK ALREADY!!!!</title>
+    <title>SkyNow™ 5 - IS THAT WHITE BAR STILL AT THE BOTTOM?</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -27,19 +27,22 @@
         }
     
         /* FIX 2: Specific HTML/Body configuration for iOS Web Apps */
+        /* FIX: Ensures the gradient covers the entire screen, including the home indicator area */
         html {
             height: 100%;
             transition: background 2s ease-in-out;
             background-attachment: fixed;
-            overflow: hidden; 
+            overflow: hidden;
+            /* Added this to ensure the background covers the bottom "white" area */
+            background-color: transparent; 
         }
     
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            /* Use -webkit-fill-available to ensure full height on iOS */
-            height: 100vh;
-            height: -webkit-fill-available;
+            /* min-height ensures it fills the screen, but doesn't cut off */
+            min-height: 100%;
+            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -288,8 +291,8 @@
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
             
-            if (feels > actual + 3) impactEl.innerText = "Humidity Impacting Temperature";
-            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Impacting Temperature";
+            if (feels > actual + 3) impactEl.innerText = "🔥 Humidity Impacting Temperature";
+            else if (feels < actual - 3) impactEl.innerText = "❄️ Wind Chill Impacting Temperature";
             else impactEl.innerText = "FEELS LIKE TEMPERATURE";
 
             animateValue("temp-num", 0, feels, 1200);
