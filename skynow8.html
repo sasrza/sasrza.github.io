@@ -292,9 +292,9 @@
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
             
-            if (feels > actual + 3) impactEl.innerText = "High Humidity Is Impacting Temperature";
-            else if (feels < actual - 3) impactEl.innerText = "The Wind Chill Is Impacting Temperature";
-            else impactEl.innerText = "FEELS LIKE TEMPERATURE";
+            if (feels > actual + 3) impactEl.innerText = "High Humidity Is Warming Temperature";
+            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Is Cooling Temperature";
+            else impactEl.innerText = "THE CURRENT 'FEELS LIKE' TEMPERATURE";
 
             animateValue("temp-num", 0, feels, 1200);
 
