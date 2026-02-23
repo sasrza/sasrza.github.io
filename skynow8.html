@@ -19,13 +19,13 @@
 
 <style>
     :root {
-        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-bg: rgba(255, 255, 255, 0.0);
         --glass-border: rgba(255, 255, 255, 0.25);
-        --accent-color: #27F565; 
+        --accent-color: #3ff527; 
         --bg-fallback: #1e293b; 
         /* Default adaptive colors */
-        --hi-color: #ff5e6c; 
-        --lo-color: #0075D1;
+        --hi-color: #fcbcc2; 
+        --lo-color: #b4deff;
         --text-main: #ffffff;
     }
 
@@ -57,7 +57,7 @@
 
     /* THEME ENGINE - Applied to HTML tag */
     html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%) no-repeat fixed; background-color: #a34f06; }
-    html.day-cloudy { background: linear-gradient(to bottom, #94a3b8 0%, #475569 100%) no-repeat fixed; background-color: #475569; }
+    html.day-cloudy { background: linear-gradient(to bottom, #778ba7 0%, #475569 100%) no-repeat fixed; background-color: #475569; }
     html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #d1ccc0 50%, #78716c 100%) no-repeat fixed; background-color: #78716c; }
     html.day-mist { background: linear-gradient(to bottom, #94a3b8 0%, #94a3b8 50%, #64748b 100%) no-repeat fixed; background-color: #64748b; }
     html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
@@ -73,7 +73,7 @@
         --glass-border: rgba(0, 0, 0, 0.05);
     }
 
-    html.sunset { background: linear-gradient(to bottom, #C65F58, #DD541C 30%, #FFA500 100%) no-repeat fixed; background-color: #FFA500; }
+    html.sunset { background: linear-gradient(to bottom, #ee5d6c, #fb9062 30%, #FFA500 100%) no-repeat fixed; background-color: #FFA500; }
     
     /* ADAPTIVE NIGHTS: Neon pops for dark backgrounds */
     html.night, html.night-rain, html.night-snow, html.night-storm { 
@@ -83,7 +83,7 @@
     
     html.night { background: linear-gradient(to bottom, #1e293b 0%, #020617 100%) no-repeat fixed; background-color: #020617; }
     html.night-rain { background: linear-gradient(to bottom, #2c3e50 0%, #000000 100%) no-repeat fixed; background-color: #000000; }
-    html.night-snow { background: linear-gradient(to bottom, #546fb9 0%, #2f4466 100%) no-repeat fixed; background-color: #2f4466; }
+    html.night-snow { background: linear-gradient(to bottom, #3657b1 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
     html.night-storm { background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%, #4b0082 100%) no-repeat fixed; background-color: #4b0082; }
 
     /* LAYOUT & COMPONENTS */
@@ -105,7 +105,7 @@
     
     .refresh-gps { background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); -webkit-tap-highlight-color: transparent; }
     .refresh-gps:active { transform: scale(0.8); }
-    .refresh-gps.searching { color: var(--accent-color); background: rgba(39, 245, 101, 0.15); border-color: rgba(39, 245, 101, 0.4); }
+    .refresh-gps.searching { color: var(--accent-color); background: rgba(39, 245, 39, 0.15); border-color: rgba(73, 245, 39, 0.4); }
     
     #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
     
@@ -126,7 +126,7 @@
     .stat-value { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
     .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
     
-    #tooltip { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(27, 10, 102, 0.85); color: white; padding: 10px 15px; border-radius: 10px; font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+    #tooltip { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: #170061; color: white; padding: 10px 15px; border-radius: 15px; font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
     .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; transition: all 0.5s ease; }
 </style>
 </head>
@@ -209,12 +209,12 @@
                 let alertText = "SkyNow™ 5.03"; 
 
                 if (futureWeather !== currentMainWeather) {
-                    if (futureWeather.includes('rain')) alertText = "☔ RAIN ON THE WAY WITHIN THE NEXT 6 HOURS";
-                    else if (futureWeather.includes('snow')) alertText = "❄️ BUNDLE UP, SNOW IS COMING";
-                    else if (futureWeather.includes('cloud')) alertText = "☁️ CLOUDS ROLLING IN SOON";
+                    if (futureWeather.includes('rain')) alertText = "☔ Rain expected within 6 hours";
+                    else if (futureWeather.includes('snow')) alertText = "❄️ Snow on the way soon";
+                    else if (futureWeather.includes('cloud')) alertText = "⛅️ Clouds rolling in shortly";
                 } 
-                else if (futureTemp <= nowTemp - 4) alertText = `📉 TEMP DROPPING TO ${futureTemp}° SOON.`;
-                else if (futureTemp >= nowTemp + 4) alertText = `📈 TEMP RISING TO  ${futureTemp}° SOON`;
+                else if (futureTemp <= nowTemp - 4) alertText = `🔽 Temp dropping to ${futureTemp}° soon.`;
+                else if (futureTemp >= nowTemp + 4) alertText = `🔥 Warming up to ${futureTemp}° shortly`;
 
                 footer.innerHTML = alertText;
                 footer.style.opacity = (alertText !== "SkyNow™ 5.03") ? "0.9" : "0.4";
@@ -268,14 +268,14 @@
 
             const descriptiveMap = {
                 'clear sky': isNight ? 'Starlit & Still' : 'Sunny and beautiful',
-                'few clouds': isNight ? 'Moonlight Peeking Through Clouds' : 'A Few Drifting Clouds',
+                'few clouds': isNight ? 'Moonlight Peeking' : 'A Few Drifting Clouds',
                 'scattered clouds': isNight ? 'Cloudy Lunar Glow' : 'Sun Peeking Through Clouds',
                 'broken clouds': 'Mostly Cloudy Canopy',
                 'overcast clouds': 'Solid Gray Overcast',
                 'light rain': 'Soft, Gentle Mist',
                 'moderate rain': 'Steady Refreshing Rainfall',
-                'heavy intensity rain': 'It&#39s A Monsoon Out There',
-                'snow': 'It&#39s Snowing!',
+                'heavy intensity rain': 'A Heavy Downpour',
+                'snow': 'Whirling Winter Snowflakes',
                 'thunderstorm': 'Electric & Stormy Skies',
                 'mist': 'Hazy & Misty',
                 'haze': 'Hazy Atmospheric Glow',
@@ -292,8 +292,8 @@
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
             
-            if (feels > actual + 3) impactEl.innerText = "The High Humidity Is Making It Toasty";
-            else if (feels < actual - 3) impactEl.innerText = "The Wind Chill Is Making It Colder";
+            if (feels > actual + 3) impactEl.innerText = "High Humidity Is Impacting Temperature";
+            else if (feels < actual - 3) impactEl.innerText = "The Wind Chill Is Impacting Temperature";
             else impactEl.innerText = "FEELS LIKE TEMPERATURE";
 
             animateValue("temp-num", 0, feels, 1200);
