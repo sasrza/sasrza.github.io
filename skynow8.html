@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 5.03</title>
+    <title>SkyNow™ 6.0</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -21,9 +22,8 @@
     :root {
         --glass-bg: rgba(255, 255, 255, 0.0);
         --glass-border: rgba(255, 255, 255, 0.25);
-        --accent-color: #3ff527; 
+        --accent-color: #a7f3d0; 
         --bg-fallback: #1e293b; 
-        /* Default adaptive colors */
         --hi-color: #fcbcc2; 
         --lo-color: #b4deff;
         --text-main: #ffffff;
@@ -55,14 +55,13 @@
         background: transparent !important;
     }
 
-    /* THEME ENGINE - Applied to HTML tag */
+    /* THEME ENGINE */
     html.day-clear { background: linear-gradient(to bottom, #e67e22 0%, #a34f06 100%) no-repeat fixed; background-color: #a34f06; }
     html.day-cloudy { background: linear-gradient(to bottom, #778ba7 0%, #475569 100%) no-repeat fixed; background-color: #475569; }
     html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #d1ccc0 50%, #78716c 100%) no-repeat fixed; background-color: #78716c; }
     html.day-mist { background: linear-gradient(to bottom, #94a3b8 0%, #94a3b8 50%, #64748b 100%) no-repeat fixed; background-color: #64748b; }
     html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
     
-    /* ADAPTIVE SNOWY: High contrast for light background */
     html.day-snowy { 
         background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%) no-repeat fixed; 
         background-color: #cbd5e1; 
@@ -75,7 +74,6 @@
 
     html.sunset { background: linear-gradient(to bottom, #ee5d6c, #fb9062 30%, #FFA500 100%) no-repeat fixed; background-color: #FFA500; }
     
-    /* ADAPTIVE NIGHTS: Neon pops for dark backgrounds */
     html.night, html.night-rain, html.night-snow, html.night-storm { 
         --hi-color: #ff4d6d; 
         --lo-color: #00d2ff; 
@@ -94,23 +92,116 @@
         flex-direction: column; 
         align-items: center; 
         text-align: center; 
-        gap: 10px; 
-        padding-top: calc(env(safe-area-inset-top) + 15px); 
-        padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+        gap: 8px; 
+        padding-top: calc(env(safe-area-inset-top) + 12px); 
+        padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
     }
     
     #location { font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-    .location-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; }
-    .location-wrapper::before { content: ''; width: 38px; height: 28px; visibility: hidden; flex-shrink: 0; }
+    #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; margin-bottom: 2px; }
     
-    .refresh-gps { background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); -webkit-tap-highlight-color: transparent; }
-    .refresh-gps:active { transform: scale(0.8); }
-    .refresh-gps.searching { color: var(--accent-color); background: rgba(39, 245, 39, 0.15); border-color: rgba(73, 245, 39, 0.4); }
+    /* 3D FLIP CONTAINER ENGINE */
+    .weather-card { 
+        width: 100%; 
+        perspective: 1000px; 
+        margin-top: 5px; 
+        position: relative;
+    }
     
-    #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; }
+    .card-inner {
+        width: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
     
-    .weather-card { width: 100%; background: var(--glass-bg); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 25px 15px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); margin-top: 5px; position: relative; }
+    .weather-card.is-flipped .card-inner {
+        transform: rotateY(180deg);
+    }
     
+    .card-front, .card-back {
+        width: 100%;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        background: var(--glass-bg);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid var(--glass-border);
+        border-radius: 40px;
+        padding: 22px 15px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        box-sizing: border-box;
+    }
+    
+    .card-back {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transform: rotateY(180deg);
+    }
+
+    /* CONTROL BAR CONTAINER */
+    .toggle-container {
+        display: inline-flex;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 1px;
+        margin-bottom: 2px;
+        z-index: 5;
+        gap: 1px;
+    }
+    .toggle-btn {
+        background: transparent; border: none;
+        color: var(--text-main); font-size: 9.5px; font-weight: 800;
+        padding: 4px 12px; border-radius: 15px; cursor: pointer;
+        text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .toggle-btn.active {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .toggle-btn.searching { 
+        color: #059669; 
+        background: rgba(52, 211, 153, 0.25); 
+    }
+
+    /* ADAPTIVE MACRO FORECAST */
+    .forecast-headline { font-size: 14px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin: 4px 0 2px 0; opacity: 0.7; }
+    
+    .forecast-avg-block {
+        display: flex; justify-content: center; align-items: center; gap: 8px;
+        font-size: 72px; font-weight: 900; letter-spacing: -3px;
+        margin-bottom: -2px; margin-top: -2px; line-height: 1;
+    }
+    .forecast-avg-block .avg-hi { color: var(--hi-color); }
+    .forecast-avg-block .avg-lo { color: var(--lo-color); }
+    .forecast-avg-block .divider { opacity: 0.3; font-weight: 400; font-size: 56px; margin: 0 2px; }
+    .forecast-avg-label { font-size: 9px; font-weight: 900; opacity: 0.5; text-transform: uppercase; margin-top: 0px; margin-bottom: 4px; letter-spacing: 0.5px;}
+
+    /* Perfectly distributes rows top-to-bottom across the remaining height */
+    .forecast-list { 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: space-between; 
+        flex-grow: 1; 
+        margin-top: 6px;
+        margin-bottom: 4px;
+    }
+    .forecast-row {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 18px 18px; background: rgba(255, 255, 255, 0.06);
+        border-radius: 22px; border: 1px solid var(--glass-border);
+    }
+    .forecast-day { font-size: 16px; font-weight: 800; text-transform: uppercase; text-align: left; width: 38%; }
+    .forecast-icon-wrap { width: 24%; text-align: center; font-size: 21px; }
+    .forecast-temps { font-size: 18px; font-weight: 800; text-align: right; width: 38%; letter-spacing: -0.5px; }
+    .forecast-temps .f-hi { color: var(--hi-color); }
+    .forecast-temps .f-lo { color: var(--lo-color); }
+    
+    /* CURRENT WEATHER GLYPHS */
     #glyph { font-size: 80px; margin-bottom: 2px; }
     .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
     #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
@@ -127,37 +218,62 @@
     .stat-label { font-size: 8.5px; font-weight: 900; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
     
     #tooltip { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: #170061; color: white; padding: 10px 15px; border-radius: 15px; font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
-    .footer { font-size: 11px; opacity: 0.4; font-weight: 800; margin-top: 15px; letter-spacing: 1px; transition: all 0.5s ease; }
+    
+    /* FAINTER TRENDING BOTTOM TICKER */
+    .footer { font-size: 11px; font-weight: 800; margin-top: 10px; letter-spacing: 1px; transition: all 0.5s ease; color: #94a3b8; opacity: 0.65; }
 </style>
 </head>
 <body>
     <div class="app-container">
         <header>
-            <div class="location-wrapper">
-                <h1 id="location">LOADING...</h1>
-                <button class="refresh-gps" id="gps-btn" onclick="getPreciseLocation()">
-                    <i class="fas fa-location-arrow"></i>
-                </button>
-            </div>
+            <h1 id="location">LOADING</h1>
             <div id="live-time">---</div>
         </header>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="view-now" onclick="setView(false)">Now</button>
+            <button class="toggle-btn" id="view-5day" onclick="setView(true)">5-Day</button>
+            <button class="toggle-btn" id="gps-btn" onclick="getPreciseLocation()">GPS</button>
+        </div>
         
-        <main class="weather-card">
-            <div id="glyph"></div>
-            <h2 id="temp-num" class="temp-main">--&deg;</h2>
-            <div id="impact-label">FEELS LIKE TEMPERATURE</div>
-            <div class="hi-lo-stack">
-                <span class="hi">High: <span id="hi-val">--</span>&deg;</span>
-                <span class="lo">Low: <span id="lo-val">--</span>&deg;</span>
+        <div class="weather-card" id="main-card">
+            <div class="card-inner">
+                
+                <div class="card-front">
+                    <div id="glyph"></div>
+                    <h2 id="temp-num" class="temp-main">--&deg;</h2>
+                    <div id="impact-label">FEELS LIKE TEMPERATURE</div>
+                    <div class="hi-lo-stack">
+                        <span class="hi">High: <span id="hi-val">--</span>&deg;</span>
+                        <span class="lo">Low: <span id="lo-val">--</span>&deg;</span>
+                    </div>
+                    <div class="description-group">
+                        <p id="persona-desc" style="font-size: 18px; font-weight: 800; text-transform: uppercase; margin:0;">---</p>
+                        <p id="api-desc" style="font-size: 11px; font-weight: 600; opacity: 0.5; text-transform: uppercase; margin-top: 2px;">---</p>
+                    </div>
+                    <div class="stats-grid" id="stats-container"></div>
+                    <div id="tooltip"></div>
+                </div>
+
+                <div class="card-back">
+                    <div>
+                        <div class="forecast-headline">5-Day Forecast</div>
+                        <div class="forecast-avg-block">
+                            <span class="avg-hi"><span id="avg-hi-display">--</span>&deg;</span>
+                            <span class="divider">/</span>
+                            <span class="avg-lo"><span id="avg-lo-display">--</span>&deg;</span>
+                        </div>
+                        <div class="forecast-avg-label">Estimated 5-Day Average</div>
+                    </div>
+
+                    <div class="forecast-list" id="forecast-container">
+                        </div>
+                </div>
+
             </div>
-            <div class="description-group">
-                <p id="persona-desc" style="font-size: 18px; font-weight: 800; text-transform: uppercase; margin:0;">---</p>
-                <p id="api-desc" style="font-size: 11px; font-weight: 600; opacity: 0.5; text-transform: uppercase; margin-top: 2px;">---</p>
-            </div>
-            <div class="stats-grid" id="stats-container"></div>
-            <div id="tooltip"></div>
-        </main>
-        <footer class="footer">SkyNow™ 5.03</footer>
+        </div>
+        
+        <footer class="footer">SkyNow™ 6.0</footer>
     </div>
 
     <script>
@@ -170,8 +286,24 @@
             "UV INDEX": "Sun intensity; protect your skin accordingly.",
             "VISIBILITY": "Maximum distance clear objects are visible.",
             "SUNSET": "Approximate time the sun dips below the horizon.",
-            "SUNRISE": "The time the sun will first appear in the morning."
+            "SUNRISES": "The time the sun will first appear in the morning."
         };
+
+        function setView(showForecast) {
+            const card = document.getElementById('main-card');
+            const btnNow = document.getElementById('view-now');
+            const btn5day = document.getElementById('view-5day');
+            
+            if (showForecast) {
+                card.classList.add('is-flipped');
+                btn5day.classList.add('active');
+                btnNow.classList.remove('active');
+            } else {
+                card.classList.remove('is-flipped');
+                btnNow.classList.add('active');
+                btn5day.classList.remove('active');
+            }
+        }
 
         function showTooltip(label) {
             const tip = document.getElementById('tooltip');
@@ -189,7 +321,7 @@
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 2); 
                 const current = Math.floor(easeOut * (end - start) + start);
-                obj.innerHTML = current + '&deg;';
+                obj.innerHTML = current;
                 if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
@@ -199,6 +331,7 @@
             try {
                 const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`);
                 const data = await resp.json();
+                
                 const nowTemp = Math.round(data.list[0].main.temp);
                 const sixHourForecast = data.list[2]; 
                 const futureTemp = Math.round(sixHourForecast.main.temp);
@@ -206,7 +339,7 @@
                 const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 5.03"; 
+                let alertText = "SkyNow™ 6.0"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "☔ RAIN EXPECTED WITHIN THE NEXT 6 HOURS.";
@@ -217,9 +350,85 @@
                 else if (futureTemp >= nowTemp + 4) alertText = `🔥 TEMPERATURE WARMING UP TO ${futureTemp}° SHORTLY.`;
 
                 footer.innerHTML = alertText;
-                footer.style.opacity = (alertText !== "SkyNow™ 5.03") ? "0.9" : "0.4";
-                if (alertText !== "SkyNow™ 5.03") footer.style.color = "var(--accent-color)";
+                
+                if (alertText !== "SkyNow™ 6.0") {
+                    footer.style.color = "var(--accent-color)";
+                    footer.style.opacity = "0.85";
+                } else {
+                    footer.style.color = "#94a3b8";
+                    footer.style.opacity = "0.65";
+                }
+
+                processDailyForecasts(data.list);
+
             } catch(e) { console.log("Forecast error", e); }
+        }
+
+        function processDailyForecasts(list) {
+            const container = document.getElementById('forecast-container');
+            const currentDayStr = new Date().toLocaleDateString('en-US', { weekday: 'short' });
+            
+            let dailyData = {};
+
+            list.forEach(chunk => {
+                const date = new Date(chunk.dt * 1000);
+                const dayShort = date.toLocaleDateString('en-US', { weekday: 'short' });
+                const dayLong = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+                if (dayShort === currentDayStr) return;
+
+                if (!dailyData[dayShort]) {
+                    dailyData[dayShort] = {
+                        name: dayLong,
+                        temps: [],
+                        weatherDescriptions: []
+                    };
+                }
+                dailyData[dayShort].temps.push(chunk.main.temp);
+                dailyData[dayShort].weatherDescriptions.push(chunk.weather[0].description.toLowerCase());
+            });
+
+            let htmlStr = '';
+            let totalHi = 0;
+            let totalLo = 0;
+            let daysCounted = 0;
+
+            for (let dayShort in dailyData) {
+                if (daysCounted >= 5) break;
+
+                const dayObj = dailyData[dayShort];
+                const trueMax = Math.round(Math.max(...dayObj.temps));
+                const trueMin = Math.round(Math.min(...dayObj.temps));
+                
+                totalHi += trueMax;
+                totalLo += trueMin;
+                daysCounted++;
+
+                const primaryWeather = dayObj.weatherDescriptions[Math.floor(dayObj.weatherDescriptions.length / 2)];
+
+                let icon = 'fa-sun';
+                if (primaryWeather.includes('storm')) icon = 'fa-poo-storm';
+                else if (primaryWeather.includes('snow')) icon = 'fa-snowflake';
+                else if (primaryWeather.includes('rain') || primaryWeather.includes('drizzle')) icon = 'fa-cloud-showers-heavy';
+                else if (primaryWeather.includes('cloud')) icon = 'fa-cloud-sun';
+                else if (primaryWeather.includes('haze') || primaryWeather.includes('smoke') || primaryWeather.includes('mist') || primaryWeather.includes('fog')) icon = 'fa-smog';
+
+                htmlStr += `
+                    <div class="forecast-row">
+                        <span class="forecast-day">${dayObj.name}</span>
+                        <span class="forecast-icon-wrap"><i class="fas ${icon}"></i></span>
+                        <span class="forecast-temps"><span class="f-hi">${trueMax}°</span> / <span class="f-lo">${trueMin}°</span></span>
+                    </div>
+                `;
+            }
+            container.innerHTML = htmlStr;
+
+            if (daysCounted > 0) {
+                const avgHi = Math.round(totalHi / daysCounted);
+                const avgLo = Math.round(totalLo / daysCounted);
+                animateValue("avg-hi-display", 0, avgHi, 800);
+                animateValue("avg-lo-display", 0, avgLo, 800);
+            }
         }
 
         function updateClock() {
