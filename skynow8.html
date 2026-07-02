@@ -60,6 +60,7 @@
     html.day-haze { background: linear-gradient(to bottom, #a8a29e 0%, #d1ccc0 50%, #78716c 100%) no-repeat fixed; background-color: #78716c; }
     html.day-mist { background: linear-gradient(to bottom, #94a3b8 0%, #94a3b8 50%, #64748b 100%) no-repeat fixed; background-color: #64748b; }
     html.day-rainy { background: linear-gradient(to bottom, #64748b 0%, #1e293b 100%) no-repeat fixed; background-color: #1e293b; }
+    html.extreme-heat { background: linear-gradient(to bottom, #ef4444 0%, #7f1d1d 100%) no-repeat fixed; background-color: #7f1d1d; }
     
     html.day-snowy { 
         background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%) no-repeat fixed; 
@@ -203,6 +204,16 @@
     /* CURRENT WEATHER GLYPHS */
     #glyph { font-size: 80px; margin-bottom: 2px; }
     .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
+   .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
+
+/* Add this right below it: */
+.temp-degree {
+    font-size: 45px;       /* Shrinks the degree mark down from 95px */
+    font-weight: 600;      /* Makes it slightly thinner so it isn't too blocky */
+    vertical-align: super; /* Nudges it upward slightly so it sits nicely near the top */
+    margin-left: 2px;      /* Adds a tiny bit of breathing room from the number */
+}
+   
     #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
     
     .hi-lo-stack { font-size: 18px; font-weight: 800; display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
@@ -240,7 +251,7 @@
                 
                 <div class="card-front">
                     <div id="glyph"></div>
-                    <h2 class="temp-main"><span id="temp-num">--</span>&deg;</h2>
+                    <h2 class="temp-main"><span id="temp-num">--</span><span class="temp-degree">&deg;</span></h2>
                     <div id="impact-label">FEELS LIKE TEMPERATURE</div>
                     <div class="hi-lo-stack">
                         <span class="hi">High: <span id="hi-val">--</span>&deg;</span>
@@ -500,9 +511,15 @@
             const actual = Math.round(d.main.temp);
             const impactEl = document.getElementById('impact-label');
             
-            if (feels > actual + 3) impactEl.innerText = "High Humidity Is Warming Temperature";
-            else if (feels < actual - 3) impactEl.innerText = "Wind Chill Is Cooling Temperature";
-            else impactEl.innerText = "THE CURRENT 'FEELS LIKE' TEMPERATURE";
+            if (feels > 100) {
+                impactEl.innerText = "Dangerously hot outside! Hydrate!";
+            } else if (feels > actual + 3) {
+                impactEl.innerText = "High Humidity Is Effecting Temperature";
+            } else if (feels < actual - 3) {
+                impactEl.innerText = "Wind Chill Is Effecting Temperature";
+            } else {
+                impactEl.innerText = "THE CURRENT 'FEELS LIKE' TEMPERATURE";
+            }
 
             animateValue("temp-num", 0, feels, 1200);
 
@@ -537,7 +554,10 @@
 
             let glyph = '', bgClass = '';
         
-            if (isGoldenHour) { 
+            if (feels > 100) {
+                    bgClass = 'extreme-heat';
+                    glyph = '<i class="fas fa-fire" style="color:#facc15"></i>'; 
+            } else if (isGoldenHour) { 
                 bgClass = 'sunset'; 
                 glyph = '<i class="fas fa-cloud-sun"></i>'; 
             } else if (isNight) {
@@ -569,7 +589,7 @@
             const themeColors = {
                 'day-clear': '#e67e22', 'day-cloudy': '#94a3b8', 'day-haze': '#a8a29e', 'day-mist': '#94a3b8', 'day-rainy': '#64748b',
                 'day-snowy': '#f8fafc', 'sunset': '#4B0082', 'night': '#1e293b', 'night-rain': '#2c3e50',
-                'night-snow': '#4a69bd', 'night-storm': '#1a1a2e'
+                'night-snow': '#4a69bd', 'night-storm': '#1a1a2e', 'extreme-heat': '#7f1d1d'
             };
             
             const metaTheme = document.getElementById('status-bar-color');
