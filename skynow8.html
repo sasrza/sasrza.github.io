@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 6.0</title>
+    <title>SkyNow™ 6.1</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -96,8 +96,24 @@
         padding-top: calc(env(safe-area-inset-top) + 12px); 
         padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
     }
+   
+    #location {
+    font-size: clamp(16px, 5.5vw, 32px);
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: -1px;
     
-    #location { font-size: clamp(24px, 8vw, 38px); margin: 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    /* Responsive Wrapping & Truncation Controls */
+    max-width: 100%;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+    line-height: 1.1;
+    }
     #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; margin-bottom: 2px; }
     
     /* 3D FLIP CONTAINER ENGINE */
@@ -501,7 +517,8 @@
                 'smoke': 'Smoky Haze'
             };
 
-            document.getElementById('location').innerHTML = d.name;
+            //document.getElementById('location').innerHTML = d.name;
+            document.getElementById('location').innerHTML = "WELLHAM CROSSROADS (HISTORICAL)";
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
             document.getElementById('api-desc').innerHTML = `${raw}`;
             document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
