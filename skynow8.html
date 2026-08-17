@@ -517,8 +517,8 @@
                 'smoke': 'Smoky Haze'
             };
 
-            //document.getElementById('location').innerHTML = d.name;
-            document.getElementById('location').innerHTML = "WELLHAM CROSSROADS (HISTORICAL)";
+            document.getElementById('location').innerHTML = d.name;
+            //document.getElementById('location').innerHTML = "WELLHAM CROSSROADS (HISTORICAL)";
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
             document.getElementById('api-desc').innerHTML = `${raw}`;
             document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
