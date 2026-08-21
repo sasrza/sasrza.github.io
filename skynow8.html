@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 6.1</title>
+    <title>SkyNow™ 6.2</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -98,25 +98,23 @@
     }
    
     #location {
-    font-size: clamp(16px, 5.5vw, 40px);
-    margin: 0;
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: -1px;
-    
-    /* Responsive Wrapping & Truncation Controls */
-    max-width: 100%;
-    width: 100%;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-break: break-word;
-    line-height: 1.1;
+        font-size: clamp(22px, 5.5vw, 38px);
+        margin: 0;
+        text-transform: uppercase;
+        font-weight: 900;
+        letter-spacing: -1px;
+        max-width: 100%;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+        line-height: 1.1;
     }
     #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; margin-bottom: 2px; }
     
-    /* 3D FLIP CONTAINER ENGINE */
+    /* 3D FLIP & MULTI-VIEW CONTAINER ENGINE */
     .weather-card { 
         width: 100%; 
         perspective: 1000px; 
@@ -131,11 +129,11 @@
         transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    .weather-card.is-flipped .card-inner {
+    .weather-card.show-5day .card-inner {
         transform: rotateY(180deg);
     }
-    
-    .card-front, .card-back {
+
+    .card-front, .card-back, .card-activities {
         width: 100%;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
@@ -158,6 +156,27 @@
         transform: rotateY(180deg);
     }
 
+    .card-activities {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 2;
+        padding: 22px 15px;
+    }
+
+    .weather-card.show-activities .card-front,
+    .weather-card.show-activities .card-back {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .weather-card.show-activities .card-activities {
+        display: flex;
+        opacity: 1;
+    }
+
     /* CONTROL BAR CONTAINER */
     .toggle-container {
         display: inline-flex;
@@ -172,7 +191,7 @@
     .toggle-btn {
         background: transparent; border: none;
         color: var(--text-main); font-size: 9.5px; font-weight: 800;
-        padding: 4px 12px; border-radius: 15px; cursor: pointer;
+        padding: 4px 10px; border-radius: 15px; cursor: pointer;
         text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;
         -webkit-tap-highlight-color: transparent;
     }
@@ -185,7 +204,7 @@
     }
 
     /* ADAPTIVE MACRO FORECAST */
-    .forecast-headline { font-size: 13px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin: 4px 0 2px 0; opacity: 0.7; }
+    .forecast-headline { font-size: 13px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin: 2px 0 1px 0; opacity: 0.7; }
     
     .forecast-avg-block {
         display: flex; justify-content: center; align-items: center; gap: 8px;
@@ -197,7 +216,6 @@
     .forecast-avg-block .divider { opacity: 0.3; font-weight: 400; font-size: 56px; margin: 0 2px; }
     .forecast-avg-label { font-size: 9px; font-weight: 900; opacity: 0.5; text-transform: uppercase; margin-top: 0px; margin-bottom: 4px; letter-spacing: 0.5px;}
 
-    /* Distributes panels visually up to the exact height thresholds */
     .forecast-list { 
         display: flex; 
         flex-direction: column; 
@@ -216,19 +234,89 @@
     .forecast-temps { font-size: 18px; font-weight: 800; text-align: right; width: 38%; letter-spacing: -0.5px; }
     .forecast-temps .f-hi { color: var(--hi-color); }
     .forecast-temps .f-lo { color: var(--lo-color); }
+
+    /* OUTDOOR COMFORT GAUGE STYLES (ENHANCED LEGIBILITY) */
+    .card-activities .forecast-headline {
+        font-size: 16px;
+        font-weight: 900;
+        letter-spacing: 0.5px;
+    }
+
+    .card-activities .activities-header-sub {
+        font-size: 11px;
+        font-weight: 800;
+        opacity: 0.75;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+    }
+
+    .activities-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+        flex: 1;
+        justify-content: space-between;
+    }
+    .activity-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        flex: 1;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--glass-border);
+        border-radius: 22px;
+        text-align: left;
+    }
+    .activity-info {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+    .activity-icon {
+        font-size: 24px;
+        width: 30px;
+        text-align: center;
+    }
+    .activity-name {
+        font-size: 16px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.2px;
+        line-height: 1.1;
+    }
+    .activity-sub {
+        font-size: 11px;
+        font-weight: 700;
+        opacity: 0.85;
+        text-transform: uppercase;
+        margin-top: 2px;
+    }
+    .activity-badge {
+        font-size: 12px;
+        font-weight: 900;
+        padding: 6px 12px;
+        border-radius: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+    .status-great { background: rgba(52, 211, 153, 0.25); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+    .status-ok { background: rgba(251, 191, 36, 0.25); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); }
+    .status-no { background: rgba(248, 113, 113, 0.25); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.4); }
     
     /* CURRENT WEATHER GLYPHS */
     #glyph { font-size: 80px; margin-bottom: 2px; }
     .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
-   .temp-main { font-size: 95px; font-weight: 900; letter-spacing: -1px; margin: 0; line-height: 0.85; font-variant-numeric: tabular-nums; }
 
-    /* Add this right below it: */
     .temp-degree {
-    font-size: 45px;       /* Shrinks the degree mark down from 95px */
-    font-weight: 600;      /* Makes it slightly thinner so it isn't too blocky */
-    vertical-align: super; /* Nudges it upward slightly so it sits nicely near the top */
-    margin-left: 2px;      /* Adds a tiny bit of breathing room from the number */
-}
+        font-size: 45px;
+        font-weight: 600;
+        vertical-align: super;
+        margin-left: 2px;
+    }
    
     #impact-label { font-size: 10px; font-weight: 900; opacity: 0.6; text-transform: uppercase; margin-top: 6px; height: 12px; letter-spacing: 0.5px; }
     
@@ -245,7 +333,6 @@
     
     #tooltip { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: #170061; color: white; padding: 10px 15px; border-radius: 15px; font-size: 12px; font-weight: 600; width: 80%; display: none; z-index: 10; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
     
-    /* FAINTER TRENDING BOTTOM TICKER */
     .footer { font-size: 11px; font-weight: 800; margin-top: 10px; letter-spacing: 1px; transition: all 0.5s ease; color: #94a3b8; opacity: 0.65; }
 </style>
 </head>
@@ -257,14 +344,16 @@
         </header>
 
         <div class="toggle-container">
-            <button class="toggle-btn active" id="view-now" onclick="setView(false)">Now</button>
-            <button class="toggle-btn" id="view-5day" onclick="setView(true)">5-Day</button>
+            <button class="toggle-btn active" id="view-now" onclick="setView('now')">Now</button>
+            <button class="toggle-btn" id="view-5day" onclick="setView('5day')">5-Day</button>
+            <button class="toggle-btn" id="view-activities" onclick="setView('activities')">Activities</button>
             <button class="toggle-btn" id="gps-btn" onclick="getPreciseLocation()">GPS</button>
         </div>
         
         <div class="weather-card" id="main-card">
             <div class="card-inner">
                 
+                <!-- FRONT VIEW (CURRENT) -->
                 <div class="card-front">
                     <div id="glyph"></div>
                     <h2 class="temp-main"><span id="temp-num">--</span><span class="temp-degree">&deg;</span></h2>
@@ -281,6 +370,7 @@
                     <div id="tooltip"></div>
                 </div>
 
+                <!-- BACK VIEW (5-DAY FORECAST) -->
                 <div class="card-back">
                     <div>
                         <div class="forecast-headline">5-Day Forecast</div>
@@ -292,8 +382,77 @@
                         <div class="forecast-avg-label">Estimated 5-Day Average</div>
                     </div>
 
-                    <div class="forecast-list" id="forecast-container">
+                    <div class="forecast-list" id="forecast-container"></div>
+                </div>
+
+                <!-- ACTIVITIES VIEW (OUTDOOR COMFORT GAUGE) -->
+                <div class="card-activities">
+                    <div>
+                        <div class="forecast-headline">Outdoor Comfort Gauge</div>
+                        <div class="activities-header-sub">Activity Conditions</div>
+                    </div>
+
+                    <div class="activities-list">
+                        <!-- Pickleball -->
+                        <div class="activity-row">
+                            <div class="activity-info">
+                                <i class="fas fa-table-tennis activity-icon" style="color: #38bdf8;"></i>
+                                <div>
+                                    <div class="activity-name">Pickleball</div>
+                                    <div class="activity-sub" id="pb-sub">Checking hours & rain...</div>
+                                </div>
+                            </div>
+                            <div class="activity-badge" id="pb-badge">---</div>
                         </div>
+
+                        <!-- Running -->
+                        <div class="activity-row">
+                            <div class="activity-info">
+                                <i class="fas fa-running activity-icon" style="color: #a7f3d0;"></i>
+                                <div>
+                                    <div class="activity-name">Running</div>
+                                    <div class="activity-sub" id="run-sub">Checking temp & humidity...</div>
+                                </div>
+                            </div>
+                            <div class="activity-badge" id="run-badge">---</div>
+                        </div>
+
+                        <!-- Cut Grass -->
+                        <div class="activity-row">
+                            <div class="activity-info">
+                                <i class="fas fa-cut activity-icon" style="color: #4ade80;"></i>
+                                <div>
+                                    <div class="activity-name">Cut Grass</div>
+                                    <div class="activity-sub" id="mow-sub">Checking dry window...</div>
+                                </div>
+                            </div>
+                            <div class="activity-badge" id="mow-badge">---</div>
+                        </div>
+
+                        <!-- Walk -->
+                        <div class="activity-row">
+                            <div class="activity-info">
+                                <i class="fas fa-walking activity-icon" style="color: #fbbf24;"></i>
+                                <div>
+                                    <div class="activity-name">Walk</div>
+                                    <div class="activity-sub" id="walk-sub">Checking temperature...</div>
+                                </div>
+                            </div>
+                            <div class="activity-badge" id="walk-badge">---</div>
+                        </div>
+
+                        <!-- Bike -->
+                        <div class="activity-row">
+                            <div class="activity-info">
+                                <i class="fas fa-biking activity-icon" style="color: #f472b6;"></i>
+                                <div>
+                                    <div class="activity-name">Bike</div>
+                                    <div class="activity-sub" id="bike-sub">Checking wind & rain...</div>
+                                </div>
+                            </div>
+                            <div class="activity-badge" id="bike-badge">---</div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -304,6 +463,8 @@
 
     <script>
         const key = 'd0704da8612745131eda6e9b3ce8ebb5';
+        let currentWeatherData = null;
+        let upcomingRainExpected = false;
 
         const tooltipData = {
             "ACTUAL TEMP": "The true air temperature without weather factors.",
@@ -315,19 +476,25 @@
             "SUNRISES": "The time the sun will first appear in the morning."
         };
 
-        function setView(showForecast) {
+        function setView(viewMode) {
             const card = document.getElementById('main-card');
             const btnNow = document.getElementById('view-now');
             const btn5day = document.getElementById('view-5day');
+            const btnActivities = document.getElementById('view-activities');
             
-            if (showForecast) {
-                card.classList.add('is-flipped');
+            card.classList.remove('show-5day', 'show-activities');
+            btnNow.classList.remove('active');
+            btn5day.classList.remove('active');
+            btnActivities.classList.remove('active');
+
+            if (viewMode === '5day') {
+                card.classList.add('show-5day');
                 btn5day.classList.add('active');
-                btnNow.classList.remove('active');
+            } else if (viewMode === 'activities') {
+                card.classList.add('show-activities');
+                btnActivities.classList.add('active');
             } else {
-                card.classList.remove('is-flipped');
                 btnNow.classList.add('active');
-                btn5day.classList.remove('active');
             }
         }
 
@@ -364,6 +531,8 @@
                 const futureWeather = sixHourForecast.weather[0].main.toLowerCase();
                 const currentMainWeather = data.list[0].weather[0].main.toLowerCase();
 
+                upcomingRainExpected = futureWeather.includes('rain') || currentMainWeather.includes('rain');
+
                 const footer = document.querySelector('.footer');
                 let alertText = "SkyNow™ 6.0"; 
 
@@ -386,6 +555,7 @@
                 }
 
                 processDailyForecasts(data.list);
+                if (currentWeatherData) updateActivityGauge(currentWeatherData);
 
             } catch(e) { console.log("Forecast error", e); }
         }
@@ -457,6 +627,135 @@
             }
         }
 
+        /* OUTDOOR COMFORT GAUGE ENGINE */
+        function updateActivityGauge(d) {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const hour = now.getHours();
+            const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+            const isAfter3pm = (hour >= 15);
+
+            const feels = Math.round(d.main.feels_like);
+            const raw = d.weather[0].description.toLowerCase();
+            const isRaining = raw.includes('rain') || raw.includes('drizzle') || raw.includes('storm');
+            const windSpeed = Math.round(d.wind.speed);
+
+            // 1. PICKLEBALL
+            const pbBadge = document.getElementById('pb-badge');
+            const pbSub = document.getElementById('pb-sub');
+            if (isRaining) {
+                pbBadge.className = "activity-badge status-no";
+                pbBadge.innerText = "Wet Courts";
+                pbSub.innerText = "Courts slick from rain";
+            } else if (feels > 95) {
+                pbBadge.className = "activity-badge status-no";
+                pbBadge.innerText = "Too Hot";
+                pbSub.innerText = "Extreme heat on courts";
+            } else if (isWeekend || isAfter3pm) {
+                if (feels >= 60 && feels <= 88) {
+                    pbBadge.className = "activity-badge status-great";
+                    pbBadge.innerText = "Prime Time";
+                    pbSub.innerText = isWeekend ? "Weekend open window" : "After 3 PM window";
+                } else {
+                    pbBadge.className = "activity-badge status-ok";
+                    pbBadge.innerText = "Fair";
+                    pbSub.innerText = "Acceptable play conditions";
+                }
+            } else {
+                pbBadge.className = "activity-badge status-ok";
+                pbBadge.innerText = "Off-Peak";
+                pbSub.innerText = "Best weekends or after 3 PM";
+            }
+
+            // 2. RUNNING
+            const runBadge = document.getElementById('run-badge');
+            const runSub = document.getElementById('run-sub');
+            if (isRaining) {
+                runBadge.className = "activity-badge status-no";
+                runBadge.innerText = "Rainy";
+                runSub.innerText = "Slippery footing risk";
+            } else if (feels > 85) {
+                runBadge.className = "activity-badge status-no";
+                runBadge.innerText = "Heat Risk";
+                runSub.innerText = "High heat strain on body";
+            } else if (feels < 35) {
+                runBadge.className = "activity-badge status-ok";
+                runBadge.innerText = "Cold";
+                runSub.innerText = "Layer up for freezing temps";
+            } else if (feels >= 45 && feels <= 72) {
+                runBadge.className = "activity-badge status-great";
+                runBadge.innerText = "Prime Pace";
+                runSub.innerText = "Ideal cool running temp";
+            } else {
+                runBadge.className = "activity-badge status-ok";
+                runBadge.innerText = "Fair";
+                runSub.innerText = "Decent running window";
+            }
+
+            // 3. CUT GRASS
+            const mowBadge = document.getElementById('mow-badge');
+            const mowSub = document.getElementById('mow-sub');
+            if (isRaining || upcomingRainExpected) {
+                mowBadge.className = "activity-badge status-no";
+                mowBadge.innerText = "Rain Risk";
+                mowSub.innerText = "Wet grass gums mower";
+            } else if (feels > 92) {
+                mowBadge.className = "activity-badge status-no";
+                mowBadge.innerText = "Too Hot";
+                mowSub.innerText = "High heat stress";
+            } else if (feels < 50) {
+                mowBadge.className = "activity-badge status-ok";
+                mowBadge.innerText = "Chilly";
+                mowSub.innerText = "Dormant grass growth";
+            } else {
+                mowBadge.className = "activity-badge status-great";
+                mowBadge.innerText = "Great";
+                mowSub.innerText = "Dry grass & moderate temp";
+            }
+
+            // 4. WALK
+            const walkBadge = document.getElementById('walk-badge');
+            const walkSub = document.getElementById('walk-sub');
+            if (isRaining) {
+                walkBadge.className = "activity-badge status-no";
+                walkBadge.innerText = "Rainy";
+                walkSub.innerText = "Grab an umbrella";
+            } else if (feels > 98) {
+                walkBadge.className = "activity-badge status-no";
+                walkBadge.innerText = "Extreme Heat";
+                walkSub.innerText = "Seek shade & stay hydrated";
+            } else if (feels >= 55 && feels <= 85) {
+                walkBadge.className = "activity-badge status-great";
+                walkBadge.innerText = "Perfect";
+                walkSub.innerText = "Ideal walking conditions";
+            } else {
+                walkBadge.className = "activity-badge status-ok";
+                walkBadge.innerText = "Fair";
+                walkSub.innerText = "Brisk or warm stroll";
+            }
+
+            // 5. BIKE
+            const bikeBadge = document.getElementById('bike-badge');
+            const bikeSub = document.getElementById('bike-sub');
+            if (isRaining) {
+                bikeBadge.className = "activity-badge status-no";
+                bikeBadge.innerText = "Slick Roads";
+                bikeSub.innerText = "Low traction risk";
+            } else if (windSpeed > 20) {
+                bikeBadge.className = "activity-badge status-no";
+                bikeBadge.innerText = "High Wind";
+                bikeSub.innerText = `Gusts up to ${windSpeed} mph`;
+            } else if (feels > 95 || feels < 40) {
+                bikeBadge.className = "activity-badge status-ok";
+                bikeBadge.innerText = "Extreme Temp";
+                bikeSub.innerText = feels > 95 ? "Hot riding conditions" : "Bundle up for chill";
+            } else {
+                bikeBadge.className = "activity-badge status-great";
+                bikeBadge.innerText = "Great Ride";
+                bikeSub.innerText = `Calm winds (${windSpeed} mph)`;
+            }
+        }
+
         function updateClock() {
             const now = new Date();
             const options = { weekday: 'short', month: 'short', day: 'numeric' };
@@ -482,6 +781,7 @@
         function weatherBallon(lat, lon) {
             fetch(`https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=${lat}&lon=${lon}&appid=${key}`)
                 .then(resp => resp.json()).then(data => {
+                    currentWeatherData = data;
                     drawWeather(data);
                     checkForecast(lat, lon);
                 });
@@ -518,7 +818,6 @@
             };
 
             document.getElementById('location').innerHTML = d.name;
-            //document.getElementById('location').innerHTML = "WELLHAM CROSSROADS (HISTORICAL)";
             document.getElementById('persona-desc').innerHTML = descriptiveMap[raw] || raw;
             document.getElementById('api-desc').innerHTML = `${raw}`;
             document.getElementById('hi-val').innerHTML = Math.round(d.main.temp_max);
@@ -612,6 +911,8 @@
             const metaTheme = document.getElementById('status-bar-color');
             if (metaTheme) metaTheme.setAttribute('content', themeColors[bgClass] || '#1e293b');
             document.getElementById('glyph').innerHTML = glyph;
+
+            updateActivityGauge(d);
         }
 
         window.onload = () => { updateClock(); setInterval(updateClock, 1000); initApp(); };
