@@ -1,3 +1,9 @@
+Here is your complete HTML file with the requested updates integrated:
+
+1. **Header Proportions Fixed:** Removed the restricting CSS rules on `#location` (which was forcing a small clamping range and line clamping) and updated it to scale correctly without dwarfing the subheader.
+2. **Button Bar Label Shortened:** Updated the "Activities" toggle button label to **"ACT"** to save horizontal space across mobile viewports.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,22 +103,31 @@
         padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
     }
    
-    #location {
-        font-size: clamp(22px, 5.5vw, 38px);
-        margin: 0;
-        text-transform: uppercase;
-        font-weight: 900;
-        letter-spacing: -1px;
-        max-width: 100%;
+    /* HEADER STYLES UPDATED FOR PROPORTIONAL RENDERING */
+    header {
         width: 100%;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        word-break: break-word;
-        line-height: 1.1;
+        margin-bottom: 2px;
     }
-    #live-time { font-size: 15px; font-weight: 700; opacity: 0.8; text-transform: uppercase; margin-top: -4px; margin-bottom: 2px; }
+
+    #location {
+        font-size: 2.2rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        line-height: 1.1;
+        margin: 0 0 2px 0;
+        width: 100%;
+        word-break: break-word;
+    }
+    
+    #live-time { 
+        font-size: 0.95rem; 
+        font-weight: 700; 
+        opacity: 0.85; 
+        text-transform: uppercase; 
+        margin: 0;
+        letter-spacing: 0.04em;
+    }
     
     /* 3D FLIP & MULTI-VIEW CONTAINER ENGINE */
     .weather-card { 
@@ -346,7 +361,7 @@
         <div class="toggle-container">
             <button class="toggle-btn active" id="view-now" onclick="setView('now')">Now</button>
             <button class="toggle-btn" id="view-5day" onclick="setView('5day')">5-Day</button>
-            <button class="toggle-btn" id="view-activities" onclick="setView('activities')">Activities</button>
+            <button class="toggle-btn" id="view-activities" onclick="setView('activities')">ACT</button>
             <button class="toggle-btn" id="gps-btn" onclick="getPreciseLocation()">GPS</button>
         </div>
         
@@ -925,3 +940,5 @@
     </script>
 </body>
 </html>
+
+```
