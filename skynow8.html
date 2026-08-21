@@ -546,12 +546,12 @@
                 let alertText = "SkyNow™ 6.0"; 
 
                 if (futureWeather !== currentMainWeather) {
-                    if (futureWeather.includes('rain')) alertText = "☔ RAIN EXPECTED WITHIN THE NEXT 6 HOURS.";
-                    else if (futureWeather.includes('snow')) alertText = "❄️ BUNDLE UP, SNOW IS ON THE WAY!";
-                    else if (futureWeather.includes('cloud')) alertText = "⛅️ CLOUDS ARE ROLLING IN SHORTLY.";
+                    if (futureWeather.includes('rain')) alertText = "RAIN EXPECTED WITHIN THE NEXT 6 HOURS";
+                    else if (futureWeather.includes('snow')) alertText = "BUNDLE UP, SNOW IS ON THE WAY";
+                    else if (futureWeather.includes('cloud')) alertText = "CLOUDS ARE ROLLING IN SHORTLY";
                 } 
-                else if (futureTemp <= nowTemp - 4) alertText = `🔽 TEMPERATURE DROPPING TO ${futureTemp}° SOON.`;
-                else if (futureTemp >= nowTemp + 4) alertText = `🔥 TEMPERATURE WARMING UP TO ${futureTemp}° SHORTLY.`;
+                else if (futureTemp <= nowTemp - 4) alertText = `TEMPERATURE DROPPING TO ${futureTemp}° SOON`;
+                else if (futureTemp >= nowTemp + 4) alertText = `TEMPERATURE WARMING UP TO ${futureTemp}° SHORTLY`;
 
                 footer.innerHTML = alertText;
                 
