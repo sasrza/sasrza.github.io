@@ -97,7 +97,7 @@
         padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
     }
    
-    /* HEADER STYLES UPDATED FOR PROPORTIONAL RENDERING */
+    /* HEADER STYLES */
     header {
         width: 100%;
         margin-bottom: 2px;
@@ -138,7 +138,7 @@
         transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    .weather-card.show-5day .card-inner {
+    .weather-card.show-back .card-inner {
         transform: rotateY(180deg);
     }
 
@@ -156,34 +156,23 @@
         box-sizing: border-box;
     }
     
-    .card-back {
+    .card-back, .card-activities {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
         transform: rotateY(180deg);
     }
 
-    .card-activities {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        display: none;
+    .card-back {
+        display: flex;
         flex-direction: column;
         justify-content: space-between;
-        z-index: 2;
-        padding: 22px 15px;
     }
 
-    .weather-card.show-activities .card-front,
-    .weather-card.show-activities .card-back {
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .weather-card.show-activities .card-activities {
+    .card-activities {
         display: flex;
-        opacity: 1;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 22px 15px;
     }
 
     /* CONTROL BAR CONTAINER */
@@ -244,7 +233,7 @@
     .forecast-temps .f-hi { color: var(--hi-color); }
     .forecast-temps .f-lo { color: var(--lo-color); }
 
-    /* OUTDOOR COMFORT GAUGE STYLES (ENHANCED LEGIBILITY) */
+    /* OUTDOOR COMFORT GAUGE STYLES */
     .card-activities .forecast-headline {
         font-size: 16px;
         font-weight: 900;
@@ -355,7 +344,7 @@
         <div class="toggle-container">
             <button class="toggle-btn active" id="view-now" onclick="setView('now')">Now</button>
             <button class="toggle-btn" id="view-5day" onclick="setView('5day')">5-Day</button>
-            <button class="toggle-btn" id="view-activities" onclick="setView('activities')">Outside</button>
+            <button class="toggle-btn" id="view-activities" onclick="setView('activities')">ACT</button>
             <button class="toggle-btn" id="gps-btn" onclick="getPreciseLocation()">GPS</button>
         </div>
         
@@ -491,18 +480,25 @@
             const btn5day = document.getElementById('view-5day');
             const btnActivities = document.getElementById('view-activities');
             
-            card.classList.remove('show-5day', 'show-activities');
+            const cardBack = document.querySelector('.card-back');
+            const cardAct = document.querySelector('.card-activities');
+            
             btnNow.classList.remove('active');
             btn5day.classList.remove('active');
             btnActivities.classList.remove('active');
 
             if (viewMode === '5day') {
-                card.classList.add('show-5day');
+                cardBack.style.display = 'flex';
+                cardAct.style.display = 'none';
+                card.classList.add('show-back');
                 btn5day.classList.add('active');
             } else if (viewMode === 'activities') {
-                card.classList.add('show-activities');
+                cardBack.style.display = 'none';
+                cardAct.style.display = 'flex';
+                card.classList.add('show-back');
                 btnActivities.classList.add('active');
             } else {
+                card.classList.remove('show-back');
                 btnNow.classList.add('active');
             }
         }
