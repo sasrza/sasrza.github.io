@@ -456,7 +456,7 @@
             </div>
         </div>
         
-        <footer class="footer">SkyNow™ 6.0</footer>
+        <footer class="footer">SkyNow™ 7.0</footer>
     </div>
 
     <script>
@@ -473,6 +473,11 @@
             "SUNSET": "Approximate time the sun dips below the horizon.",
             "SUNRISES": "The time the sun will first appear in the morning."
         };
+
+        // Helper to pick random array elements for variety
+        function pick(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
 
         function setView(viewMode) {
             const card = document.getElementById('main-card');
@@ -539,7 +544,7 @@
                 upcomingRainExpected = futureWeather.includes('rain') || currentMainWeather.includes('rain');
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 6.0"; 
+                let alertText = "SkyNow™ 7.0"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "RAIN EXPECTED WITHIN THE NEXT 6 HOURS";
@@ -551,7 +556,7 @@
 
                 footer.innerHTML = alertText;
                 
-                if (alertText !== "SkyNow™ 6.0") {
+                if (alertText !== "SkyNow™ 7.0") {
                     footer.style.color = "var(--accent-color)";
                     footer.style.opacity = "0.85";
                 } else {
@@ -635,10 +640,14 @@
         /* OUTDOOR COMFORT GAUGE ENGINE */
         function updateActivityGauge(d) {
             const now = new Date();
+            const nowTimestamp = Math.floor(now.getTime() / 1000);
             const dayOfWeek = now.getDay();
             const hour = now.getHours();
             const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
             const isAfter3pm = (hour >= 15);
+
+            const isDark = (nowTimestamp > d.sys.sunset || nowTimestamp < d.sys.sunrise);
+            const isLateNight = (hour >= 23 || hour < 5);
 
             const feels = Math.round(d.main.feels_like);
             const raw = d.weather[0].description.toLowerCase();
@@ -648,28 +657,32 @@
             // 1. PICKLEBALL
             const pbBadge = document.getElementById('pb-badge');
             const pbSub = document.getElementById('pb-sub');
-            if (isRaining) {
+            if (isDark) {
                 pbBadge.className = "activity-badge status-no";
-                pbBadge.innerText = "Wet Courts";
-                pbSub.innerText = "Courts slick from rain";
+                pbBadge.innerText = pick(["Too Dark", "Lights Off", "Night Time"]);
+                pbSub.innerText = pick(["No lights on court", "Courts closed for night", "Wait for daylight"]);
+            } else if (isRaining) {
+                pbBadge.className = "activity-badge status-no";
+                pbBadge.innerText = pick(["Wet Court", "Slick!", "Rain Out"]);
+                pbSub.innerText = pick(["Slip hazard out there", "Puddles on the line", "Dink another day"]);
             } else if (feels > 95) {
                 pbBadge.className = "activity-badge status-no";
-                pbBadge.innerText = "Too Hot";
-                pbSub.innerText = "Extreme heat on courts";
+                pbBadge.innerText = pick(["Scorcher", "Too Hot", "Melt Warning"]);
+                pbSub.innerText = pick(["Extreme heat on court", "Hydrate or stay inside", "Kitchen is melting"]);
             } else if (isWeekend || isAfter3pm) {
                 if (feels >= 60 && feels <= 88) {
                     pbBadge.className = "activity-badge status-great";
-                    pbBadge.innerText = "Prime Time";
-                    pbSub.innerText = isWeekend ? "Weekend open window" : "After 3 PM window";
+                    pbBadge.innerText = pick(["Prime Time", "Game On!", "LFG!"]);
+                    pbSub.innerText = isWeekend ? pick(["Weekend match time", "Weekend open window", "Go grab a paddle"]) : pick(["After-3PM window", "Post-work play", "Perfect late session"]);
                 } else {
                     pbBadge.className = "activity-badge status-ok";
-                    pbBadge.innerText = "Fair";
-                    pbSub.innerText = "Acceptable play conditions";
+                    pbBadge.innerText = pick(["Playable", "Doable", "Decent"]);
+                    pbSub.innerText = pick(["A bit cool/warm", "Not perfect, but good", "Get out there anyway"]);
                 }
             } else {
                 pbBadge.className = "activity-badge status-ok";
-                pbBadge.innerText = "Off-Peak";
-                pbSub.innerText = "Best weekends or after 3 PM";
+                pbBadge.innerText = pick(["Off-Peak", "Clock In", "Wait It Out"]);
+                pbSub.innerText = pick(["Best after 3 PM / wknd", "Save it for after 3", "Hold off till weekend"]);
             }
 
             // 2. RUNNING
@@ -677,66 +690,82 @@
             const runSub = document.getElementById('run-sub');
             if (isRaining) {
                 runBadge.className = "activity-badge status-no";
-                runBadge.innerText = "Rainy";
-                runSub.innerText = "Slippery footing risk";
+                runBadge.innerText = pick(["Soggy", "Rain Run", "Wet Feet"]);
+                runSub.innerText = pick(["Slippery road alert", "Treadmill time maybe?", "Puddle jumping ahead"]);
             } else if (feels > 85) {
                 runBadge.className = "activity-badge status-no";
-                runBadge.innerText = "Heat Risk";
-                runSub.innerText = "High heat strain on body";
+                runBadge.innerText = pick(["Heat Alert", "Hot!", "High Strain"]);
+                runSub.innerText = pick(["High heat strain", "Sweatfest incoming", "Take it easy today"]);
             } else if (feels < 35) {
                 runBadge.className = "activity-badge status-ok";
-                runBadge.innerText = "Cold";
-                runSub.innerText = "Layer up for freezing temps";
+                runBadge.innerText = pick(["Freezing", "Brrr!", "Chilly"]);
+                runSub.innerText = pick(["Layer up big time", "Frosty stride", "Windbreaker needed"]);
+            } else if (isDark) {
+                runBadge.className = "activity-badge status-ok";
+                runBadge.innerText = pick(["Night Run", "Dark Stride", "Glow Mode"]);
+                runSub.innerText = pick(["Bring a high-vis vest", "Watch your step", "Headlamp suggested"]);
             } else if (feels >= 45 && feels <= 72) {
                 runBadge.className = "activity-badge status-great";
-                runBadge.innerText = "Prime Pace";
-                runSub.innerText = "Ideal cool running temp";
+                runBadge.innerText = pick(["PR Weather", "Sweet Spot", "Crisp"]);
+                runSub.innerText = pick(["Ideal running temp", "Time to set a PR", "Legs feel good!"]);
             } else {
                 runBadge.className = "activity-badge status-ok";
-                runBadge.innerText = "Fair";
-                runSub.innerText = "Decent running window";
+                runBadge.innerText = pick(["Solid", "Moderate", "Not Bad"]);
+                runSub.innerText = pick(["Decent running window", "Good enough pace weather", "Just pace yourself"]);
             }
 
             // 3. CUT GRASS
             const mowBadge = document.getElementById('mow-badge');
             const mowSub = document.getElementById('mow-sub');
-            if (isRaining || upcomingRainExpected) {
+            if (isDark) {
                 mowBadge.className = "activity-badge status-no";
-                mowBadge.innerText = "Rain Risk";
-                mowSub.innerText = "Wet grass gums mower";
+                mowBadge.innerText = pick(["Too Dark", "No Chance", "Night Time"]);
+                mowSub.innerText = pick(["Neighbors will complain", "Wait for sunrise", "Can't see the lines"]);
+            } else if (isRaining || upcomingRainExpected) {
+                mowBadge.className = "activity-badge status-no";
+                mowBadge.innerText = pick(["Soggy Lawn", "Rain Risk", "Muddy"]);
+                mowSub.innerText = pick(["Wet grass gums deck", "Leaves tire ruts", "Let it dry out first"]);
             } else if (feels > 92) {
                 mowBadge.className = "activity-badge status-no";
-                mowBadge.innerText = "Too Hot";
-                mowSub.innerText = "High heat stress";
+                mowBadge.innerText = pick(["Heat Trap", "Too Hot", "Brutal"]);
+                mowSub.innerText = pick(["High heat stress", "Hydrate or skip it", "Grass is stressed too"]);
             } else if (feels < 50) {
                 mowBadge.className = "activity-badge status-ok";
-                mowBadge.innerText = "Chilly";
-                mowSub.innerText = "Dormant grass growth";
-            } else {
+                mowBadge.innerText = pick(["Dormant", "Chilly", "Slow Grow"]);
+                mowSub.innerText = pick(["Grass isn't growing much", "Brisk yard work", "Maybe next week"]);
+            } else if (isWeekend || isAfter3pm) {
                 mowBadge.className = "activity-badge status-great";
-                mowBadge.innerText = "Great";
-                mowSub.innerText = "Dry grass & moderate temp";
+                mowBadge.innerText = pick(["Mow Time", "Crisp Cut", "Green Light"]);
+                mowSub.innerText = pick(["Grass is dry & ready", "Perfect yard window", "Time to strip the lawn"]);
+            } else {
+                mowBadge.className = "activity-badge status-ok";
+                mowBadge.innerText = pick(["After 3 PM", "Off-Peak", "Clock Out"]);
+                mowSub.innerText = pick(["Best after 3 PM or wknd", "Hold off till 3 PM", "Weekend job instead"]);
             }
 
             // 4. WALK
             const walkBadge = document.getElementById('walk-badge');
             const walkSub = document.getElementById('walk-sub');
-            if (isRaining) {
+            if (isLateNight) {
                 walkBadge.className = "activity-badge status-no";
-                walkBadge.innerText = "Rainy";
-                walkSub.innerText = "Grab an umbrella";
+                walkBadge.innerText = pick(["Bedtime", "Late Hour", "Sleep Time"]);
+                walkSub.innerText = pick(["Get some rest instead", "Too late for a stroll", "Catch some Z's"]);
+            } else if (isRaining) {
+                walkBadge.className = "activity-badge status-no";
+                walkBadge.innerText = pick(["Wet Walk", "Umbrella!", "Soggy"]);
+                walkSub.innerText = pick(["Grab rain gear", "Puddle navigation", "Better walk indoors"]);
             } else if (feels > 98) {
                 walkBadge.className = "activity-badge status-no";
-                walkBadge.innerText = "Extreme Heat";
-                walkSub.innerText = "Seek shade & stay hydrated";
-            } else if (feels >= 55 && feels <= 85) {
+                walkBadge.innerText = pick(["Oven Air", "Too Hot", "Stay In"]);
+                walkSub.innerText = pick(["Stick to shade", "Extreme heat alert", "Air con is better"]);
+            } else if (feels >= 55 && feels <= 85 && !isDark) {
                 walkBadge.className = "activity-badge status-great";
-                walkBadge.innerText = "Perfect";
-                walkSub.innerText = "Ideal walking conditions";
+                walkBadge.innerText = pick(["Ideal!", "So Nice", "Perfection"]);
+                walkSub.innerText = pick(["Beautiful strolling weather", "Take the long route", "Get those steps in"]);
             } else {
                 walkBadge.className = "activity-badge status-ok";
-                walkBadge.innerText = "Fair";
-                walkSub.innerText = "Brisk or warm stroll";
+                walkBadge.innerText = pick(["Easy Step", "Nice Enough", "Good Step"]);
+                walkSub.innerText = isDark ? pick(["Evening stroll vibes", "Quiet night walk", "Cool night breeze"]) : pick(["A bit brisk/warm", "Just bring a light layer", "Step out for fresh air"]);
             }
 
             // 5. BIKE
@@ -744,20 +773,24 @@
             const bikeSub = document.getElementById('bike-sub');
             if (isRaining) {
                 bikeBadge.className = "activity-badge status-no";
-                bikeBadge.innerText = "Slick Roads";
-                bikeSub.innerText = "Low traction risk";
+                bikeBadge.innerText = pick(["Slick Roads", "No Grip", "Wet Ride"]);
+                bikeSub.innerText = pick(["Brake distance increased", "Spray off back tire", "Tough traction"]);
             } else if (windSpeed > 20) {
                 bikeBadge.className = "activity-badge status-no";
-                bikeBadge.innerText = "High Wind";
-                bikeSub.innerText = `Gusts up to ${windSpeed} mph`;
+                bikeBadge.innerText = pick(["Headwind!", "Blustery", "Windy"]);
+                bikeSub.innerText = pick([`Gusts around ${windSpeed} mph`, "Tough pedaling ahead", "Crosswind warning"]);
+            } else if (isDark) {
+                bikeBadge.className = "activity-badge status-ok";
+                bikeBadge.innerText = pick(["Night Ride", "Lights On", "Glow Gear"]);
+                bikeSub.innerText = pick(["Needs front/rear lights", "Watch for potholes", "Stay on lit paths"]);
             } else if (feels > 95 || feels < 40) {
                 bikeBadge.className = "activity-badge status-ok";
-                bikeBadge.innerText = "Extreme Temp";
-                bikeSub.innerText = feels > 95 ? "Hot riding conditions" : "Bundle up for chill";
+                bikeBadge.innerText = pick(["Tough Riding", "Extreme", "Harsh Temp"]);
+                bikeSub.innerText = feels > 95 ? pick(["Hot airflow on face", "Hydrate every mile"]) : pick(["Cold wind chill", "Warm gloves mandatory"]);
             } else {
                 bikeBadge.className = "activity-badge status-great";
-                bikeBadge.innerText = "Great Ride";
-                bikeSub.innerText = `Calm winds (${windSpeed} mph)`;
+                bikeBadge.innerText = pick(["Cruising", "Smooth", "Spin Time"]);
+                bikeSub.innerText = pick([`Light wind (${windSpeed} mph)`, "Great road conditions", "Clear path ahead"]);
             }
         }
 
