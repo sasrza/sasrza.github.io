@@ -2,18 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- 2. Web App Capable: Enables standalone Home Screen mode -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  
-  <!-- 3. iOS Status Bar: Default style (dark icons, non-translucent) -->
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-  <!-- 4. Theme Color: Controls the top/bottom bar tint in standard Mobile Safari -->
-  <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
-    <title>SkyNow™ 7.0</title>
+    <title>SkyNow™ 8.2</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -58,8 +52,18 @@
         color: var(--text-main);
         color-scheme: dark; 
         background: transparent !important;
-        margin: 0;
-        padding-top: env(safe-area-inset-top, 0px);
+    }
+
+    /* iOS Status Bar Hardware Backing Plate */
+    #ios-status-bar-fix {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: env(safe-area-inset-top, 20px);
+        background-color: transparent;
+        z-index: 9999;
+        pointer-events: none;
     }
 
     /* THEME ENGINE */
@@ -343,6 +347,7 @@
 </style>
 </head>
 <body>
+    <div id="ios-status-bar-fix"></div>
     <div class="app-container">
         <header>
             <h1 id="location">LOADING</h1>
@@ -464,7 +469,7 @@
             </div>
         </div>
         
-        <footer class="footer">SkyNow™ 7.0</footer>
+        <footer class="footer">SkyNow™ 8.2</footer>
     </div>
 
     <script>
@@ -552,7 +557,7 @@
                 upcomingRainExpected = futureWeather.includes('rain') || currentMainWeather.includes('rain');
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 7.0"; 
+                let alertText = "SkyNow™ 8.2"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "RAIN EXPECTED WITHIN THE NEXT 6 HOURS";
@@ -564,7 +569,7 @@
 
                 footer.innerHTML = alertText;
                 
-                if (alertText !== "SkyNow™ 7.0") {
+                if (alertText !== "SkyNow™ 8.2") {
                     footer.style.color = "var(--accent-color)";
                     footer.style.opacity = "0.85";
                 } else {
@@ -689,8 +694,8 @@
                 }
             } else {
                 pbBadge.className = "activity-badge status-ok";
-                pbBadge.innerText = pick(["Off-Peak", "Soon!", "Wait It Out"]);
-                pbSub.innerText = pick(["Best after 3 PM!", "Save it for after 3", "Hold off till Saturday"]);
+                pbBadge.innerText = pick(["Off-Peak", "Clock In", "Wait It Out"]);
+                pbSub.innerText = pick(["Best after 3 PM / wknd", "Save it for after 3", "Hold off till weekend"]);
             }
 
             // 2. RUNNING
