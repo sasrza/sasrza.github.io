@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" id="status-bar-color" content="#a8a29e">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 2. Web App Capable: Enables standalone Home Screen mode -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+  <!-- 3. iOS Status Bar: Default style (dark icons, non-translucent) -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- 4. Theme Color: Controls the top/bottom bar tint in standard Mobile Safari -->
+  <meta name="theme-color" content="#ffffff">
     
-    <title>SkyNow™ 7.1</title>
+    <title>SkyNow™ 7.0</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-SN.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32-SN.png">
@@ -52,6 +58,8 @@
         color: var(--text-main);
         color-scheme: dark; 
         background: transparent !important;
+        margin: 0;
+        padding-top: env(safe-area-inset-top, 0px);
     }
 
     /* THEME ENGINE */
@@ -456,7 +464,7 @@
             </div>
         </div>
         
-        <footer class="footer">SkyNow™ 7.1</footer>
+        <footer class="footer">SkyNow™ 7.0</footer>
     </div>
 
     <script>
@@ -681,8 +689,8 @@
                 }
             } else {
                 pbBadge.className = "activity-badge status-ok";
-                pbBadge.innerText = pick(["Off-Peak", "Clock In", "Wait It Out"]);
-                pbSub.innerText = pick(["Best after 3 PM / wknd", "Save it for after 3", "Hold off till weekend"]);
+                pbBadge.innerText = pick(["Off-Peak", "Soon!", "Wait It Out"]);
+                pbSub.innerText = pick(["Best after 3 PM!", "Save it for after 3", "Hold off till Saturday"]);
             }
 
             // 2. RUNNING
