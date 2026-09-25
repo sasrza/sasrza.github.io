@@ -464,7 +464,7 @@
             </div>
         </div>
         
-        <footer class="footer">SkyNow™ 7.0</footer>
+        <footer class="footer">SkyNow™ 7.1</footer>
     </div>
 
     <script>
@@ -552,7 +552,7 @@
                 upcomingRainExpected = futureWeather.includes('rain') || currentMainWeather.includes('rain');
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 7.0"; 
+                let alertText = "SkyNow™ 7.1"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "RAIN EXPECTED WITHIN THE NEXT 6 HOURS";
@@ -564,7 +564,7 @@
 
                 footer.innerHTML = alertText;
                 
-                if (alertText !== "SkyNow™ 7.0") {
+                if (alertText !== "SkyNow™ 7.1") {
                     footer.style.color = "var(--accent-color)";
                     footer.style.opacity = "0.85";
                 } else {
