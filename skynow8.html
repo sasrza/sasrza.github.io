@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <!-- FIX 1: Change status bar style from black-translucent to default -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" id="status-bar-color" content="#a8a29e">
     
     <title>SkyNow™ 7.1</title>
@@ -102,9 +101,6 @@
     header {
         width: 100%;
         margin-bottom: 2px;
-        /* FIX 2: Ensure header content stays above any rendering layers */
-        position: relative;
-        z-index: 10;
     }
 
     #location {
@@ -116,7 +112,6 @@
         margin: 0 0 2px 0;
         width: 100%;
         word-break: break-word;
-        -webkit-font-smoothing: antialiased;
     }
     
     #live-time { 
@@ -159,9 +154,6 @@
         padding: 22px 15px;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         box-sizing: border-box;
-        /* FIX 3: Isolate backdrop rendering context in WebKit */
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
     }
     
     .card-back, .card-activities {
@@ -552,7 +544,7 @@
                 upcomingRainExpected = futureWeather.includes('rain') || currentMainWeather.includes('rain');
 
                 const footer = document.querySelector('.footer');
-                let alertText = "SkyNow™ 7.1"; 
+                let alertText = "SkyNow™ 7.0"; 
 
                 if (futureWeather !== currentMainWeather) {
                     if (futureWeather.includes('rain')) alertText = "RAIN EXPECTED WITHIN THE NEXT 6 HOURS";
@@ -564,7 +556,7 @@
 
                 footer.innerHTML = alertText;
                 
-                if (alertText !== "SkyNow™ 7.1") {
+                if (alertText !== "SkyNow™ 7.0") {
                     footer.style.color = "var(--accent-color)";
                     footer.style.opacity = "0.85";
                 } else {
